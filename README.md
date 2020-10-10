@@ -11,7 +11,7 @@ Copy `hidePodcasts.js` into your [Spicetify](https://github.com/khanhas/spicetif
 
 After putting the extension file into the correct folder, run the following command to install the extension:
 ```
-spicetify config extensions <file name>
+spicetify config extensions hidePodcasts.js
 spicetify apply
 ```
 Note: Using the `config` command to add the extension will always append the file name to the existing extensions list. It does not replace the whole key's value.
