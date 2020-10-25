@@ -7,24 +7,29 @@
 /// <reference path="../globals.d.ts" />
 
 (function HidePodcasts() {
-    if (!Spicetify.LocalStorage) {
+    const { Player, Menu, LocalStorage } = Spicetify;
+    if (!(Player && Menu && LocalStorage)) {
         setTimeout(HidePodcasts, 1000);
         return;
     }
 
+    const SETTINGS_KEY = 'HidePodcastsMode';
+
     injectCSS();
     tagItems();
 
-    let isEnabled = Spicetify.LocalStorage.get('HidePodcastsMode') === '1';
+    let isEnabled = LocalStorage.get(SETTINGS_KEY) === '1';
+    setState(isEnabled);
 
-    new Spicetify.Menu.Item('Hide podcasts', isEnabled, (self) => {
+    // Add menu item and menu click handler
+    new Menu.Item('Hide podcasts', isEnabled, (self) => {
         isEnabled = !isEnabled;
-        Spicetify.LocalStorage.set('HidePodcastsMode', isEnabled ? '1' : '0');
+        LocalStorage.set(SETTINGS_KEY, isEnabled ? '1' : '0');
         self.setState(isEnabled);
         setState(isEnabled);
     }).register();
 
-    Spicetify.Player.addEventListener('appchange', () => {
+    Player.addEventListener('appchange', () => {
         if (!isEnabled) return;
         tagItems();
     });
