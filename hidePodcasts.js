@@ -59,9 +59,10 @@ function tagItems() {
     carousels.forEach(carousel => {
         let title = carousel.querySelector('.GlueSectionDivider__title');
         title = title ? title.innerText : '';
-        let description = carousel.querySelector('.GlueSectionDivider__description');
-        description = description ? description.innerText : '';
-        if (title.includes('Podcast') || description.includes('Podcast')) {
+
+        // It seems to tag podcast items with the Card--show class
+        let podcastCards = carousel.querySelectorAll('.Card.Card--show');
+        if (podcastCards.length > 0) {
             console.log(`Tagging carousel: ${title}`);
             carousel.classList.add('podcast-item');
         }
