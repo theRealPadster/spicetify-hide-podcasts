@@ -1,5 +1,5 @@
 # spicetify-hide-podcasts
-[Spicetify](https://github.com/khanhas/spicetify-cli) extension to hide podcasts. Hides the podcasts link in the sidebar, podcasts tab in 'Browse', and podcast carousel items (e.g. in 'Home' and 'Made For You'). Based on the [ChristianSpotify](https://github.com/khanhas/spicetify-cli/wiki/Extensions#christian-spotify) extension.
+[Spicetify](https://github.com/khanhas/spicetify-cli) extension to hide podcasts. Hides the podcasts link in the sidebar, the podcasts tab in 'Browse', and podcast carousel items (e.g. in 'Home' and 'Made For You'). Based on the [ChristianSpotify](https://github.com/khanhas/spicetify-cli/wiki/Extensions#christian-spotify) extension.
 ## Install
 Copy `hidePodcasts.js` into your [Spicetify](https://github.com/khanhas/spicetify-cli) extensions directory:
 | **Platform** | **Path**                                                                            |
