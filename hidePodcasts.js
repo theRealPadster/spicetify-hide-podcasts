@@ -32,7 +32,8 @@
 
     Player.addEventListener('appchange', () => {
         if (!isEnabled) return;
-        // Refresh documents (to try and grab Browse frame)
+
+        // Refresh documents
         documents = getDocuments();
 
         setState(documents, isEnabled);
@@ -41,8 +42,10 @@
     });
 })();
 
-// Helpers
-
+/**
+ * Grab any Spotify app document objects.
+ * This is to ensure that we have the Browse iframe when it exists.
+ */
 function getDocuments() {
     let documents = [document];
     let browseFrame = document.getElementById('app-browse');
@@ -53,7 +56,10 @@ function getDocuments() {
     return documents;
 }
 
-// Inject the css that allows us to toggle podcasts
+/**
+ * Inject the css that allows us to toggle podcasts
+ * @param {Document[]} documents Array of documents to run on
+ */
 function injectCSS(documents) {
     documents.forEach(doc => {
         let body = doc.querySelector('body');
@@ -73,8 +79,10 @@ function injectCSS(documents) {
     });
 }
 
-
-// Add our class to any podcast elements
+/**
+ * Add our class to any podcast elements
+ * @param {Document[]} documents Array of documents to run on
+ */
 function tagItems(documents) {
     documents.forEach(doc => {
 
@@ -103,7 +111,11 @@ function tagItems(documents) {
     });
 }
 
-// Add/remove the body class that hides podcasts
+/**
+ * Add/remove the body class that hides podcasts
+ * @param {Document[]} documents Array of documents to run on
+ * @param {boolean} isEnabled If we should hide podcasts or not
+ */
 function setState(documents, isEnabled) {
     documents.forEach(doc => {
         let body = doc.querySelector('body');
