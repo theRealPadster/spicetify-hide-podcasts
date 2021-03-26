@@ -101,7 +101,7 @@ function tagItems(documents) {
             description = description ? description.innerText : '';
 
             // It seems to tag podcast items with the Card--show class
-            let podcastCards = carousel.querySelectorAll('.Card.Card--show');
+            let podcastCards = carousel.querySelectorAll('.Card.Card--show, .Card.Card--episode');
 
             // I still need to check for 'Podcast' in title/description because the 'Made For You' section
             // has a 'Podcasts and more' carousel that's technically got playlists made up of podcast episodes
