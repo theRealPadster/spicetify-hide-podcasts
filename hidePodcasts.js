@@ -28,9 +28,24 @@
         LocalStorage.set(SETTINGS_KEY, isEnabled ? '1' : '0');
         self.setState(isEnabled);
         setState(documents, isEnabled);
+        document.location.reload();
     }).register();
 
+    document.addEventListener('DOMContentLoaded', () => {
+        console.log('DOMContentLoaded');
+
+        if (!isEnabled) return;
+
+        // Refresh documents
+        documents = getDocuments();
+
+        setState(documents, isEnabled);
+        injectCSS(documents);
+        tagItems(documents);
+    })
+
     Player.addEventListener('appchange', () => {
+        console.log('appchange');
         if (!isEnabled) return;
 
         // Refresh documents
@@ -54,6 +69,11 @@ function getDocuments() {
         documents.push(browseDocument);
     }
     return documents;
+}
+
+function isNewUI() {
+    // TODO: test this
+    return !window.bridge;
 }
 
 /**
@@ -86,34 +106,68 @@ function injectCSS(documents) {
 function tagItems(documents) {
     documents.forEach(doc => {
 
-        // Remove podcast sidebar link (only needs to run once)
-        let podcastSidebarItem = doc.querySelector('.SidebarListItemLink[href="spotify:app:collection:podcasts"]');
-        if (podcastSidebarItem) podcastSidebarItem.closest('.SidebarListItem').classList.add('podcast-item');
+        // TODO: clean this up
+        if (isNewUI()) {
 
-        // Run on app change
-        // Remove podcast carousels (e.g. 'Home' and 'Made For You')
-        let carousels = doc.querySelectorAll('.Carousel');
-        carousels.forEach(carousel => {
-            let title = carousel.querySelector('.GlueSectionDivider__title');
-            title = title ? title.innerText : '';
+            // Remove podcast sidebar link (only needs to run once)
+            // let podcastSidebarItem = doc.querySelector('.SidebarListItemLink[href="spotify:app:collection:podcasts"]');
+            // if (podcastSidebarItem) podcastSidebarItem.closest('.SidebarListItem').classList.add('podcast-item');
 
-            let description = carousel.querySelector('.GlueSectionDivider__description');
-            description = description ? description.innerText : '';
+            // Run on app change
+            // Remove podcast carousels (e.g. 'Home' and 'Made For You')
+            // TODO: for some reason these don't exist until a couple seconds after...
+            let shelves = doc.querySelectorAll('.main-shelf-shelf');
+            shelves.forEach(shelf => {
+                let title = shelf.querySelector('.main-shelf-title');
+                title = title ? title.innerText : '';
 
-            // It seems to tag podcast items with the Card--show class
-            let podcastCards = carousel.querySelectorAll('.Card.Card--show, .Card.Card--episode');
+                let description = shelf.querySelector('.main-type-mesto');
+                description = description ? description.innerText : '';
 
-            // I still need to check for 'Podcast' in title/description because the 'Made For You' section
-            // has a 'Podcasts and more' carousel that's technically got playlists made up of podcast episodes
-            if (podcastCards.length > 0 || title.includes('Podcast') || description.includes('Podcast')) {
-                console.log(`Tagging carousel: ${title}`);
-                carousel.classList.add('podcast-item');
-            }
-        });
+                // It seems to tag podcast items with the Card--show class
+                let podcastCardLinks = shelf.querySelectorAll('.main-cardHeader-link[href^="/show/"]');
 
-        // Remove podcast tab from Browse (only in browse frame document)
-        let tab = doc.body.querySelector('[data-navbar-item-id="spotify:app:browse:podcasts"]');
-        if (tab) tab.classList.add('podcast-item');
+                // I still need to check for 'Podcast' in title/description because the 'Made For You' section
+                // has a 'Podcasts and more' carousel that's technically got playlists made up of podcast episodes
+                if (podcastCardLinks.length > 0 || title.includes('Podcast') || description.includes('Podcast')) {
+                    console.log(`Tagging carousel: ${title}`);
+                    shelf.classList.add('podcast-item');
+                }
+            });
+
+            // Remove podcast card from search/browse (only in browse frame document?)
+            let tab = doc.body.querySelector('.x-773-categoryCard-CategoryCard[href="/genre/podcasts-web"]');
+            if (tab) tab.classList.add('podcast-item');
+        } else {
+            // Remove podcast sidebar link (only needs to run once)
+            let podcastSidebarItem = doc.querySelector('.SidebarListItemLink[href="spotify:app:collection:podcasts"]');
+            if (podcastSidebarItem) podcastSidebarItem.closest('.SidebarListItem').classList.add('podcast-item');
+
+            // Run on app change
+            // Remove podcast carousels (e.g. 'Home' and 'Made For You')
+            let carousels = doc.querySelectorAll('.Carousel');
+            carousels.forEach(carousel => {
+                let title = carousel.querySelector('.GlueSectionDivider__title');
+                title = title ? title.innerText : '';
+
+                let description = carousel.querySelector('.GlueSectionDivider__description');
+                description = description ? description.innerText : '';
+
+                // It seems to tag podcast items with the Card--show class
+                let podcastCards = carousel.querySelectorAll('.Card.Card--show, .Card.Card--episode');
+
+                // I still need to check for 'Podcast' in title/description because the 'Made For You' section
+                // has a 'Podcasts and more' carousel that's technically got playlists made up of podcast episodes
+                if (podcastCards.length > 0 || title.includes('Podcast') || description.includes('Podcast')) {
+                    console.log(`Tagging carousel: ${title}`);
+                    carousel.classList.add('podcast-item');
+                }
+            });
+
+            // Remove podcast tab from Browse (only in browse frame document)
+            let tab = doc.body.querySelector('[data-navbar-item-id="spotify:app:browse:podcasts"]');
+            if (tab) tab.classList.add('podcast-item');
+        }
     });
 }
 
