@@ -18,23 +18,28 @@
     const SETTINGS_KEY = 'HidePodcastsMode';
     let isEnabled = LocalStorage.get(SETTINGS_KEY) === '1';
 
-    setState(documents, isEnabled);
-    injectCSS(documents);
-    tagItems(documents);
-
     // Add menu item and menu click handler
     new Menu.Item('Hide podcasts', isEnabled, (self) => {
         isEnabled = !isEnabled;
         LocalStorage.set(SETTINGS_KEY, isEnabled ? '1' : '0');
         self.setState(isEnabled);
         setState(documents, isEnabled);
-        document.location.reload();
+        // document.location.reload();
     }).register();
 
-    document.addEventListener('DOMContentLoaded', () => {
-        console.log('DOMContentLoaded');
+    function apply(eventType) {
+        console.log(`running ${eventType}`);
 
-        if (!isEnabled) return;
+        // abort if not initial load and extension not enabled
+        if (!isEnabled && eventType != 'initial') return;
+
+        // Check for a specific element to make sure the page is loaded before scanning
+        const loadedEl = document.querySelector('.main-view-container__scroll-node-child .contentSpacing');
+        if (!loadedEl) {
+            // TODO: tweak delay
+            setTimeout(() => apply(eventType), 500);
+            return;
+        }
 
         // Refresh documents
         documents = getDocuments();
@@ -42,18 +47,17 @@
         setState(documents, isEnabled);
         injectCSS(documents);
         tagItems(documents);
+    }
+
+    apply('initial');
+
+    document.addEventListener('DOMContentLoaded', () => {
+        apply('DOMContentLoaded');
     })
 
+    // TODO: this doesn't ever seem to fire on v2?
     Player.addEventListener('appchange', () => {
-        console.log('appchange');
-        if (!isEnabled) return;
-
-        // Refresh documents
-        documents = getDocuments();
-
-        setState(documents, isEnabled);
-        injectCSS(documents);
-        tagItems(documents);
+        apply('appchange');
     });
 })();
 
@@ -124,8 +128,15 @@ function tagItems(documents) {
                 let description = shelf.querySelector('.main-type-mesto');
                 description = description ? description.innerText : '';
 
-                // It seems to tag podcast items with the Card--show class
-                let podcastCardLinks = shelf.querySelectorAll('.main-cardHeader-link[href^="/show/"]');
+                const podcastCardLinks = [...shelf.querySelectorAll('.main-cardHeader-link')]
+                    .filter((link) => {
+                        const href = link.getAttribute('href');
+                        return href.startsWith('/episode') || href.startsWith('/show');
+                    });
+                // cardLinks = cardLink ?  cardLink.getAttribute('href').startsWith('/episode/')
+                // TODO: is it more performant to do two querySelectorAlls or just one and check href with JS?
+                // let podcastCardLinks = shelf.querySelectorAll('.main-cardHeader-link[href^="/show/"]');
+                // let cardLink = shelf.querySelector('.main-cardHeader-link[href^="/episode"]');
 
                 // I still need to check for 'Podcast' in title/description because the 'Made For You' section
                 // has a 'Podcasts and more' carousel that's technically got playlists made up of podcast episodes
