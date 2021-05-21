@@ -7,8 +7,8 @@
 /// <reference path="../globals.d.ts" />
 
 (function HidePodcasts() {
-    const { Player, Menu, LocalStorage } = Spicetify;
-    if (!(Player && Menu && LocalStorage)) {
+    const { Player, Menu, LocalStorage, Platform } = Spicetify;
+    if (!(Player && Menu && LocalStorage && Platform)) {
         setTimeout(HidePodcasts, 1000);
         return;
     }
@@ -24,48 +24,67 @@
         LocalStorage.set(SETTINGS_KEY, isEnabled ? '1' : '0');
         self.setState(isEnabled);
         setState(documents, isEnabled);
-        // document.location.reload();
     }).register();
 
-    function apply(eventType) {
-        console.log(`running ${eventType}`);
+    // Run the app logic
+    function apply(initialLoad = false) {
+        // Run logic on app start or if extension is enabled
+        if (initialLoad || isEnabled) {
+            // Refresh documents
+            documents = getDocuments();
 
-        // abort if not initial load and extension not enabled
-        if (!isEnabled && eventType != 'initial') return;
-
-        // Check for a specific element to make sure the page is loaded before scanning
-        const loadedEl = document.querySelector('.main-view-container__scroll-node-child .contentSpacing');
-        if (!loadedEl) {
-            // TODO: tweak delay
-            setTimeout(() => apply(eventType), 500);
-            return;
+            setState(documents, isEnabled);
+            injectCSS(documents);
+            tagItems(documents);
         }
-
-        // Refresh documents
-        documents = getDocuments();
-
-        setState(documents, isEnabled);
-        injectCSS(documents);
-        tagItems(documents);
     }
 
-    apply('initial');
+    const main = document.querySelector('.main-view-container__scroll-node-child');
 
-    document.addEventListener('DOMContentLoaded', () => {
-        apply('DOMContentLoaded');
-    })
+    // Listen to page navigation and re-apply when DOM is ready
+    function listenThenApply(pathname) {
+        // TODO: this doesn't always fire when switching pages.
+        // e.g. start Spotify on Your Library page and then go to Search (podcasts card shows)
+        // then go to Home and back, and the podcasts card disappears
+        const observer = new MutationObserver(function appchange(){
+            const app = main.querySelector('section');
+            if (app) {
+                console.log(pathname, app);
+                // DoYourStuff(app);
+                // TODO: do I need to pass this initialLoad the first time as well?
+                apply();
+                observer.disconnect();
+            }
+        })
+        observer.observe(main, {childList:true});
+    }
 
-    // TODO: this doesn't ever seem to fire on v2?
-    Player.addEventListener('appchange', () => {
-        apply('appchange');
-    });
+    if (isNewUI()) {
+        // Initial scan on app load
+        // Needs to run once and then add the listener
+        // because when it loads the Your Library page, the listener doesn't work
+        // TODO: does keep the observer around longer than it should?
+        apply(true);
+        listenThenApply('/');
+
+        Spicetify.Platform.History.listen(({pathname}) => {
+            listenThenApply(pathname);
+        });
+    } else {
+        // Initial scan on app load
+        apply(true);
+        Player.addEventListener('appchange', () => apply());
+    }
 })();
+
+const isNewUI = () => !window.bridge;
 
 /**
  * Grab any Spotify app document objects.
  * This is to ensure that we have the Browse iframe when it exists.
  */
 function getDocuments() {
+    // TODO: looks like this isn't needed for v2; can I clean up v1 vs v2?
     let documents = [document];
     let browseFrame = document.getElementById('app-browse');
     if (browseFrame) {
@@ -73,11 +92,6 @@ function getDocuments() {
         documents.push(browseDocument);
     }
     return documents;
-}
-
-function isNewUI() {
-    // TODO: test this
-    return !window.bridge;
 }
 
 /**
@@ -146,9 +160,21 @@ function tagItems(documents) {
                 }
             });
 
-            // Remove podcast card from search/browse (only in browse frame document?)
-            let tab = doc.body.querySelector('.x-773-categoryCard-CategoryCard[href="/genre/podcasts-web"]');
-            if (tab) tab.classList.add('podcast-item');
+            // Remove podcast card from search/browse page
+            const browsePodcastsCard = doc.body.querySelector('.x-categoryCard-CategoryCard[href="/genre/podcasts-web"]');
+            if (browsePodcastsCard) {
+                console.log(`Tagging browsePodcastsCard: ${browsePodcastsCard}`);
+                browsePodcastsCard.classList.add('podcast-item');
+            }
+
+            // Remove podcast card from Your Library page
+            const libraryPodcastsTab = doc.body.querySelector('.queue-tabBar-header a[href="/collection/podcasts"]');
+            if (libraryPodcastsTab) {
+                console.log(`Tagging libraryPodcastsTab: ${libraryPodcastsTab}`);
+                libraryPodcastsTab.classList.add('podcast-item');
+            }
+
+
         } else {
             // Remove podcast sidebar link (only needs to run once)
             let podcastSidebarItem = doc.querySelector('.SidebarListItemLink[href="spotify:app:collection:podcasts"]');
@@ -176,7 +202,7 @@ function tagItems(documents) {
             });
 
             // Remove podcast tab from Browse (only in browse frame document)
-            let tab = doc.body.querySelector('[data-navbar-item-id="spotify:app:browse:podcasts"]');
+            const tab = doc.body.querySelector('[data-navbar-item-id="spotify:app:browse:podcasts"]');
             if (tab) tab.classList.add('podcast-item');
         }
     });
