@@ -56,18 +56,15 @@
                 observer.disconnect();
             }
         })
-        observer.observe(main, {childList:true});
+        // I need to include subtree because the Search page only has one child and the content is under there
+        observer.observe(main, { childList: true, subtree: true });
     }
 
     if (isNewUI()) {
         // Initial scan on app load
-        // Needs to run once and then add the listener
-        // because when it loads the Your Library page, the listener doesn't work
-        // TODO: does keep the observer around longer than it should?
-        apply(true);
         listenThenApply('/');
 
-        Spicetify.Platform.History.listen(({pathname}) => {
+        Platform.History.listen(({pathname}) => {
             listenThenApply(pathname);
         });
     } else {
@@ -105,9 +102,15 @@ function injectCSS(documents) {
         // Inject style if it doesnt have it already
         if (!body.classList.contains('hide-podcasts--style-injected')) {
             let style = doc.createElement('style');
+            // TODO: Need to add the queue-tabBar bit to block the Podcasts tab on the Your Library page
+            // Because it resets itself when the window resizes and it go in/out of the overflow menu
+            // Technically I should block the li.queue-tabBar-headerItem above it, but can't do that with just CSS
             style.innerHTML =
             `
             .hide-podcasts-enabled .podcast-item {
+                display: none !important;
+            }
+            .queue-tabBar-header a[href="/collection/podcasts"] {
                 display: none !important;
             }
             `;
@@ -126,14 +129,7 @@ function tagItems(documents) {
 
         // TODO: clean this up
         if (isNewUI()) {
-
-            // Remove podcast sidebar link (only needs to run once)
-            // let podcastSidebarItem = doc.querySelector('.SidebarListItemLink[href="spotify:app:collection:podcasts"]');
-            // if (podcastSidebarItem) podcastSidebarItem.closest('.SidebarListItem').classList.add('podcast-item');
-
-            // Run on app change
             // Remove podcast carousels (e.g. 'Home' and 'Made For You')
-            // TODO: for some reason these don't exist until a couple seconds after...
             let shelves = doc.querySelectorAll('.main-shelf-shelf');
             shelves.forEach(shelf => {
                 let title = shelf.querySelector('.main-shelf-title');
@@ -168,13 +164,14 @@ function tagItems(documents) {
             }
 
             // Remove podcast card from Your Library page
-            const libraryPodcastsTab = doc.body.querySelector('.queue-tabBar-header a[href="/collection/podcasts"]');
-            if (libraryPodcastsTab) {
-                console.log(`Tagging libraryPodcastsTab: ${libraryPodcastsTab}`);
-                libraryPodcastsTab.classList.add('podcast-item');
-            }
-
-
+            // TODO: I changed this to just use CSS since the element resets when it goes in/out of overflow menu
+            // let libraryPodcastsTab = doc.body.querySelector('.queue-tabBar-header a[href="/collection/podcasts"]');
+            // if (libraryPodcastsTab) {
+            //     // Find the actual li tag
+            //     libraryPodcastsTab = libraryPodcastsTab.closest('.queue-tabBar-headerItem');
+            //     console.log(`Tagging libraryPodcastsTab: ${libraryPodcastsTab}`);
+            //     libraryPodcastsTab.classList.add('podcast-item');
+            // }
         } else {
             // Remove podcast sidebar link (only needs to run once)
             let podcastSidebarItem = doc.querySelector('.SidebarListItemLink[href="spotify:app:collection:podcasts"]');
