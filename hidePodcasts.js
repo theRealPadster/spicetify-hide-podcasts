@@ -6,6 +6,13 @@
 
 /// <reference path="../globals.d.ts" />
 
+/**
+ * TODO:
+ * - v2 doesn't seem to apply on toggle (load search page with extension disabled, then enable and it won't go)
+ * - Revert search entry placeholder text when disable extension
+ * - v1 probably doesn't work if I wait for Spicetify.Platform to exist
+ */
+
 (function HidePodcasts() {
     const { Player, Menu, LocalStorage, Platform } = Spicetify;
     if (!(Player && Menu && LocalStorage && Platform)) {
@@ -43,14 +50,10 @@
 
     // Listen to page navigation and re-apply when DOM is ready
     function listenThenApply(pathname) {
-        // TODO: this doesn't always fire when switching pages.
-        // e.g. start Spotify on Your Library page and then go to Search (podcasts card shows)
-        // then go to Home and back, and the podcasts card disappears
         const observer = new MutationObserver(function appchange(){
             const app = main.querySelector('section');
             if (app) {
                 console.log(pathname, app);
-                // DoYourStuff(app);
                 // TODO: do I need to pass this initialLoad the first time as well?
                 apply();
                 observer.disconnect();
@@ -64,7 +67,7 @@
         // Initial scan on app load
         listenThenApply('/');
 
-        Platform.History.listen(({pathname}) => {
+        Platform.History.listen(({ pathname }) => {
             listenThenApply(pathname);
         });
     } else {
@@ -138,15 +141,11 @@ function tagItems(documents) {
                 let description = shelf.querySelector('.main-type-mesto');
                 description = description ? description.innerText : '';
 
-                const podcastCardLinks = [...shelf.querySelectorAll('.main-cardHeader-link')]
-                    .filter((link) => {
-                        const href = link.getAttribute('href');
-                        return href.startsWith('/episode') || href.startsWith('/show');
-                    });
-                // cardLinks = cardLink ?  cardLink.getAttribute('href').startsWith('/episode/')
-                // TODO: is it more performant to do two querySelectorAlls or just one and check href with JS?
-                // let podcastCardLinks = shelf.querySelectorAll('.main-cardHeader-link[href^="/show/"]');
-                // let cardLink = shelf.querySelector('.main-cardHeader-link[href^="/episode"]');
+                // Podcast links in carousels
+                const podcastCardLinks = [
+                    ...shelf.querySelectorAll('.main-cardHeader-link[href^="/episode"'),
+                    ...shelf.querySelectorAll('.main-cardHeader-link[href^="/show"'),
+                ];
 
                 // I still need to check for 'Podcast' in title/description because the 'Made For You' section
                 // has a 'Podcasts and more' carousel that's technically got playlists made up of podcast episodes
@@ -172,6 +171,13 @@ function tagItems(documents) {
             //     console.log(`Tagging libraryPodcastsTab: ${libraryPodcastsTab}`);
             //     libraryPodcastsTab.classList.add('podcast-item');
             // }
+
+            // Remove mention of podcasts from search entry
+            const searchEntry = doc.body.querySelector('.x-searchInput-searchInputInput.main-type-mesto');
+            if (searchEntry) {
+                console.log(`Updating search entry placeholder text: ${searchEntry}`);
+                searchEntry.setAttribute('placeholder', 'Artists, albums, or songs');
+            }
         } else {
             // Remove podcast sidebar link (only needs to run once)
             let podcastSidebarItem = doc.querySelector('.SidebarListItemLink[href="spotify:app:collection:podcasts"]');
