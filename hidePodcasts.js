@@ -10,6 +10,7 @@
  * TODO:
  * - v2 doesn't seem to apply on toggle (load search page with extension disabled, then enable and it won't go)
  * - Revert search entry placeholder text when disable extension
+ * - Do I still need to check for "podcast" in the name/description of carousels?
  */
 
 (function HidePodcasts() {
@@ -70,7 +71,7 @@
  * Inject the css that allows us to toggle podcasts
  */
 function injectCSS() {
-    let body = document.querySelector('body');
+    const body = document.querySelector('body');
 
     // Inject style if it doesnt have it already
     if (!body.classList.contains('hide-podcasts--style-injected')) {
@@ -96,7 +97,7 @@ function injectCSS() {
  * Add our class to any podcast elements
  */
 function tagItems() {
-    // Remove podcast carousels (e.g. 'Home' and 'Made For You')
+    // Remove podcast carousels
     let shelves = document.querySelectorAll('.main-shelf-shelf');
     shelves.forEach(shelf => {
         let title = shelf.querySelector('.main-shelf-title');
@@ -149,7 +150,7 @@ function tagItems() {
  * @param {boolean} isEnabled If we should hide podcasts or not
  */
 function setState(isEnabled) {
-    let body = document.querySelector('body');
+    const body = document.querySelector('body');
     if (isEnabled) body.classList.add('hide-podcasts-enabled');
     else body.classList.remove('hide-podcasts-enabled');
 }
