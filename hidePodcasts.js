@@ -63,21 +63,13 @@
         observer.observe(main, { childList: true, subtree: true });
     }
 
-    if (isNewUI()) {
-        // Initial scan on app load
-        listenThenApply('/');
+    // Initial scan on app load
+    listenThenApply('/');
 
-        Platform.History.listen(({ pathname }) => {
-            listenThenApply(pathname);
-        });
-    } else {
-        // Initial scan on app load
-        apply(true);
-        Player.addEventListener('appchange', () => apply());
-    }
+    Platform.History.listen(({ pathname }) => {
+        listenThenApply(pathname);
+    });
 })();
-
-const isNewUI = () => !window.bridge;
 
 /**
  * Grab any Spotify app document objects.
@@ -130,83 +122,51 @@ function injectCSS(documents) {
 function tagItems(documents) {
     documents.forEach(doc => {
 
-        // TODO: clean this up
-        if (isNewUI()) {
-            // Remove podcast carousels (e.g. 'Home' and 'Made For You')
-            let shelves = doc.querySelectorAll('.main-shelf-shelf');
-            shelves.forEach(shelf => {
-                let title = shelf.querySelector('.main-shelf-title');
-                title = title ? title.innerText : '';
+        // Remove podcast carousels (e.g. 'Home' and 'Made For You')
+        let shelves = doc.querySelectorAll('.main-shelf-shelf');
+        shelves.forEach(shelf => {
+            let title = shelf.querySelector('.main-shelf-title');
+            title = title ? title.innerText : '';
 
-                let description = shelf.querySelector('.main-type-mesto');
-                description = description ? description.innerText : '';
+            let description = shelf.querySelector('.main-type-mesto');
+            description = description ? description.innerText : '';
 
-                // Podcast links in carousels
-                const podcastCardLinks = [
-                    ...shelf.querySelectorAll('.main-cardHeader-link[href^="/episode"'),
-                    ...shelf.querySelectorAll('.main-cardHeader-link[href^="/show"'),
-                ];
+            // Podcast links in carousels
+            const podcastCardLinks = [
+                ...shelf.querySelectorAll('.main-cardHeader-link[href^="/episode"'),
+                ...shelf.querySelectorAll('.main-cardHeader-link[href^="/show"'),
+            ];
 
-                // I still need to check for 'Podcast' in title/description because the 'Made For You' section
-                // has a 'Podcasts and more' carousel that's technically got playlists made up of podcast episodes
-                if (podcastCardLinks.length > 0 || title.includes('Podcast') || description.includes('Podcast')) {
-                    console.log(`Tagging carousel: ${title}`);
-                    shelf.classList.add('podcast-item');
-                }
-            });
-
-            // Remove podcast card from search/browse page
-            const browsePodcastsCard = doc.body.querySelector('.x-categoryCard-CategoryCard[href="/genre/podcasts-web"]');
-            if (browsePodcastsCard) {
-                console.log(`Tagging browsePodcastsCard: ${browsePodcastsCard}`);
-                browsePodcastsCard.classList.add('podcast-item');
+            // I still need to check for 'Podcast' in title/description because the 'Made For You' section
+            // has a 'Podcasts and more' carousel that's technically got playlists made up of podcast episodes
+            if (podcastCardLinks.length > 0 || title.includes('Podcast') || description.includes('Podcast')) {
+                console.log(`Tagging carousel: ${title}`);
+                shelf.classList.add('podcast-item');
             }
+        });
 
-            // Remove podcast card from Your Library page
-            // TODO: I changed this to just use CSS since the element resets when it goes in/out of overflow menu
-            // let libraryPodcastsTab = doc.body.querySelector('.queue-tabBar-header a[href="/collection/podcasts"]');
-            // if (libraryPodcastsTab) {
-            //     // Find the actual li tag
-            //     libraryPodcastsTab = libraryPodcastsTab.closest('.queue-tabBar-headerItem');
-            //     console.log(`Tagging libraryPodcastsTab: ${libraryPodcastsTab}`);
-            //     libraryPodcastsTab.classList.add('podcast-item');
-            // }
+        // Remove podcast card from search/browse page
+        const browsePodcastsCard = doc.body.querySelector('.x-categoryCard-CategoryCard[href="/genre/podcasts-web"]');
+        if (browsePodcastsCard) {
+            console.log(`Tagging browsePodcastsCard: ${browsePodcastsCard}`);
+            browsePodcastsCard.classList.add('podcast-item');
+        }
 
-            // Remove mention of podcasts from search entry
-            const searchEntry = doc.body.querySelector('.x-searchInput-searchInputInput.main-type-mesto');
-            if (searchEntry) {
-                console.log(`Updating search entry placeholder text: ${searchEntry}`);
-                searchEntry.setAttribute('placeholder', 'Artists, albums, or songs');
-            }
-        } else {
-            // Remove podcast sidebar link (only needs to run once)
-            let podcastSidebarItem = doc.querySelector('.SidebarListItemLink[href="spotify:app:collection:podcasts"]');
-            if (podcastSidebarItem) podcastSidebarItem.closest('.SidebarListItem').classList.add('podcast-item');
+        // Remove podcast card from Your Library page
+        // TODO: I changed this to just use CSS since the element resets when it goes in/out of overflow menu
+        // let libraryPodcastsTab = doc.body.querySelector('.queue-tabBar-header a[href="/collection/podcasts"]');
+        // if (libraryPodcastsTab) {
+        //     // Find the actual li tag
+        //     libraryPodcastsTab = libraryPodcastsTab.closest('.queue-tabBar-headerItem');
+        //     console.log(`Tagging libraryPodcastsTab: ${libraryPodcastsTab}`);
+        //     libraryPodcastsTab.classList.add('podcast-item');
+        // }
 
-            // Run on app change
-            // Remove podcast carousels (e.g. 'Home' and 'Made For You')
-            let carousels = doc.querySelectorAll('.Carousel');
-            carousels.forEach(carousel => {
-                let title = carousel.querySelector('.GlueSectionDivider__title');
-                title = title ? title.innerText : '';
-
-                let description = carousel.querySelector('.GlueSectionDivider__description');
-                description = description ? description.innerText : '';
-
-                // It seems to tag podcast items with the Card--show class
-                let podcastCards = carousel.querySelectorAll('.Card.Card--show, .Card.Card--episode');
-
-                // I still need to check for 'Podcast' in title/description because the 'Made For You' section
-                // has a 'Podcasts and more' carousel that's technically got playlists made up of podcast episodes
-                if (podcastCards.length > 0 || title.includes('Podcast') || description.includes('Podcast')) {
-                    console.log(`Tagging carousel: ${title}`);
-                    carousel.classList.add('podcast-item');
-                }
-            });
-
-            // Remove podcast tab from Browse (only in browse frame document)
-            const tab = doc.body.querySelector('[data-navbar-item-id="spotify:app:browse:podcasts"]');
-            if (tab) tab.classList.add('podcast-item');
+        // Remove mention of podcasts from search entry
+        const searchEntry = doc.body.querySelector('.x-searchInput-searchInputInput.main-type-mesto');
+        if (searchEntry) {
+            console.log(`Updating search entry placeholder text: ${searchEntry}`);
+            searchEntry.setAttribute('placeholder', 'Artists, albums, or songs');
         }
     });
 }
