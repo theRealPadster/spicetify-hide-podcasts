@@ -2,9 +2,9 @@
 
 // NAME: Hide Podcasts
 // AUTHOR: theRealPadster
-// DESCRIPTION: Hide podcasts. Toggle in Profile menu. Based on ChristianSpotify extension.
+// DESCRIPTION: Hide podcasts. Toggle in Profile menu.
 
-/// <reference path="../globals.d.ts" />
+/// <reference path="../spicetify-cli/globals.d.ts" />
 
 /**
  * TODO:
@@ -61,6 +61,7 @@
     // Initial scan on app load
     listenThenApply('/');
 
+    // Listen for page navigation events
     Platform.History.listen(({ pathname }) => {
         listenThenApply(pathname);
     });
@@ -75,7 +76,7 @@ function injectCSS() {
 
     // Inject style if it doesnt have it already
     if (!body.classList.contains('hide-podcasts--style-injected')) {
-        let style = document.createElement('style');
+        const style = document.createElement('style');
         // TODO: Need to add the queue-tabBar bit to block the Podcasts tab on the Your Library page
         // Because it resets itself when the window resizes and it go in/out of the overflow menu
         // Technically I should block the li.queue-tabBar-headerItem above it, but can't do that with just CSS
@@ -98,13 +99,13 @@ function injectCSS() {
  */
 function tagItems() {
     // Remove podcast carousels
-    let shelves = document.querySelectorAll('.main-shelf-shelf');
+    const shelves = document.querySelectorAll('.main-shelf-shelf');
     shelves.forEach(shelf => {
-        let title = shelf.querySelector('.main-shelf-title');
-        title = title ? title.innerText : '';
+        const titleEl = shelf.querySelector('.main-shelf-title');
+        const title = titleEl ? titleEl.innerText : '';
 
-        let description = shelf.querySelector('.main-type-mesto');
-        description = description ? description.innerText : '';
+        const descriptionEl = shelf.querySelector('.main-type-mesto');
+        const description = descriptionEl ? descriptionEl.innerText : '';
 
         // Podcast links in carousels
         const podcastCardLinks = [
