@@ -8,8 +8,6 @@
 
 /**
  * TODO:
- * - v2 doesn't seem to apply on toggle (load search page with extension disabled, then enable and it won't go)
- * - Revert search entry placeholder text when disable extension
  * - Do I still need to check for "podcast" in the name/description of carousels?
  */
 
@@ -28,7 +26,7 @@
         isEnabled = !isEnabled;
         LocalStorage.set(SETTINGS_KEY, isEnabled ? '1' : '0');
         self.setState(isEnabled);
-        setState(isEnabled);
+        apply();
     }).register();
 
     // Run the app logic
@@ -180,7 +178,5 @@ function tagItems() {
  * @param {boolean} isEnabled If we should hide podcasts or not
  */
 function setState(isEnabled) {
-    const body = document.querySelector('body');
-    if (isEnabled) body.classList.add('hide-podcasts-enabled');
-    else body.classList.remove('hide-podcasts-enabled');
+    document.querySelector('body').classList.toggle('hide-podcasts-enabled', isEnabled);
 }
