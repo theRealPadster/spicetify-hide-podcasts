@@ -67,6 +67,7 @@
     });
 })();
 
+const FAKE_PLACEHOLDER_CLASS = 'searchInput-fakePlaceholder';
 
 /**
  * Inject the css that allows us to toggle podcasts
@@ -80,15 +81,37 @@ function injectCSS() {
         // TODO: Need to add the queue-tabBar bit to block the Podcasts tab on the Your Library page
         // Because it resets itself when the window resizes and it go in/out of the overflow menu
         // Technically I should block the li.queue-tabBar-headerItem above it, but can't do that with just CSS
+
         style.innerHTML =
-        `
-        .hide-podcasts-enabled .podcast-item {
+        // General rule
+        `.hide-podcasts-enabled .podcast-item {
             display: none !important;
-        }
-        .queue-tabBar-header a[href="/collection/podcasts"] {
+        }`
+        + // Podcasts tab in Your Library page
+        `.hide-podcasts-enabled .queue-tabBar-header a[href="/collection/podcasts"] {
             display: none !important;
+        }`
+        + // Updated search entry placeholder
+        `.hide-podcasts-enabled .x-searchInput-searchInputInput.main-type-mesto::placeholder {
+            color: transparent;
         }
-        `;
+        .hide-podcasts-enabled .x-searchInput-searchInputInput.main-type-mesto + .${FAKE_PLACEHOLDER_CLASS} {
+            display: block;
+            position: absolute;
+            width: 100%;
+            left: 0;
+            top: 0;
+            opacity: 0.4;
+            font-size: 14px;
+            line-height: 16px;
+            padding: 12px 48px;
+            text-overflow: ellipsis;
+            pointer-events: none;
+        }
+        .${FAKE_PLACEHOLDER_CLASS},
+        .hide-podcasts-enabled .x-searchInput-searchInputInput.main-type-mesto:not([value=""]) + .${FAKE_PLACEHOLDER_CLASS} {
+            display: none;
+        }`;
         body.appendChild(style);
         body.classList.add('hide-podcasts--style-injected');
     }
@@ -141,8 +164,14 @@ function tagItems() {
     // Remove mention of podcasts from search entry
     const searchEntry = document.querySelector('.x-searchInput-searchInputInput.main-type-mesto');
     if (searchEntry) {
-        console.log(`Updating search entry placeholder text: ${searchEntry}`);
-        searchEntry.setAttribute('placeholder', 'Artists, albums, or songs');
+        console.log('Updating search entry placeholder text');
+        const foundPlaceholderEl = document.querySelector(`.x-searchInput-searchInputInput.main-type-mesto + .${FAKE_PLACEHOLDER_CLASS}`);
+        if (!foundPlaceholderEl) {
+            const fakePlaceholder = document.createElement('label');
+            fakePlaceholder.innerText = 'Artists, albums, or songs';
+            fakePlaceholder.classList.add(FAKE_PLACEHOLDER_CLASS);
+            searchEntry.insertAdjacentElement('afterend', fakePlaceholder);
+        }
     }
 }
 
