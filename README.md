@@ -37,7 +37,7 @@ spicetify apply
 ## Usage
 Toggle in the Profile menu.
 
-![Screenshot](screenshot.png)
+[![Screenshot](screenshot.png)](https://raw.githubusercontent.com/theRealPadster/spicetify-hide-podcasts/main/screenshot.png)
 
 ## More
 🌟 Like it? Gimme some love!    
