@@ -1,5 +1,9 @@
 # spicetify-hide-podcasts
-[Spicetify](https://github.com/khanhas/spicetify-cli) extension to hide podcasts. Hides podcast carousels from the homepage, the podcasts card in the Search page, and the podcasts tab on the Your Library page. Also removes mention of podcasts in the search entry placeholder text. 
+[Spicetify](https://github.com/khanhas/spicetify-cli) extension to hide podcasts. 
+* Hides podcast carousels on the homepage
+* Hides the podcasts tab on the Your Library page
+* Hides the podcasts genre card on the Search page
+* Also removes mention of podcasts in the search entry placeholder text
 ## Install
 Copy `hidePodcasts.js` into your [Spicetify](https://github.com/khanhas/spicetify-cli) extensions directory:
 | **Platform** | **Path**                                                                            |
@@ -33,8 +37,7 @@ spicetify apply
 ## Usage
 Toggle in the Profile menu.
 
-![Sidebar screenshot](screenshot-sidebar.png)
-![Profile menu toggle screenshot](screenshot-enable.jpg)
+![Sidebar screenshot](screenshot.png)
 
 ## More
 🌟 Like it? Gimme some love!    
