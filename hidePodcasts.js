@@ -6,10 +6,8 @@
 
 /// <reference path="../spicetify-cli/globals.d.ts" />
 
-/**
- * TODO:
- * - Do I still need to check for "podcast" in the name/description of carousels?
- */
+const SETTINGS_KEY = 'HidePodcastsMode';
+const FAKE_PLACEHOLDER_CLASS = 'searchInput-fakePlaceholder';
 
 (function HidePodcasts() {
     const { Player, Menu, LocalStorage, Platform } = Spicetify;
@@ -18,7 +16,6 @@
         return;
     }
 
-    const SETTINGS_KEY = 'HidePodcastsMode';
     let isEnabled = LocalStorage.get(SETTINGS_KEY) === '1';
 
     // Add menu item and menu click handler
@@ -30,13 +27,10 @@
     }).register();
 
     // Run the app logic
-    function apply(initialLoad = false) {
-        // Run logic on app start or if extension is enabled
-        if (initialLoad || isEnabled) {
-            setState(isEnabled);
-            injectCSS();
-            tagItems();
-        }
+    function apply() {
+        setState(isEnabled);
+        injectCSS();
+        tagItems();
     }
 
     const main = document.querySelector('.main-view-container__scroll-node-child');
@@ -47,7 +41,6 @@
             const app = main.querySelector('section');
             if (app) {
                 console.log(pathname, app);
-                // TODO: do I need to pass this initialLoad the first time as well?
                 apply();
                 observer.disconnect();
             }
@@ -64,8 +57,6 @@
         listenThenApply(pathname);
     });
 })();
-
-const FAKE_PLACEHOLDER_CLASS = 'searchInput-fakePlaceholder';
 
 /**
  * Inject the css that allows us to toggle podcasts
@@ -119,14 +110,10 @@ function injectCSS() {
  * Add our class to any podcast elements
  */
 function tagItems() {
+
     // Remove podcast carousels
     const shelves = document.querySelectorAll('.main-shelf-shelf');
     shelves.forEach(shelf => {
-        const titleEl = shelf.querySelector('.main-shelf-title');
-        const title = titleEl ? titleEl.innerText : '';
-
-        const descriptionEl = shelf.querySelector('.main-type-mesto');
-        const description = descriptionEl ? descriptionEl.innerText : '';
 
         // Podcast links in carousels
         const podcastCardLinks = [
@@ -134,9 +121,8 @@ function tagItems() {
             ...shelf.querySelectorAll('.main-cardHeader-link[href^="/show"'),
         ];
 
-        // I still need to check for 'Podcast' in title/description because the 'Made For You' section
-        // has a 'Podcasts and more' carousel that's technically got playlists made up of podcast episodes
-        if (podcastCardLinks.length > 0 || title.includes('Podcast') || description.includes('Podcast')) {
+        if (podcastCardLinks.length > 0) {
+            const title = shelf.getAttribute('aria-label');
             console.log(`Tagging carousel: ${title}`);
             shelf.classList.add('podcast-item');
         }
@@ -159,7 +145,7 @@ function tagItems() {
     //     libraryPodcastsTab.classList.add('podcast-item');
     // }
 
-    // Remove mention of podcasts from search entry
+    // Remove mention of podcasts from search entry placeholder
     const searchEntry = document.querySelector('.x-searchInput-searchInputInput.main-type-mesto');
     if (searchEntry) {
         console.log('Updating search entry placeholder text');
