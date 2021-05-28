@@ -2,130 +2,178 @@
 
 // NAME: Hide Podcasts
 // AUTHOR: theRealPadster
-// DESCRIPTION: Hide podcasts. Toggle in Profile menu. Based on ChristianSpotify extension.
+// DESCRIPTION: Hide podcasts. Toggle in Profile menu.
 
-/// <reference path="../globals.d.ts" />
+/// <reference path="../spicetify-cli/globals.d.ts" />
+
+const SETTINGS_KEY = 'HidePodcastsMode';
+const FAKE_PLACEHOLDER_CLASS = 'searchInput-fakePlaceholder';
 
 (function HidePodcasts() {
-    const { Player, Menu, LocalStorage } = Spicetify;
-    if (!(Player && Menu && LocalStorage)) {
+    const { Player, Menu, LocalStorage, Platform } = Spicetify;
+    if (!(Player && Menu && LocalStorage && Platform)) {
         setTimeout(HidePodcasts, 1000);
         return;
     }
 
-    // Store the app's documents (main document and grab Browse iframe if possible)
-    let documents = getDocuments();
-    const SETTINGS_KEY = 'HidePodcastsMode';
     let isEnabled = LocalStorage.get(SETTINGS_KEY) === '1';
-
-    setState(documents, isEnabled);
-    injectCSS(documents);
-    tagItems(documents);
 
     // Add menu item and menu click handler
     new Menu.Item('Hide podcasts', isEnabled, (self) => {
         isEnabled = !isEnabled;
         LocalStorage.set(SETTINGS_KEY, isEnabled ? '1' : '0');
         self.setState(isEnabled);
-        setState(documents, isEnabled);
+        apply();
     }).register();
 
-    Player.addEventListener('appchange', () => {
-        if (!isEnabled) return;
+    // Run the app logic
+    function apply() {
+        setState(isEnabled);
+        injectCSS();
+        tagItems();
+    }
 
-        // Refresh documents
-        documents = getDocuments();
+    const main = document.querySelector('.main-view-container__scroll-node-child');
 
-        setState(documents, isEnabled);
-        injectCSS(documents);
-        tagItems(documents);
+    // Listen to page navigation and re-apply when DOM is ready
+    function listenThenApply(pathname) {
+        const observer = new MutationObserver(function appchange(){
+            // Look for specific section on search page
+            if (pathname === '/search') {
+                const searchBrowseSection = main.querySelector('.x-searchBrowse-SearchBrowse');
+                if (searchBrowseSection) {
+                    console.log(pathname, searchBrowseSection);
+                    apply();
+                    observer.disconnect();
+                }
+            } else {
+                // Just look for any section on other pages
+                const app = main.querySelector('section');
+                if (app) {
+                    console.log(pathname, app);
+                    apply();
+                    observer.disconnect();
+                }
+            }
+        })
+        // I need to include subtree because the Search page only has one child and the content is under there
+        observer.observe(main, { childList: true, subtree: true });
+    }
+
+    // Initial scan on app load
+    listenThenApply(Platform.History.location.pathname);
+
+    // Listen for page navigation events
+    Platform.History.listen(({ pathname }) => {
+        listenThenApply(pathname);
     });
 })();
 
 /**
- * Grab any Spotify app document objects.
- * This is to ensure that we have the Browse iframe when it exists.
- */
-function getDocuments() {
-    let documents = [document];
-    let browseFrame = document.getElementById('app-browse');
-    if (browseFrame) {
-        let browseDocument = browseFrame.contentDocument;
-        documents.push(browseDocument);
-    }
-    return documents;
-}
-
-/**
  * Inject the css that allows us to toggle podcasts
- * @param {Document[]} documents Array of documents to run on
  */
-function injectCSS(documents) {
-    documents.forEach(doc => {
-        let body = doc.querySelector('body');
+function injectCSS() {
+    const body = document.querySelector('body');
 
-        // Inject style if it doesnt have it already
-        if (!body.classList.contains('hide-podcasts--style-injected')) {
-            let style = doc.createElement('style');
-            style.innerHTML =
-            `
-            .hide-podcasts-enabled .podcast-item {
-                display: none !important;
-            }
-            `;
-            body.appendChild(style);
-            body.classList.add('hide-podcasts--style-injected');
+    // Inject style if it doesnt have it already
+    if (!body.classList.contains('hide-podcasts--style-injected')) {
+        const style = document.createElement('style');
+        // TODO: Need to add the queue-tabBar bit to block the Podcasts tab on the Your Library page
+        // Because it resets itself when the window resizes and it go in/out of the overflow menu
+        // Technically I should block the li.queue-tabBar-headerItem above it, but can't do that with just CSS
+
+        style.innerHTML =
+        // General rule
+        `.hide-podcasts-enabled .podcast-item {
+            display: none !important;
+        }`
+        + // Podcasts tab in Your Library page
+        `.hide-podcasts-enabled .queue-tabBar-header a[href="/collection/podcasts"] {
+            display: none !important;
+        }`
+        + // Updated search entry placeholder
+        `.hide-podcasts-enabled .x-searchInput-searchInputInput.main-type-mesto::placeholder {
+            color: transparent;
         }
-    });
+        .hide-podcasts-enabled .x-searchInput-searchInputInput.main-type-mesto + .${FAKE_PLACEHOLDER_CLASS} {
+            display: block;
+            position: absolute;
+            width: 100%;
+            left: 0;
+            top: 0;
+            opacity: 0.4;
+            font-size: 14px;
+            line-height: 16px;
+            padding: 12px 48px;
+            text-overflow: ellipsis;
+            pointer-events: none;
+        }
+        .${FAKE_PLACEHOLDER_CLASS},
+        .hide-podcasts-enabled .x-searchInput-searchInputInput.main-type-mesto:not([value=""]) + .${FAKE_PLACEHOLDER_CLASS} {
+            display: none;
+        }`;
+        body.appendChild(style);
+        body.classList.add('hide-podcasts--style-injected');
+    }
 }
 
 /**
  * Add our class to any podcast elements
- * @param {Document[]} documents Array of documents to run on
  */
-function tagItems(documents) {
-    documents.forEach(doc => {
+function tagItems() {
 
-        // Remove podcast sidebar link (only needs to run once)
-        let podcastSidebarItem = doc.querySelector('.SidebarListItemLink[href="spotify:app:collection:podcasts"]');
-        if (podcastSidebarItem) podcastSidebarItem.closest('.SidebarListItem').classList.add('podcast-item');
+    // Remove podcast carousels
+    const shelves = document.querySelectorAll('.main-shelf-shelf');
+    shelves.forEach(shelf => {
 
-        // Run on app change
-        // Remove podcast carousels (e.g. 'Home' and 'Made For You')
-        let carousels = doc.querySelectorAll('.Carousel');
-        carousels.forEach(carousel => {
-            let title = carousel.querySelector('.GlueSectionDivider__title');
-            title = title ? title.innerText : '';
+        // Podcast links in carousels
+        const podcastCardLinks = [
+            ...shelf.querySelectorAll('.main-cardHeader-link[href^="/episode"'),
+            ...shelf.querySelectorAll('.main-cardHeader-link[href^="/show"'),
+        ];
 
-            let description = carousel.querySelector('.GlueSectionDivider__description');
-            description = description ? description.innerText : '';
-
-            // It seems to tag podcast items with the Card--show class
-            let podcastCards = carousel.querySelectorAll('.Card.Card--show, .Card.Card--episode');
-
-            // I still need to check for 'Podcast' in title/description because the 'Made For You' section
-            // has a 'Podcasts and more' carousel that's technically got playlists made up of podcast episodes
-            if (podcastCards.length > 0 || title.includes('Podcast') || description.includes('Podcast')) {
-                console.log(`Tagging carousel: ${title}`);
-                carousel.classList.add('podcast-item');
-            }
-        });
-
-        // Remove podcast tab from Browse (only in browse frame document)
-        let tab = doc.body.querySelector('[data-navbar-item-id="spotify:app:browse:podcasts"]');
-        if (tab) tab.classList.add('podcast-item');
+        if (podcastCardLinks.length > 0) {
+            const title = shelf.getAttribute('aria-label');
+            console.log(`Tagging carousel: ${title}`);
+            shelf.classList.add('podcast-item');
+        }
     });
+
+    // Remove podcast card from search/browse page
+    const browsePodcastsCard = document.querySelector('.x-categoryCard-CategoryCard[href="/genre/podcasts-web"]');
+    if (browsePodcastsCard) {
+        console.log(`Tagging browsePodcastsCard: ${browsePodcastsCard}`);
+        browsePodcastsCard.classList.add('podcast-item');
+    }
+
+    // Remove podcast card from Your Library page
+    // TODO: I changed this to just use CSS since the element resets when it goes in/out of overflow menu
+    // let libraryPodcastsTab = doc.body.querySelector('.queue-tabBar-header a[href="/collection/podcasts"]');
+    // if (libraryPodcastsTab) {
+    //     // Find the actual li tag
+    //     libraryPodcastsTab = libraryPodcastsTab.closest('.queue-tabBar-headerItem');
+    //     console.log(`Tagging libraryPodcastsTab: ${libraryPodcastsTab}`);
+    //     libraryPodcastsTab.classList.add('podcast-item');
+    // }
+
+    // Remove mention of podcasts from search entry placeholder
+    const searchEntry = document.querySelector('.x-searchInput-searchInputInput.main-type-mesto');
+    if (searchEntry) {
+        console.log('Updating search entry placeholder text');
+        const foundPlaceholderEl = document.querySelector(`.x-searchInput-searchInputInput.main-type-mesto + .${FAKE_PLACEHOLDER_CLASS}`);
+        if (!foundPlaceholderEl) {
+            const fakePlaceholder = document.createElement('label');
+            fakePlaceholder.innerText = 'Artists, albums, or songs';
+            fakePlaceholder.classList.add(FAKE_PLACEHOLDER_CLASS);
+            searchEntry.insertAdjacentElement('afterend', fakePlaceholder);
+        }
+    }
 }
 
 /**
  * Add/remove the body class that hides podcasts
- * @param {Document[]} documents Array of documents to run on
  * @param {boolean} isEnabled If we should hide podcasts or not
  */
-function setState(documents, isEnabled) {
-    documents.forEach(doc => {
-        let body = doc.querySelector('body');
-        if (isEnabled) body.classList.add('hide-podcasts-enabled');
-        else body.classList.remove('hide-podcasts-enabled');
-    });
+function setState(isEnabled) {
+    document.querySelector('body').classList.toggle('hide-podcasts-enabled', isEnabled);
 }

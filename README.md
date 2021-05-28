@@ -1,5 +1,9 @@
 # spicetify-hide-podcasts
-[Spicetify](https://github.com/khanhas/spicetify-cli) extension to hide podcasts. Hides the podcasts link in the sidebar, the podcasts tab in 'Browse', and podcast carousel items (e.g. in 'Home' and 'Made For You'). Based on the [ChristianSpotify](https://github.com/khanhas/spicetify-cli/wiki/Extensions#christian-spotify) extension.
+[Spicetify](https://github.com/khanhas/spicetify-cli) extension to hide podcasts. 
+* Hides podcast carousels on the homepage
+* Hides the podcasts tab on the Your Library page
+* Hides the podcasts genre card on the Search page
+* Also removes mention of podcasts in the search entry placeholder text
 ## Install
 Copy `hidePodcasts.js` into your [Spicetify](https://github.com/khanhas/spicetify-cli) extensions directory:
 | **Platform** | **Path**                                                                            |
@@ -15,7 +19,7 @@ spicetify apply
 ```
 Note: Using the `config` command to add the extension will always append the file name to the existing extensions list. It does not replace the whole key's value.
 
-Or you can manually edit your `config.ini` file. Add your desired extension filenames in the extensions key, separated them by the | character.
+Or you can manually edit your `config-xpui.ini` file. Add your desired extension filenames in the extensions key, separated them by the | character.
 Example:
 
 ```ini
@@ -33,8 +37,7 @@ spicetify apply
 ## Usage
 Toggle in the Profile menu.
 
-![Sidebar screenshot](screenshot-sidebar.png)
-![Profile menu toggle screenshot](screenshot-enable.jpg)
+![Sidebar screenshot](screenshot.png)
 
 ## More
 🌟 Like it? Gimme some love!    
