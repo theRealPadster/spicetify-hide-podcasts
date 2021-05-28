@@ -37,11 +37,11 @@ spicetify apply
 ## Usage
 Toggle in the Profile menu.
 
-![Sidebar screenshot](screenshot.png)
+![Screenshot](screenshot.png)
 
 ## More
 🌟 Like it? Gimme some love!    
-![https://github.com/theRealPadster/spicetify-hide-podcasts/](https://img.shields.io/github/stars/theRealPadster/spicetify-hide-podcasts?logo=github&style=social)
+[![Github Stars badge](https://img.shields.io/github/stars/theRealPadster/spicetify-hide-podcasts?logo=github&style=social)](https://github.com/theRealPadster/spicetify-hide-podcasts/)
 
 If you find any bugs or places where podcasts are still showing up, please [create a new issue](https://github.com/theRealPadster/spicetify-hide-podcasts/issues/new/choose) on the GitHub repo.    
 ![https://github.com/theRealPadster/spicetify-hide-podcasts/issues](https://img.shields.io/github/issues/theRealPadster/spicetify-hide-podcasts?logo=github)
