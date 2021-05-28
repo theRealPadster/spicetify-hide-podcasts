@@ -38,22 +38,15 @@ const FAKE_PLACEHOLDER_CLASS = 'searchInput-fakePlaceholder';
     // Listen to page navigation and re-apply when DOM is ready
     function listenThenApply(pathname) {
         const observer = new MutationObserver(function appchange(){
-            // Look for specific section on search page
-            if (pathname === '/search') {
-                const searchBrowseSection = main.querySelector('.x-searchBrowse-SearchBrowse');
-                if (searchBrowseSection) {
-                    console.log(pathname, searchBrowseSection);
-                    apply();
-                    observer.disconnect();
-                }
-            } else {
-                // Just look for any section on other pages
-                const app = main.querySelector('section');
-                if (app) {
-                    console.log(pathname, app);
-                    apply();
-                    observer.disconnect();
-                }
+            // Look for specific section on search page, or any section on other pages
+            const app = pathname === '/search'
+                ? main.querySelector('.x-searchBrowse-SearchBrowse')
+                : main.querySelector('section');
+
+            if (app) {
+                console.log(pathname, app);
+                apply();
+                observer.disconnect();
             }
         })
         // I need to include subtree because the Search page only has one child and the content is under there
