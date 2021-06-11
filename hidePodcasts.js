@@ -11,7 +11,9 @@ const FAKE_PLACEHOLDER_CLASS = 'searchInput-fakePlaceholder';
 
 (function HidePodcasts() {
     const { Player, Menu, LocalStorage, Platform } = Spicetify;
-    if (!(Player && Menu && LocalStorage && Platform)) {
+    const main = document.querySelector('.main-view-container__scroll-node-child');
+    if (!(Player && Menu && LocalStorage && Platform && main)) {
+        // console.log('Not ready, waiting...');
         setTimeout(HidePodcasts, 1000);
         return;
     }
@@ -32,8 +34,6 @@ const FAKE_PLACEHOLDER_CLASS = 'searchInput-fakePlaceholder';
         injectCSS();
         tagItems();
     }
-
-    const main = document.querySelector('.main-view-container__scroll-node-child');
 
     // Listen to page navigation and re-apply when DOM is ready
     function listenThenApply(pathname) {
