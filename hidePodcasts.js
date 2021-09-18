@@ -115,6 +115,9 @@ function injectCSS() {
  */
 function tagItems() {
 
+    const yourEpisodesInSidebar = document.querySelector('.personal-library[data-id="/collection/episodes"]');
+    yourEpisodesInSidebar.classList.add('podcast-item');
+
     // Remove podcast carousels
     const shelves = document.querySelectorAll('.main-shelf-shelf');
     shelves.forEach(shelf => {
