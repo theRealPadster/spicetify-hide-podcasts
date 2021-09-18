@@ -98,6 +98,7 @@ function injectCSS() {
             font-size: 14px;
             line-height: 16px;
             padding: 12px 48px;
+            overflow: hidden;
             text-overflow: ellipsis;
             pointer-events: none;
         }
