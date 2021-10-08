@@ -2,5 +2,6 @@
     "name": "Spicetify-Hide-Podcasts",
     "description": "Spicetify extension to hide podcasts.",
     "preview": "screenshot.png",
-    "main": "hidePodcasts.js"
+    "main": "hidePodcasts.js",
+    "readme": "README.md"
 }
