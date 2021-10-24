@@ -7,11 +7,11 @@
 * Also removes mention of podcasts in the search entry placeholder text
 ## Install
 Copy `hidePodcasts.js` into your [Spicetify](https://github.com/khanhas/spicetify-cli) extensions directory:
-| **Platform** | **Path**                                                                            |
-|------------|-----------------------------------------------------------------------------------|
+| **Platform** | **Path**                                                                               |
+|------------|------------------------------------------------------------------------------------------|
 | **Linux**      | `~/.config/spicetify/Extensions` or `$XDG_CONFIG_HOME/.config/spicetify/Extensions/` |
-| **MacOS**      | `~/spicetify_data/Extensions` or `$SPICETIFY_CONFIG/Extensions`                      |
-| **Windows**    | `%userprofile%\.spicetify\Extensions\`                                              |
+| **MacOS**      | `~/.config/spicetify/Extensions` or `$SPICETIFY_CONFIG/Extensions`                   |
+| **Windows**    | `%userprofile%/.spicetify/Extensions/`                                               |
 
 After putting the extension file into the correct folder, run the following command to install the extension:
 ```
