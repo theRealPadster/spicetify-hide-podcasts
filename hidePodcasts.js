@@ -40,7 +40,7 @@ const FAKE_PLACEHOLDER_CLASS = 'searchInput-fakePlaceholder';
         const observer = new MutationObserver(function appchange(){
             // Look for specific section on search page, or any section on other pages
             const app = pathname === '/search'
-                ? main.querySelector('.contentSpacing#searchPage')
+                ? main.querySelector('#searchPage .main-shelf-shelf[aria-label="Browse all"]')
                 : main.querySelector('section');
 
             if (app) {
