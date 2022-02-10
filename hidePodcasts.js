@@ -9,21 +9,33 @@
 const SETTINGS_KEY = 'HidePodcastsMode';
 const FAKE_PLACEHOLDER_CLASS = 'searchInput-fakePlaceholder';
 
+/**
+ * Get localStorage data (or fallback value), given a key
+ * @param {string} key The localStorage key
+ * @param {any} fallback Fallback value if the key is not found
+ * @returns The data stored in localStorage, or the fallback value if not found
+ */
+ const getLocalStorageDataFromKey = (key, fallback) => {
+    const str = localStorage.getItem(key);
+    if (!str) return fallback;
+    return JSON.parse(str);
+};
+
 (function HidePodcasts() {
-    const { Player, Menu, LocalStorage, Platform } = Spicetify;
+    const { Player, Menu, Platform } = Spicetify;
     const main = document.querySelector('.main-view-container__scroll-node-child');
-    if (!(Player && Menu && LocalStorage && Platform && main)) {
+    if (!(Player && Menu && Platform && main)) {
         // console.log('Not ready, waiting...');
         setTimeout(HidePodcasts, 1000);
         return;
     }
 
-    let isEnabled = LocalStorage.get(SETTINGS_KEY) === '1';
+    let isEnabled = getLocalStorageDataFromKey(SETTINGS_KEY, true);
 
     // Add menu item and menu click handler
     new Menu.Item('Hide podcasts', isEnabled, (self) => {
         isEnabled = !isEnabled;
-        LocalStorage.set(SETTINGS_KEY, isEnabled ? '1' : '0');
+        localStorage.setItem(SETTINGS_KEY, isEnabled);
         self.setState(isEnabled);
         apply();
     }).register();
