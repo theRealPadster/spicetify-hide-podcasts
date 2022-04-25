@@ -7,7 +7,6 @@
 /// <reference path="../spicetify-cli/globals.d.ts" />
 
 const SETTINGS_KEY = 'HidePodcastsMode';
-const FAKE_PLACEHOLDER_CLASS = 'searchInput-fakePlaceholder';
 
 /**
  * Get localStorage data (or fallback value), given a key
@@ -95,28 +94,6 @@ function injectCSS() {
             + // Podcasts tab in Your Library page
             `.hide-podcasts-enabled .queue-tabBar-header a[href="/collection/podcasts"] {
             display: none !important;
-        }`
-            + // Updated search entry placeholder
-            `.hide-podcasts-enabled .x-searchInput-searchInputInput::placeholder {
-            color: transparent;
-        }
-        .hide-podcasts-enabled .x-searchInput-searchInputInput + .${FAKE_PLACEHOLDER_CLASS} {
-            display: block;
-            position: absolute;
-            width: 100%;
-            left: 0;
-            top: 0;
-            opacity: 0.4;
-            font-size: 14px;
-            line-height: 16px;
-            padding: 12px 48px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            pointer-events: none;
-        }
-        .${FAKE_PLACEHOLDER_CLASS},
-        .hide-podcasts-enabled .x-searchInput-searchInputInput:not([value=""]) + .${FAKE_PLACEHOLDER_CLASS} {
-            display: none;
         }`;
         body.appendChild(style);
         body.classList.add('hide-podcasts--style-injected');
@@ -169,13 +146,7 @@ function tagItems() {
     const searchEntry = document.querySelector('.x-searchInput-searchInputInput');
     if (searchEntry) {
         console.log('Updating search entry placeholder text');
-        const foundPlaceholderEl = document.querySelector(`.x-searchInput-searchInputInput + .${FAKE_PLACEHOLDER_CLASS}`);
-        if (!foundPlaceholderEl) {
-            const fakePlaceholder = document.createElement('label');
-            fakePlaceholder.innerText = 'Artists, albums, or songs';
-            fakePlaceholder.classList.add(FAKE_PLACEHOLDER_CLASS);
-            searchEntry.insertAdjacentElement('afterend', fakePlaceholder);
-        }
+        searchEntry.setAttribute('placeholder', 'Artists, albums, or songs');
     }
 }
 
