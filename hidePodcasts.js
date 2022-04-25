@@ -15,7 +15,7 @@ const FAKE_PLACEHOLDER_CLASS = 'searchInput-fakePlaceholder';
  * @param {any} fallback Fallback value if the key is not found
  * @returns The data stored in localStorage, or the fallback value if not found
  */
- const getLocalStorageDataFromKey = (key, fallback) => {
+const getLocalStorageDataFromKey = (key, fallback) => {
     const str = localStorage.getItem(key);
     if (!str) return fallback;
     return JSON.parse(str);
@@ -88,19 +88,19 @@ function injectCSS() {
         // Technically I should block the li.queue-tabBar-headerItem above it, but can't do that with just CSS
 
         style.innerHTML =
-        // General rule
-        `.hide-podcasts-enabled .podcast-item {
+            // General rule
+            `.hide-podcasts-enabled .podcast-item {
             display: none !important;
         }`
-        + // Podcasts tab in Your Library page
-        `.hide-podcasts-enabled .queue-tabBar-header a[href="/collection/podcasts"] {
+            + // Podcasts tab in Your Library page
+            `.hide-podcasts-enabled .queue-tabBar-header a[href="/collection/podcasts"] {
             display: none !important;
         }`
-        + // Updated search entry placeholder
-        `.hide-podcasts-enabled .x-searchInput-searchInputInput.main-type-mesto::placeholder {
+            + // Updated search entry placeholder
+            `.hide-podcasts-enabled .x-searchInput-searchInputInput::placeholder {
             color: transparent;
         }
-        .hide-podcasts-enabled .x-searchInput-searchInputInput.main-type-mesto + .${FAKE_PLACEHOLDER_CLASS} {
+        .hide-podcasts-enabled .x-searchInput-searchInputInput + .${FAKE_PLACEHOLDER_CLASS} {
             display: block;
             position: absolute;
             width: 100%;
@@ -115,7 +115,7 @@ function injectCSS() {
             pointer-events: none;
         }
         .${FAKE_PLACEHOLDER_CLASS},
-        .hide-podcasts-enabled .x-searchInput-searchInputInput.main-type-mesto:not([value=""]) + .${FAKE_PLACEHOLDER_CLASS} {
+        .hide-podcasts-enabled .x-searchInput-searchInputInput:not([value=""]) + .${FAKE_PLACEHOLDER_CLASS} {
             display: none;
         }`;
         body.appendChild(style);
@@ -137,8 +137,8 @@ function tagItems() {
 
         // Podcast links in carousels
         const podcastCardLinks = [
-            ...shelf.querySelectorAll('.main-cardHeader-link[href^="/episode"'),
-            ...shelf.querySelectorAll('.main-cardHeader-link[href^="/show"'),
+            ...shelf.querySelectorAll('.main-cardHeader-link[href^="/episode"]'),
+            ...shelf.querySelectorAll('.main-cardHeader-link[href^="/show"]'),
         ];
 
         if (podcastCardLinks.length > 0) {
@@ -169,7 +169,13 @@ function tagItems() {
     const searchEntry = document.querySelector('.x-searchInput-searchInputInput');
     if (searchEntry) {
         console.log('Updating search entry placeholder text');
-        searchEntry.placeholder = "Artists, albums, or songs";
+        const foundPlaceholderEl = document.querySelector(`.x-searchInput-searchInputInput + .${FAKE_PLACEHOLDER_CLASS}`);
+        if (!foundPlaceholderEl) {
+            const fakePlaceholder = document.createElement('label');
+            fakePlaceholder.innerText = 'Artists, albums, or songs';
+            fakePlaceholder.classList.add(FAKE_PLACEHOLDER_CLASS);
+            searchEntry.insertAdjacentElement('afterend', fakePlaceholder);
+        }
     }
 }
 
