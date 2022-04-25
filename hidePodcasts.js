@@ -166,16 +166,10 @@ function tagItems() {
     // }
 
     // Remove mention of podcasts from search entry placeholder
-    const searchEntry = document.querySelector('.x-searchInput-searchInputInput.main-type-mesto');
+    const searchEntry = document.querySelector('.x-searchInput-searchInputInput');
     if (searchEntry) {
         console.log('Updating search entry placeholder text');
-        const foundPlaceholderEl = document.querySelector(`.x-searchInput-searchInputInput.main-type-mesto + .${FAKE_PLACEHOLDER_CLASS}`);
-        if (!foundPlaceholderEl) {
-            const fakePlaceholder = document.createElement('label');
-            fakePlaceholder.innerText = 'Artists, albums, or songs';
-            fakePlaceholder.classList.add(FAKE_PLACEHOLDER_CLASS);
-            searchEntry.insertAdjacentElement('afterend', fakePlaceholder);
-        }
+        searchEntry.placeholder = "Artists, albums, or songs";
     }
 }
 
