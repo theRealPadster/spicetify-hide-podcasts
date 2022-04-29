@@ -105,7 +105,7 @@ function injectCSS() {
  */
 function tagItems() {
 
-    const yourEpisodesInSidebar = document.querySelector('.personal-library[data-id="/collection/episodes"]');
+    const yourEpisodesInSidebar = document.querySelector('a[href="/collection/episodes"]').parentNode;
     if (yourEpisodesInSidebar) yourEpisodesInSidebar.classList.add('podcast-item');
 
     // Remove podcast carousels
