@@ -104,8 +104,7 @@ function injectCSS() {
  * Add our class to any podcast elements
  */
 function tagItems() {
-
-    const yourEpisodesInSidebar = document.querySelector('a[href="/collection/episodes"]').parentNode;
+    const yourEpisodesInSidebar = document.querySelector('a[href="/collection/episodes"]')?.parentElement;
     if (yourEpisodesInSidebar) yourEpisodesInSidebar.classList.add('podcast-item');
 
     // Remove podcast carousels
