@@ -1,17 +1,17 @@
 # spicetify-hide-podcasts
-[Spicetify](https://github.com/khanhas/spicetify-cli) extension to hide podcasts. 
+[Spicetify](https://github.com/spicetify/spicetify-cli) extension to hide podcasts. 
 * Hides podcast carousels on the homepage
 * Hides the podcasts tab on the Your Library page
 * Hides the "Your Episodes" sidebar section
 * Hides the podcasts genre card on the Search page
 * Also removes mention of podcasts in the search entry placeholder text
 ## Install
-Copy `hidePodcasts.js` into your [Spicetify](https://github.com/khanhas/spicetify-cli) extensions directory:
+Copy `hidePodcasts.js` into your [Spicetify](https://github.com/spicetify/spicetify-cli) extensions directory:
 | **Platform** | **Path**                                                                               |
 |------------|------------------------------------------------------------------------------------------|
 | **Linux**      | `~/.config/spicetify/Extensions` or `$XDG_CONFIG_HOME/.config/spicetify/Extensions/` |
 | **MacOS**      | `~/.config/spicetify/Extensions` or `$SPICETIFY_CONFIG/Extensions`                   |
-| **Windows**    | `%userprofile%/.spicetify/Extensions/`                                               |
+| **Windows**    | `%appdata%/spicetify/Extensions/`                                               |
 
 After putting the extension file into the correct folder, run the following command to install the extension:
 ```
@@ -36,7 +36,7 @@ spicetify apply
 ```
 
 ## Usage
-Toggle in the Profile menu.
+Toggle in the profile menu. Aggressive mode constantly watches the page for changes instead of stopping once initial load is complete. This should help if you face issues with podcast content loading in later on. 
 
 [![Screenshot](screenshot.png)](https://raw.githubusercontent.com/theRealPadster/spicetify-hide-podcasts/main/screenshot.png)
 

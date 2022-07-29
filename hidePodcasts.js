@@ -6,7 +6,8 @@
 
 /// <reference path="../spicetify-cli/globals.d.ts" />
 
-const SETTINGS_KEY = 'HidePodcastsMode';
+const SETTINGS_KEY = 'HidePodcastsEnabled';
+const AGGRESSIVE_MODE_KEY = 'HidePodcastsAggressiveMode';
 
 /**
  * Get localStorage data (or fallback value), given a key
@@ -30,14 +31,23 @@ const getLocalStorageDataFromKey = (key, fallback) => {
     }
 
     let isEnabled = getLocalStorageDataFromKey(SETTINGS_KEY, true);
+    let aggressiveMode = getLocalStorageDataFromKey(AGGRESSIVE_MODE_KEY, false);
 
     // Add menu item and menu click handler
-    new Menu.Item('Hide podcasts', isEnabled, (self) => {
-        isEnabled = !isEnabled;
-        localStorage.setItem(SETTINGS_KEY, isEnabled);
-        self.setState(isEnabled);
-        apply();
-    }).register();
+    new Menu.SubMenu('Hide podcasts', [
+        new Menu.Item('Enabled', isEnabled, (self) => {
+            isEnabled = !isEnabled;
+            localStorage.setItem(SETTINGS_KEY, isEnabled);
+            self.setState(isEnabled);
+            apply();
+        }),
+        new Menu.Item('Aggressive mode', aggressiveMode, (self) => {
+            aggressiveMode = !aggressiveMode;
+            localStorage.setItem(AGGRESSIVE_MODE_KEY, aggressiveMode);
+            self.setState(aggressiveMode);
+            location.reload();
+        }),
+    ]).register();
 
     // Run the app logic
     function apply() {
@@ -57,7 +67,7 @@ const getLocalStorageDataFromKey = (key, fallback) => {
             if (app) {
                 console.log(pathname, app);
                 apply();
-                observer.disconnect();
+                if (!aggressiveMode) observer.disconnect();
             }
         })
         // I need to include subtree because the Search page only has one child and the content is under there
@@ -77,7 +87,7 @@ const getLocalStorageDataFromKey = (key, fallback) => {
  * Inject the css that allows us to toggle podcasts
  */
 function injectCSS() {
-    const body = document.querySelector('body');
+    const body = document.body;
 
     // Inject style if it doesnt have it already
     if (!body.classList.contains('hide-podcasts--style-injected')) {
@@ -154,5 +164,5 @@ function tagItems() {
  * @param {boolean} isEnabled If we should hide podcasts or not
  */
 function setState(isEnabled) {
-    document.querySelector('body').classList.toggle('hide-podcasts-enabled', isEnabled);
+    document.body.classList.toggle('hide-podcasts-enabled', isEnabled);
 }
