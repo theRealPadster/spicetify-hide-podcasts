@@ -4,8 +4,7 @@
 * Hides the podcasts tab on the Your Library page
 * Hides the "Your Episodes" sidebar section
 * Hides the podcasts genre card on the Search page
-* Also removes mention of podcasts in the search entry placeholder text
-## Install
+## ⚙️ Install
 Copy `hidePodcasts.js` into your [Spicetify](https://github.com/spicetify/spicetify-cli) extensions directory:
 | **Platform** | **Path**                                                                               |
 |------------|------------------------------------------------------------------------------------------|
@@ -35,12 +34,17 @@ Then run:
 spicetify apply
 ```
 
-## Usage
+## 🪄  Usage
 Toggle in the profile menu. Aggressive mode constantly watches the page for changes instead of stopping once initial load is complete. This should help if you face issues with podcast content loading in later on. 
 
 [![Screenshot](screenshot.png)](https://raw.githubusercontent.com/theRealPadster/spicetify-hide-podcasts/main/screenshot.png)
 
-## More
+## 🌎 Translations
+I've added translations support! If you use Spotify in a non-English language and are getting the "hide podcasts" menu item etc in English, you can get your language added by: 
+- Submitting a pull request with a new copy of `src/locales/en.json` but named after your locale, with your translated content inside. 
+- Making a [new issue](https://github.com/theRealPadster/spicetify-hide-podcasts/issues/new?template=new_translation.md) with the relevant information. 
+
+##  More
 🌟 Like it? Gimme some love!    
 [![Github Stars badge](https://img.shields.io/github/stars/theRealPadster/spicetify-hide-podcasts?logo=github&style=social)](https://github.com/theRealPadster/spicetify-hide-podcasts/)
 

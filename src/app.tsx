@@ -2,13 +2,16 @@
 // AUTHOR: theRealPadster
 // DESCRIPTION: Hide podcasts. Toggle in Profile menu.
 
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="./types/spicetify.d.ts" />
 
-import i18n from "i18next";
-import en from "./locales/en.json";
-import fr from "./locales/fr.json";
-import { initReactI18next } from "react-i18next";
-import LanguageDetector from "i18next-browser-languagedetector";
+import i18n from 'i18next';
+import en from './locales/en.json';
+import fr from './locales/fr.json';
+import { initReactI18next } from 'react-i18next';
+import LanguageDetector from 'i18next-browser-languagedetector';
+
+import { getLocalStorageDataFromKey } from './util';
 
 i18n
   .use(initReactI18next) // passes i18n down to react-i18next
@@ -20,10 +23,9 @@ i18n
       fr,
     },
     detection: {
-      order: [ "navigator", "htmlTag" ],
+      order: [ 'navigator', 'htmlTag' ],
     },
-    // lng: "en", // if you're using a language detector, do not define the lng option
-    fallbackLng: "en",
+    fallbackLng: 'en',
     interpolation: {
       escapeValue: false, // react already safes from xss => https://www.i18next.com/translation-function/interpolation#unescape
     },
@@ -31,28 +33,6 @@ i18n
 
 const SETTINGS_KEY = 'HidePodcastsEnabled';
 const AGGRESSIVE_MODE_KEY = 'HidePodcastsAggressiveMode';
-
-/**
- * Get localStorage data (or fallback value), given a key
- * @param key The localStorage key
- * @param fallback Fallback value if the key is not found
- * @returns The data stored in localStorage, or the fallback value if not found
- */
-const getLocalStorageDataFromKey = (key: string, fallback?: unknown) => {
-  const data = localStorage.getItem(key);
-
-  if (data) {
-    try {
-      // If it's json parse it
-      return JSON.parse(data);
-    } catch (err) {
-      // If it's just a string or something
-      return data;
-    }
-  } else {
-    return fallback;
-  }
-};
 
 /**
  * Inject the css that allows us to toggle podcasts
@@ -79,7 +59,7 @@ const injectCSS = () => {
     body.appendChild(style);
     body.classList.add('hide-podcasts--style-injected');
   }
-}
+};
 
 /**
  * Add our class to any podcast elements
@@ -120,14 +100,7 @@ const tagItems = () => {
   //     console.log(`Tagging libraryPodcastsTab: ${libraryPodcastsTab}`);
   //     libraryPodcastsTab.classList.add('podcast-item');
   // }
-
-  // Remove mention of podcasts from search entry placeholder
-  const searchEntry = document.querySelector('.x-searchInput-searchInputInput');
-  if (searchEntry) {
-    console.log('Updating search entry placeholder text');
-    searchEntry.setAttribute('placeholder', i18n.t('searchPlaceholder'));
-  }
-}
+};
 
 /**
  * Add/remove the body class that hides podcasts
@@ -135,16 +108,14 @@ const tagItems = () => {
  */
 const setState = (isEnabled: boolean) => {
   document.body.classList.toggle('hide-podcasts-enabled', isEnabled);
-}
+};
 
-// ====================
-// ===== Main app =====
-// ====================
-
+/********************
+ * Main app
+ ********************/
 async function main() {
   const { t } = i18n;
 
-  // TODO: The iffe was cleaner...
   let { Player, Menu, Platform } = Spicetify;
   let mainElem = document.querySelector('.main-view-container__scroll-node-child');
 
@@ -156,18 +127,6 @@ async function main() {
     Platform = Spicetify.Platform;
     mainElem = document.querySelector('.main-view-container__scroll-node-child');
   }
-
-  mainElem.addEventListener('click', tagItems);
-
-  // const { Player, Menu, Platform } = Spicetify;
-  // const main = document.querySelector('.main-view-container__scroll-node-child');
-  // if (!(Player && Menu && Platform && mainElem)) {
-  //     // console.log('Not ready, waiting...');
-  //     setTimeout(HidePodcasts, 1000);
-  //     return;
-  // }
-
-  console.log('! ========= hidePodcasts.tsx ========= !');
 
   let isEnabled = getLocalStorageDataFromKey(SETTINGS_KEY, true);
   let aggressiveMode = getLocalStorageDataFromKey(AGGRESSIVE_MODE_KEY, false);
@@ -196,7 +155,7 @@ async function main() {
   }
 
   // Listen to page navigation and re-apply when DOM is ready
-  function listenThenApply(pathname) {
+  function listenThenApply(pathname: string) {
     const observer = new MutationObserver(function appchange() {
       if (!mainElem) return; // ts protection
 
@@ -220,7 +179,7 @@ async function main() {
   listenThenApply(Platform.History.location.pathname);
 
   // Listen for page navigation events
-  Platform.History.listen(({ pathname }) => {
+  Platform.History.listen(({ pathname }: { pathname: string }) => {
     listenThenApply(pathname);
   });
 }

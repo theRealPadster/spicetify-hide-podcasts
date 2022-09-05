@@ -3,7 +3,6 @@
     "menuTitle": "Hide podcasts",
     "enabled": "Enabled",
     "aggressiveMode": "Aggressive mode",
-    "searchPlaceholder": "What do you want to listen to?",
     "searchPageShelfAriaLabel": "Browse all"
   }
 }
