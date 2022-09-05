@@ -5,7 +5,7 @@ body:
   - type: input
     id: language
     attributes:
-      label: What language are you adding
+      label: What language are you adding?
       description: What it's called in the Spotify settings
       placeholder: e.g. Latin American Spanish
     validations:
