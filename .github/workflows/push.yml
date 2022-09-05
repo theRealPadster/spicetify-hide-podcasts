@@ -1,0 +1,28 @@
+name: Push new version to dist branch
+on:
+  push:
+    branches:
+      - main
+  # pull_request:
+  # branches:
+  # - main
+
+jobs:
+  deploy:
+    name: Push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2.4.0
+      - name: Use Node.js
+        uses: actions/setup-node@v2.5.1
+        with:
+          node-version: 16.x
+      - name: yarn install and build
+        run: |
+          yarn
+          yarn build:local
+      - name: Push new version
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Built new version
