@@ -2,8 +2,32 @@
 // AUTHOR: theRealPadster
 // DESCRIPTION: Hide podcasts. Toggle in Profile menu.
 
-// include types
 /// <reference path="./types/spicetify.d.ts" />
+
+import i18n from "i18next";
+import en from "./locales/en.json";
+import fr from "./locales/fr.json";
+import { initReactI18next } from "react-i18next";
+import LanguageDetector from "i18next-browser-languagedetector";
+
+i18n
+  .use(initReactI18next) // passes i18n down to react-i18next
+  .use(LanguageDetector)
+  .init({
+    // the translations
+    resources: {
+      en,
+      fr,
+    },
+    detection: {
+      order: [ "navigator", "htmlTag" ],
+    },
+    // lng: "en", // if you're using a language detector, do not define the lng option
+    fallbackLng: "en",
+    interpolation: {
+      escapeValue: false, // react already safes from xss => https://www.i18next.com/translation-function/interpolation#unescape
+    },
+  });
 
 const SETTINGS_KEY = 'HidePodcastsEnabled';
 const AGGRESSIVE_MODE_KEY = 'HidePodcastsAggressiveMode';
@@ -101,7 +125,7 @@ const tagItems = () => {
   const searchEntry = document.querySelector('.x-searchInput-searchInputInput');
   if (searchEntry) {
     console.log('Updating search entry placeholder text');
-    searchEntry.setAttribute('placeholder', 'Artists, albums, or songs');
+    searchEntry.setAttribute('placeholder', i18n.t('searchPlaceholder'));
   }
 }
 
@@ -118,6 +142,8 @@ const setState = (isEnabled: boolean) => {
 // ====================
 
 async function main() {
+  const { t } = i18n;
+
   // TODO: The iffe was cleaner...
   let { Player, Menu, Platform } = Spicetify;
   let mainElem = document.querySelector('.main-view-container__scroll-node-child');
@@ -147,14 +173,14 @@ async function main() {
   let aggressiveMode = getLocalStorageDataFromKey(AGGRESSIVE_MODE_KEY, false);
 
   // Add menu item and menu click handler
-  new Menu.SubMenu('Hide podcasts', [
-    new Menu.Item('Enabled', isEnabled, (self) => {
+  new Menu.SubMenu(t('menuTitle'), [
+    new Menu.Item(t('enabled'), isEnabled, (self) => {
       isEnabled = !isEnabled;
       localStorage.setItem(SETTINGS_KEY, isEnabled);
       self.setState(isEnabled);
       apply();
     }),
-    new Menu.Item('Aggressive mode', aggressiveMode, (self) => {
+    new Menu.Item(t('aggressiveMode'), aggressiveMode, (self) => {
       aggressiveMode = !aggressiveMode;
       localStorage.setItem(AGGRESSIVE_MODE_KEY, aggressiveMode);
       self.setState(aggressiveMode);
@@ -177,7 +203,7 @@ async function main() {
       // Look for specific section on search page, or any section on other pages
       const app = pathname === '/search'
         // TODO: This doesn't work when not English
-        ? mainElem.querySelector('#searchPage .main-shelf-shelf[aria-label="Browse all"]')
+        ? mainElem.querySelector(`#searchPage .main-shelf-shelf[aria-label="${t('searchPageShelfAriaLabel')}"]`)
         : mainElem.querySelector('section');
 
       if (app) {
