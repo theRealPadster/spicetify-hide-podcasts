@@ -40,9 +40,9 @@ Toggle in the profile menu. Aggressive mode constantly watches the page for chan
 [![Screenshot](screenshot.png)](https://raw.githubusercontent.com/theRealPadster/spicetify-hide-podcasts/main/screenshot.png)
 
 ## 🌎 Translations
-I've added translations support! If you use Spotify in a non-English language and are getting the "hide podcasts" menu item etc in English, you can get your language added by: 
+I've added translations support! If you use Spotify in a non-English language and are getting the "hide podcasts" menu item etc in English, you can get your language added by either: 
 - Submitting a pull request with a new copy of `src/locales/en.json` but named after your locale, with your translated content inside. 
-- Making a [new issue](https://github.com/theRealPadster/spicetify-hide-podcasts/issues/new?template=new_translation.yml) with the relevant information. 
+- Or making a [new issue](https://github.com/theRealPadster/spicetify-hide-podcasts/issues/new?template=new_translation.yml) with the relevant information. 
 
 ##  More
 🌟 Like it? Gimme some love!    
