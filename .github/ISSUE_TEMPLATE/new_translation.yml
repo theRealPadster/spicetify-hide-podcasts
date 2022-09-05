@@ -2,42 +2,44 @@ name: 🌎 New translation
 description: Add a new translation
 labels: [i18n]
 body:
-  - type: text
+  - type: input
     id: language
     attributes:
       label: What language are you adding
-      description: What it's called in the Spotify settings (e.g. Latin American Spanish)
+      description: What it's called in the Spotify settings
+      placeholder: e.g. Latin American Spanish
     validations:
       required: true
 
-  - type: text
+  - type: input
     id: menu-title
     attributes:
       label: Menu title
-      description: e.g. "Hide podcasts"
+      placeholder: e.g. "Hide podcasts"
     validations:
       required: true
 
-  - type: text
+  - type: input
     id: enabled
     attributes:
       label: Enabled
-      description: e.g. "Enabled"
+      placeholder: e.g. "Enabled"
     validations:
       required: true
 
-  - type: text
+  - type: input
     id: aggressive-mode
     attributes:
       label: Aggressive mode
-      description: e.g. "Aggressive mode"
+      placeholder: e.g. "Aggressive mode"
     validations:
       required: true
 
-  - type: text
+  - type: input
     id: search-page-shelf-label
     attributes:
       label: Search page shelf label
-      description: e.g. "Browse all". The search page shelf label is the title of the genre browser on the search page. It is used to detect when that page has loaded.
+      description: The search page shelf label is the title of the genre browser on the search page. It is used to detect when that page has loaded.
+      placeholder: e.g. "Browse all"
     validations:
       required: true
