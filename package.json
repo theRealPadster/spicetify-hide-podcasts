@@ -14,7 +14,7 @@
   "author": "theRealPadster",
   "scripts": {
     "build": "spicetify-creator",
-    "build-local": "spicetify-creator --out=. --minify",
+    "build:local": "spicetify-creator --out=. --minify",
     "watch": "spicetify-creator --watch"
   },
   "license": "GPL-3.0",
