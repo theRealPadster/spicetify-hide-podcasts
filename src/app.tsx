@@ -2,7 +2,8 @@
 // AUTHOR: theRealPadster
 // DESCRIPTION: Hide podcasts. Toggle in Profile menu.
 
-import Spicetify from './types/spicetify';
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
+/// <reference path="./types/spicetify.d.ts" />
 
 import i18n from 'i18next';
 import en from './locales/en.json';

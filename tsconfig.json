@@ -11,7 +11,7 @@
     "skipLibCheck": true
   },
   "include": [
-    "src/**/*"
+    "src/app.tsx"
   ],
   "exclude": [
     "**/*.js"
