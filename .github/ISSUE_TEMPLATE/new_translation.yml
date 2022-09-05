@@ -1,0 +1,43 @@
+name: 🌎 New translation
+description: Add a new translation
+labels: [i18n]
+body:
+  - type: text
+    id: language
+    attributes:
+      label: What language are you adding
+      description: What it's called in the Spotify settings (e.g. Latin American Spanish)
+    validations:
+      required: true
+
+  - type: text
+    id: menu-title
+    attributes:
+      label: Menu title
+      description: e.g. "Hide podcasts"
+    validations:
+      required: true
+
+  - type: text
+    id: enabled
+    attributes:
+      label: Enabled
+      description: e.g. "Enabled"
+    validations:
+      required: true
+
+  - type: text
+    id: aggressive-mode
+    attributes:
+      label: Aggressive mode
+      description: e.g. "Aggressive mode"
+    validations:
+      required: true
+
+  - type: text
+    id: search-page-shelf-label
+    attributes:
+      label: Search page shelf label
+      description: e.g. "Browse all". The search page shelf label is the title of the genre browser on the search page. It is used to detect when that page has loaded.
+    validations:
+      required: true
