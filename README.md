@@ -4,7 +4,6 @@
 * Hides the podcasts tab on the Your Library page
 * Hides the "Your Episodes" sidebar section
 * Hides the podcasts genre card on the Search page
-* Also removes mention of podcasts in the search entry placeholder text
 ## Install
 Copy `hidePodcasts.js` into your [Spicetify](https://github.com/spicetify/spicetify-cli) extensions directory:
 | **Platform** | **Path**                                                                               |
