@@ -71,6 +71,11 @@ const injectCSS = () => {
 const tagItems = () => {
   const yourEpisodesInSidebar = document.querySelector('a[href="/collection/episodes"]')?.parentElement;
   if (yourEpisodesInSidebar) yourEpisodesInSidebar.classList.add('podcast-item');
+  
+  // remove podcast shortcuts on home
+  document.querySelectorAll('.view-homeShortcutsGrid-name a[href^="/episode"]').forEach((selected) => {
+    selected.parentNode.parentNode.parentNode.parentNode.parentNode.classList.add('podcast-item');
+  })
 
   // Remove podcast carousels
   const shelves = document.querySelectorAll('.main-shelf-shelf');
