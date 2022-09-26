@@ -75,7 +75,7 @@ const tagItems = () => {
   // remove podcast shortcuts on home
   document.querySelectorAll('.view-homeShortcutsGrid-name a[href^="/episode"]').forEach((selected) => {
     selected.parentNode.parentNode.parentNode.parentNode.parentNode.classList.add('podcast-item');
-  })
+  });
 
   // Remove podcast carousels
   const shelves = document.querySelectorAll('.main-shelf-shelf');
@@ -127,14 +127,16 @@ async function main() {
 
   let { Player, Menu, Platform } = Spicetify;
   let mainElem = document.querySelector('.main-view-container__scroll-node-child');
+  let shortcutsElem = document.querySelector('.view-homeShortcutsGrid-grid');
 
-  while (!Player || !Menu || !Platform || !mainElem) {
+  while (!Player || !Menu || !Platform || !mainElem || !shortcutsElem) {
     // Wait for Spicetify to load
     await new Promise(resolve => setTimeout(resolve, 100));
     Player = Spicetify.Player;
     Menu = Spicetify.Menu;
     Platform = Spicetify.Platform;
     mainElem = document.querySelector('.main-view-container__scroll-node-child');
+    shortcutsElem = document.querySelector('.view-homeShortcutsGrid-grid');
   }
 
   let isEnabled = getLocalStorageDataFromKey(SETTINGS_KEY, true);
