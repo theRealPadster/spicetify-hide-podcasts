@@ -10,6 +10,7 @@ import en from './locales/en.json';
 import fr from './locales/fr.json';
 import de from './locales/de.json';
 import it from './locales/it.json';
+import ptBr from './locales/pt-BR.json';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
@@ -25,6 +26,7 @@ i18n
       fr,
       de,
       it,
+      'pt-BR': ptBr,
     },
     detection: {
       order: [ 'navigator', 'htmlTag' ],
