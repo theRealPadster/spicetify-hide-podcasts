@@ -11,6 +11,7 @@ import fr from './locales/fr.json';
 import de from './locales/de.json';
 import it from './locales/it.json';
 import ptBr from './locales/pt-BR.json';
+import plPl from './locales/pl-PL.json';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
@@ -27,6 +28,7 @@ i18n
       de,
       it,
       'pt-BR': ptBr,
+      'pl-PL': plPl,
     },
     detection: {
       order: [ 'navigator', 'htmlTag' ],
