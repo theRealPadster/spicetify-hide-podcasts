@@ -15,7 +15,7 @@ import plPl from './locales/pl-PL.json';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
-import { getLocalStorageDataFromKey } from './util';
+import { getLocalStorageDataFromKey, getPageLoadedSelector } from './util';
 
 i18n
   .use(initReactI18next) // passes i18n down to react-i18next
@@ -78,12 +78,15 @@ const tagItems = () => {
 
   // Remove podcast carousels
   const shelves = document.querySelectorAll('.main-shelf-shelf');
+  // console.log({ shelves });
   shelves.forEach(shelf => {
     // Podcast links in carousels
     const podcastCardLinks = [
       ...shelf.querySelectorAll('.main-cardHeader-link[href^="/episode"]'),
       ...shelf.querySelectorAll('.main-cardHeader-link[href^="/show"]'),
     ];
+
+    // console.log({ podcastCardLinks });
 
     if (podcastCardLinks.length > 0) {
       const title = shelf.getAttribute('aria-label');
@@ -136,6 +139,8 @@ async function main() {
     mainElem = document.querySelector('.main-view-container__scroll-node-child');
   }
 
+  console.log('HidePodcasts: Loaded');
+
   let isEnabled = getLocalStorageDataFromKey(SETTINGS_KEY, true);
   let aggressiveMode = getLocalStorageDataFromKey(AGGRESSIVE_MODE_KEY, false);
 
@@ -165,13 +170,12 @@ async function main() {
   // Listen to page navigation and re-apply when DOM is ready
   function listenThenApply(pathname: string) {
     const observer = new MutationObserver(function appchange() {
+      // console.log('HidePodcasts: DOM changed');
       if (!mainElem) return; // ts protection
 
-      // Look for specific section on search page, or any section on other pages
-      const app = pathname === '/search'
-        // TODO: This doesn't work when not English
-        ? mainElem.querySelector(`#searchPage .main-shelf-shelf[aria-label="${t('searchPageShelfAriaLabel')}"]`)
-        : mainElem.querySelector('section');
+      // Get the relevant selector to verify the current page has loaded
+      const appLoadedSelector = getPageLoadedSelector(t, pathname);
+      const app = mainElem.querySelector(appLoadedSelector);
 
       if (app) {
         console.log(pathname, app);

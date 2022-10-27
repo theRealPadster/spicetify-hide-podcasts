@@ -19,3 +19,19 @@ export const getLocalStorageDataFromKey = (key: string, fallback?: unknown) => {
     return fallback;
   }
 };
+
+/**
+ * Get the relevant selector to verify the current page has loaded.
+ * @param t The string translation function
+ * @param pathname Spotify pathname
+ */
+export const getPageLoadedSelector = (t:(s: string) => string, pathname: string) => {
+  switch (pathname) {
+  case '/search':
+    return `#searchPage .main-shelf-shelf[aria-label="${t('searchPageShelfAriaLabel')}"]`;
+  case '/':
+    return '.main-shelf-shelf';
+  default:
+    return 'section';
+  }
+};
