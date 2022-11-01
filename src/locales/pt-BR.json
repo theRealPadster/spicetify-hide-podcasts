@@ -1,8 +1,8 @@
 {
-    "translation": {
-      "menuTitle": "Esconder podcasts",
-      "enabled": "Habilitado",
-      "aggressiveMode": "Modo agressivo",
-      "searchPageShelfAriaLabel": "Navegar por todas as seções"
-    }
+  "translation": {
+    "menuTitle": "Esconder podcasts",
+    "enabled": "Habilitado",
+    "aggressiveMode": "Modo agressivo",
+    "searchPageShelfAriaLabel": "Navegar por todas as seções"
   }
+}
