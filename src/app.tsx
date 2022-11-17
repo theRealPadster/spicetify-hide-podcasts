@@ -13,6 +13,7 @@ import itLocale from './locales/it.json';
 import ptBrLocale from './locales/pt-BR.json';
 import plPlLocale from './locales/pl-PL.json';
 import trLocale from './locales/tr.json';
+import zhCNLocale from './locales/zh-CN.json';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
@@ -31,6 +32,7 @@ i18n
       'pt-BR': ptBrLocale,
       'pl-PL': plPlLocale,
       tr: trLocale,
+      'zh-CN': zhCNLocale,
     },
     detection: {
       order: [ 'navigator', 'htmlTag' ],
