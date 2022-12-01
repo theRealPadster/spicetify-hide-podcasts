@@ -216,7 +216,7 @@
   dependencies:
     source-map "^0.6.1"
 
-"@typescript-eslint/eslint-plugin@^5.38.1":
+"@typescript-eslint/eslint-plugin@^5.45.0":
   version "5.45.0"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/eslint-plugin/-/eslint-plugin-5.45.0.tgz#ffa505cf961d4844d38cfa19dcec4973a6039e41"
   integrity sha512-CXXHNlf0oL+Yg021cxgOdMHNTXD17rHkq7iW6RFHoybdFgQBjU3yIXhhcPpGwr1CjZlo6ET8C6tzX5juQoXeGA==
@@ -231,7 +231,7 @@
     semver "^7.3.7"
     tsutils "^3.21.0"
 
-"@typescript-eslint/parser@^5.38.1":
+"@typescript-eslint/parser@^5.45.0":
   version "5.45.0"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/parser/-/parser-5.45.0.tgz#b18a5f6b3cf1c2b3e399e9d2df4be40d6b0ddd0e"
   integrity sha512-brvs/WSM4fKUmF5Ot/gEve6qYiCMjm6w4HkHPfS6ZNmxTS0m0iNN4yOChImaCkqc1hRwFGqUyanMXuGal6oyyQ==
@@ -805,7 +805,7 @@ escape-string-regexp@^4.0.0:
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-4.0.0.tgz#14ba83a5d373e3d311e5afca29cf5bfad965bf34"
   integrity sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==
 
-eslint-plugin-react@^7.31.8:
+eslint-plugin-react@^7.31.11:
   version "7.31.11"
   resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-7.31.11.tgz#011521d2b16dcf95795df688a4770b4eaab364c8"
   integrity sha512-TTvq5JsT5v56wPa9OYHzsrOlHzKZKjV+aLgS+55NJP/cuzdiQPC7PfYoUjMoxlffKtvijpk7vA/jmuqRb9nohw==
@@ -859,7 +859,7 @@ eslint-visitor-keys@^3.3.0:
   resolved "https://registry.yarnpkg.com/eslint-visitor-keys/-/eslint-visitor-keys-3.3.0.tgz#f6480fa6b1f30efe2d1968aa8ac745b862469826"
   integrity sha512-mQ+suqKJVyeuwGYHAdjMFqjCyfl8+Ldnxuyp3ldiMBFKkvytrXUZWaiPCEav8qDHKty44bD+qV1IP4T+w+xXRA==
 
-eslint@^8.24.0:
+eslint@^8.28.0:
   version "8.28.0"
   resolved "https://registry.yarnpkg.com/eslint/-/eslint-8.28.0.tgz#81a680732634677cc890134bcdd9fdfea8e63d6e"
   integrity sha512-S27Di+EVyMxcHiwDrFzk8dJYAaD+/5SoWKxL1ri/71CRHsnJnRDPNt2Kzj24+MT9FDupf4aqqyqPrvI8MvQ4VQ==
@@ -1243,7 +1243,7 @@ html-parse-stringify@^3.0.1:
   dependencies:
     void-elements "3.1.0"
 
-husky@^8.0.1:
+husky@^8.0.2:
   version "8.0.2"
   resolved "https://registry.yarnpkg.com/husky/-/husky-8.0.2.tgz#5816a60db02650f1f22c8b69b928fd6bcd77a236"
   integrity sha512-Tkv80jtvbnkK3mYWxPZePGFpQ/tT3HNSs/sasF9P2YfkMezDl3ON37YN6jUUI4eTg5LcyVynlb6r4eyvOmspvg==
@@ -2286,7 +2286,7 @@ type-fest@^0.20.2:
   resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-0.20.2.tgz#1bf207f4b28f91583666cb5fbd327887301cd5f4"
   integrity sha512-Ne+eE4r0/iWnpAxD852z3A+N0Bt5RN//NjJwRd2VFHEmrywxf5vsZlh4R6lixl6B+wz/8d+maTSAkN1FIkI3LQ==
 
-typescript@^4.8.4:
+typescript@^4.9.3:
   version "4.9.3"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.9.3.tgz#3aea307c1746b8c384435d8ac36b8a2e580d85db"
   integrity sha512-CIfGzTelbKNEnLpLdGFgdyKhG23CKdKgQPOBc+OUNrkJ2vr+KSzsSV5kq5iWhEQbok+quxgGzrAtGWCyU7tHnA==
