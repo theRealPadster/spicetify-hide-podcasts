@@ -25,14 +25,20 @@
   "devDependencies": {
     "@types/react": "^18.0.18",
     "@types/react-dom": "^18.0.6",
-    "@typescript-eslint/eslint-plugin": "^5.45.0",
-    "@typescript-eslint/parser": "^5.45.0",
+
+ 
+
+
+
+    "@typescript-eslint/eslint-plugin": "^5.47.1",
+    "@typescript-eslint/parser": "^5.47.1",
     "eslint": "^8.31.0",
+
     "eslint-plugin-react": "^7.31.11",
     "husky": "^8.0.2",
     "i18next": "^22.4.6",
     "i18next-browser-languagedetector": "^7.0.1",
-    "react-i18next": "^12.0.0",
+    "react-i18next": "^12.1.1",
     "spicetify-creator": "^1.0.11",
     "typescript": "^4.9.3"
   }
