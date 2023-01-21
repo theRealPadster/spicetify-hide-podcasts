@@ -12,6 +12,7 @@ import deLocale from './locales/de.json';
 import itLocale from './locales/it.json';
 import ptBrLocale from './locales/pt-BR.json';
 import plPlLocale from './locales/pl-PL.json';
+import ruLocale from './locales/ru.json';
 import trLocale from './locales/tr.json';
 import zhCNLocale from './locales/zh-CN.json';
 import { initReactI18next } from 'react-i18next';
@@ -31,6 +32,7 @@ i18n
       it: itLocale,
       'pt-BR': ptBrLocale,
       'pl-PL': plPlLocale,
+      ru: ruLocale,
       tr: trLocale,
       'zh-CN': zhCNLocale,
     },
