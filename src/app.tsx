@@ -70,7 +70,8 @@ const injectCSS = () => {
       `.hide-podcasts-enabled .queue-tabBar-header a[href="/collection/podcasts"] {
           display: none !important;
         }`;
-    body.appendChild(style);
+    style.className = 'hide-podcasts--style';
+    document.head.appendChild(style);
     body.classList.add('hide-podcasts--style-injected');
   }
 };
