@@ -6,6 +6,7 @@
 /// <reference path="./types/spicetify.d.ts" />
 
 import i18n from 'i18next';
+import caLocale from './locales/ca.json';
 import enLocale from './locales/en.json';
 import frLocale from './locales/fr.json';
 import deLocale from './locales/de.json';
@@ -26,6 +27,7 @@ i18n
   .init({
     // the translations
     resources: {
+      ca: caLocale,
       en: enLocale,
       fr: frLocale,
       de: deLocale,
