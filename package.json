@@ -18,6 +18,7 @@
     "watch": "spicetify-creator --watch",
     "lint": "eslint --fix src",
     "lint:ci": "eslint src",
+    "type-check": "tsc --noEmit",
     "prepare": "husky install"
   },
   "license": "GPL-3.0",
