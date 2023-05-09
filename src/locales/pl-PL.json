@@ -1,8 +1,12 @@
 {
   "translation": {
-    "menuTitle": "Schowaj podcasty",
-    "enabled": "Włączony",
-    "aggressiveMode": "Tryb agresywny",
-    "searchPageShelfAriaLabel": "Wyszukaj wszystkie"
+    "menu": {
+      "title": "Schowaj podcasty",
+      "enabled": "Włączony",
+      "aggressiveMode": "Tryb agresywny"
+    },
+    "search": {
+      "browseAllShelfAriaLabel": "Wyszukaj wszystkie"
+    }
   }
 }

@@ -50,9 +50,7 @@ i18n
 const SETTINGS_KEY = 'HidePodcastsEnabled';
 const AGGRESSIVE_MODE_KEY = 'HidePodcastsAggressiveMode';
 
-/**
- * Inject the css that allows us to toggle podcasts
- */
+/** Inject the css that allows us to toggle podcasts */
 const injectCSS = () => {
   const body = document.body;
 
@@ -64,24 +62,22 @@ const injectCSS = () => {
     // Technically I should block the li.queue-tabBar-headerItem above it, but can't do that with just CSS
 
     style.innerHTML =
-      // General rule
+      // General rules
       `.hide-podcasts-enabled .podcast-item {
-          display: none !important;
-        }`
+        display: none !important;
+      }`
       + // Podcasts tab in Your Library page
       `.hide-podcasts-enabled .queue-tabBar-header a[href="/collection/podcasts"] {
-          display: none !important;
-        }`;
+        display: none !important;
+      }`;
     style.className = 'hide-podcasts--style';
     document.head.appendChild(style);
     body.classList.add('hide-podcasts--style-injected');
   }
 };
 
-/**
- * Add our class to any podcast elements
- */
-const tagItems = () => {
+/** Add our class to any podcast elements */
+const tagPodcasts = () => {
   const yourEpisodesInSidebar = document.querySelector('a[href="/collection/episodes"]')?.parentElement;
   if (yourEpisodesInSidebar) yourEpisodesInSidebar.classList.add('podcast-item');
 
@@ -110,16 +106,6 @@ const tagItems = () => {
     console.log(`Tagging browsePodcastsCard: ${browsePodcastsCard}`);
     browsePodcastsCard.classList.add('podcast-item');
   }
-
-  // Remove podcast card from Your Library page
-  // TODO: I changed this to just use CSS since the element resets when it goes in/out of overflow menu
-  // let libraryPodcastsTab = doc.body.querySelector('.queue-tabBar-header a[href="/collection/podcasts"]');
-  // if (libraryPodcastsTab) {
-  //     // Find the actual li tag
-  //     libraryPodcastsTab = libraryPodcastsTab.closest('.queue-tabBar-headerItem');
-  //     console.log(`Tagging libraryPodcastsTab: ${libraryPodcastsTab}`);
-  //     libraryPodcastsTab.classList.add('podcast-item');
-  // }
 };
 
 /**
@@ -148,20 +134,20 @@ async function main() {
     mainElem = document.querySelector('.main-view-container__scroll-node-child');
   }
 
-  console.log('HidePodcasts: Loaded');
+  console.debug('HidePodcasts: Loaded');
 
   let isEnabled = getLocalStorageDataFromKey(SETTINGS_KEY, true);
   let aggressiveMode = getLocalStorageDataFromKey(AGGRESSIVE_MODE_KEY, false);
 
   // Add menu item and menu click handler
-  new Menu.SubMenu(t('menuTitle'), [
-    new Menu.Item(t('enabled'), isEnabled, (self) => {
+  new Menu.SubMenu(t('menu.title'), [
+    new Menu.Item(t('menu.enabled'), isEnabled, (self) => {
       isEnabled = !isEnabled;
       localStorage.setItem(SETTINGS_KEY, isEnabled);
       self.setState(isEnabled);
       apply();
     }),
-    new Menu.Item(t('aggressiveMode'), aggressiveMode, (self) => {
+    new Menu.Item(t('menu.aggressiveMode'), aggressiveMode, (self) => {
       aggressiveMode = !aggressiveMode;
       localStorage.setItem(AGGRESSIVE_MODE_KEY, aggressiveMode);
       self.setState(aggressiveMode);
@@ -173,7 +159,7 @@ async function main() {
   function apply() {
     setState(isEnabled);
     injectCSS();
-    tagItems();
+    tagPodcasts();
   }
 
   // Listen to page navigation and re-apply when DOM is ready

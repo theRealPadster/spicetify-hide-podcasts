@@ -1,8 +1,12 @@
 {
   "translation": {
-    "menuTitle": "Podcast'leri gizle",
-    "enabled": "Etkin",
-    "aggressiveMode": "Agresif mod",
-    "searchPageShelfAriaLabel": "Tümüne göz at"
+    "menu": {
+      "title": "Podcast'leri gizle",
+      "enabled": "Etkin",
+      "aggressiveMode": "Agresif mod"
+    },
+    "search": {
+      "browseAllShelfAriaLabel": "Tümüne göz at"
+    }
   }
 }

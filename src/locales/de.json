@@ -1,8 +1,12 @@
 {
   "translation": {
-    "menuTitle": "Podcasts verstecken",
-    "enabled": "Aktiviert",
-    "aggressiveMode": "Aggressiver Modus",
-    "searchPageShelfAriaLabel": "Alles durchsuchen"
+    "menu": {
+      "title": "Podcasts verstecken",
+      "enabled": "Aktiviert",
+      "aggressiveMode": "Aggressiver Modus"
+    },
+    "search": {
+      "browseAllShelfAriaLabel": "Alles durchsuchen"
+    }
   }
 }

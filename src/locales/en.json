@@ -1,8 +1,14 @@
 {
   "translation": {
-    "menuTitle": "Hide podcasts",
-    "enabled": "Enabled",
-    "aggressiveMode": "Aggressive mode",
-    "searchPageShelfAriaLabel": "Browse all"
+    "menu": {
+      "title": "Hide podcasts",
+      "enabled": "Enabled",
+      "aggressiveMode": "Aggressive mode",
+      "hideAudiobooks": "Hide audiobooks"
+    },
+    "search": {
+      "browseAllShelfAriaLabel": "Browse all",
+      "audiobooksCardTitle": "Audiobooks"
+    }
   }
 }

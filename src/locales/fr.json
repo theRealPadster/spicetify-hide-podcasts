@@ -1,8 +1,12 @@
 {
   "translation": {
-    "menuTitle": "Masquer les balados",
-    "enabled": "Activé",
-    "aggressiveMode": "Mode agressif",
-    "searchPageShelfAriaLabel": "Tout Parcourir"
+    "menu": {
+      "title": "Masquer les balados",
+      "enabled": "Activé",
+      "aggressiveMode": "Mode agressif"
+    },
+    "search": {
+      "browseAllShelfAriaLabel": "Tout Parcourir"
+    }
   }
 }
