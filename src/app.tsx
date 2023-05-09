@@ -49,8 +49,9 @@ i18n
 
 const SETTINGS_KEY = 'HidePodcastsEnabled';
 const AGGRESSIVE_MODE_KEY = 'HidePodcastsAggressiveMode';
+const AUDIOBOOKS_KEY = 'HidePodcastsHideAudioBooks';
 
-/** Inject the css that allows us to toggle podcasts */
+/** Inject the css that allows us to toggle podcasts and audiobooks */
 const injectCSS = () => {
   const body = document.body;
 
@@ -64,6 +65,9 @@ const injectCSS = () => {
     style.innerHTML =
       // General rules
       `.hide-podcasts-enabled .podcast-item {
+        display: none !important;
+      }
+      .hide-audiobooks-enabled .audiobook-item {
         display: none !important;
       }`
       + // Podcasts tab in Your Library page
@@ -108,12 +112,29 @@ const tagPodcasts = () => {
   }
 };
 
+/** Add our class to any audiobook elements */
+const tagAudioBooks = () => {
+  const { t } = i18n;
+
+  // Remove audiobooks card from search/browse page
+  // The audiobooks card doesn't have an attribute I can use to select it, so I have to use the title
+  const browseCardTitles = document.querySelectorAll('.x-categoryCard-CategoryCard .x-categoryCard-title');
+  browseCardTitles.forEach(card => {
+    if (card.textContent === t('search.audiobooksCardTitle')) {
+      console.log(`Tagging audiobooks card: ${card}`);
+      card.closest('.x-categoryCard-CategoryCard')?.classList.add('audiobook-item');
+    }
+  });
+};
+
 /**
- * Add/remove the body class that hides podcasts
- * @param isEnabled If we should hide podcasts or not
+ * Add/remove the body classes that hide items
+ * @param podcasts If we should hide podcasts
+ * @param audiobooks If we should hide audiobooks
  */
-const setState = (isEnabled: boolean) => {
-  document.body.classList.toggle('hide-podcasts-enabled', isEnabled);
+const setState = ({ podcasts, audiobooks }: { podcasts: boolean, audiobooks: boolean }) => {
+  document.body.classList.toggle('hide-podcasts-enabled', podcasts);
+  document.body.classList.toggle('hide-audiobooks-enabled', audiobooks);
 };
 
 /********************
@@ -138,6 +159,7 @@ async function main() {
 
   let isEnabled = getLocalStorageDataFromKey(SETTINGS_KEY, true);
   let aggressiveMode = getLocalStorageDataFromKey(AGGRESSIVE_MODE_KEY, false);
+  let hideAudioBooks = getLocalStorageDataFromKey(AUDIOBOOKS_KEY, false);
 
   // Add menu item and menu click handler
   new Menu.SubMenu(t('menu.title'), [
@@ -153,13 +175,20 @@ async function main() {
       self.setState(aggressiveMode);
       location.reload();
     }),
+    new Menu.Item(t('menu.hideAudiobooks'), hideAudioBooks, (self) => {
+      hideAudioBooks = !hideAudioBooks;
+      localStorage.setItem(AUDIOBOOKS_KEY, hideAudioBooks);
+      self.setState(hideAudioBooks);
+      apply();
+    }),
   ]).register();
 
   // Run the app logic
   function apply() {
-    setState(isEnabled);
+    setState({ podcasts: isEnabled, audiobooks: hideAudioBooks });
     injectCSS();
     tagPodcasts();
+    tagAudioBooks();
   }
 
   // Listen to page navigation and re-apply when DOM is ready
