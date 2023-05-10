@@ -161,27 +161,35 @@ async function main() {
   let aggressiveMode = getLocalStorageDataFromKey(AGGRESSIVE_MODE_KEY, false);
   let hideAudioBooks = getLocalStorageDataFromKey(AUDIOBOOKS_KEY, false);
 
+  const hideAudiobooksMenuItem = new Menu.Item(t('menu.hideAudiobooks'), hideAudioBooks, (self) => {
+    hideAudioBooks = !hideAudioBooks;
+    localStorage.setItem(AUDIOBOOKS_KEY, hideAudioBooks);
+    // self.setState(isEnabled && hideAudioBooks);
+    self.setState(hideAudioBooks);
+    apply();
+  });
+
   // Add menu item and menu click handler
-  new Menu.SubMenu(t('menu.title'), [
-    new Menu.Item(t('menu.enabled'), isEnabled, (self) => {
-      isEnabled = !isEnabled;
-      localStorage.setItem(SETTINGS_KEY, isEnabled);
-      self.setState(isEnabled);
-      apply();
-    }),
-    new Menu.Item(t('menu.aggressiveMode'), aggressiveMode, (self) => {
-      aggressiveMode = !aggressiveMode;
-      localStorage.setItem(AGGRESSIVE_MODE_KEY, aggressiveMode);
-      self.setState(aggressiveMode);
-      location.reload();
-    }),
-    new Menu.Item(t('menu.hideAudiobooks'), hideAudioBooks, (self) => {
-      hideAudioBooks = !hideAudioBooks;
-      localStorage.setItem(AUDIOBOOKS_KEY, hideAudioBooks);
-      self.setState(hideAudioBooks);
-      apply();
-    }),
-  ]).register();
+  const enabledMenuItem = new Menu.Item(t('menu.enabled'), isEnabled, (self) => {
+    isEnabled = !isEnabled;
+    localStorage.setItem(SETTINGS_KEY, isEnabled);
+    self.setState(isEnabled);
+    // hideAudiobooksMenuItem.setState(isEnabled && hideAudioBooks);
+    apply();
+  });
+
+  const aggressiveModeMenuItem = new Menu.Item(t('menu.aggressiveMode'), aggressiveMode, (self) => {
+    aggressiveMode = !aggressiveMode;
+    localStorage.setItem(AGGRESSIVE_MODE_KEY, aggressiveMode);
+    self.setState(aggressiveMode);
+    location.reload();
+  });
+
+  new Menu.SubMenu(t('menu.title'), Object.values([
+    enabledMenuItem,
+    aggressiveModeMenuItem,
+    hideAudiobooksMenuItem,
+  ])).register();
 
   // Run the app logic
   function apply() {
