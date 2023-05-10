@@ -1,6 +1,6 @@
 {
   "name": "spicetify-hide-podcasts",
-  "version": "2.5.2",
+  "version": "2.7.0",
   "description": "Spicetify extension to hide podcasts.",
   "main": "hidePodcasts.js",
   "homepage": "https://github.com/theRealPadster/spicetify-hide-podcasts",
@@ -26,15 +26,15 @@
   "devDependencies": {
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
-    "@typescript-eslint/eslint-plugin": "^5.59.2",
-    "@typescript-eslint/parser": "^5.59.2",
-    "eslint": "^8.39.0",
+    "@typescript-eslint/eslint-plugin": "^5.59.5",
+    "@typescript-eslint/parser": "^5.59.5",
+    "eslint": "^8.40.0",
     "eslint-plugin-react": "^7.32.2",
     "husky": "^8.0.3",
-    "i18next": "^22.4.10",
+    "i18next": "^22.4.15",
     "i18next-browser-languagedetector": "^7.0.1",
-    "react-i18next": "^12.2.0",
-    "spicetify-creator": "^1.0.12",
-    "typescript": "^5.0.3"
+    "react-i18next": "^12.2.2",
+    "spicetify-creator": "^1.0.13",
+    "typescript": "^5.0.4"
   }
 }
