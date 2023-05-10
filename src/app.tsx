@@ -87,7 +87,7 @@ const tagPodcasts = () => {
 
   // Remove podcast carousels
   const shelves = document.querySelectorAll('.main-shelf-shelf');
-  // console.log({ shelves });
+  // console.debug({ shelves });
   shelves.forEach(shelf => {
     // Podcast links in carousels
     const podcastCardLinks = [
@@ -95,11 +95,11 @@ const tagPodcasts = () => {
       ...shelf.querySelectorAll('.main-cardHeader-link[href^="/show"]'),
     ];
 
-    // console.log({ podcastCardLinks });
+    // console.debug({ podcastCardLinks });
 
     if (podcastCardLinks.length > 0) {
       const title = shelf.getAttribute('aria-label');
-      console.log(`Tagging carousel: ${title}`);
+      console.debug(`Tagging carousel: ${title}`);
       shelf.classList.add('podcast-item');
     }
   });
@@ -107,7 +107,7 @@ const tagPodcasts = () => {
   // Remove podcast card from search/browse page
   const browsePodcastsCard = document.querySelector('.x-categoryCard-CategoryCard[href="/genre/podcasts-web"]');
   if (browsePodcastsCard) {
-    console.log(`Tagging browsePodcastsCard: ${browsePodcastsCard}`);
+    console.debug(`Tagging browsePodcastsCard: ${browsePodcastsCard}`);
     browsePodcastsCard.classList.add('podcast-item');
   }
 };
@@ -121,7 +121,7 @@ const tagAudioBooks = () => {
   const browseCardTitles = document.querySelectorAll('.x-categoryCard-CategoryCard .x-categoryCard-title');
   browseCardTitles.forEach(card => {
     if (card.textContent === t('search.audiobooksCardTitle')) {
-      console.log(`Tagging audiobooks card: ${card}`);
+      console.debug(`Tagging audiobooks card: ${card}`);
       card.closest('.x-categoryCard-CategoryCard')?.classList.add('audiobook-item');
     }
   });
@@ -202,7 +202,7 @@ async function main() {
   // Listen to page navigation and re-apply when DOM is ready
   function listenThenApply(pathname: string) {
     const observer = new MutationObserver(function appchange() {
-      // console.log('HidePodcasts: DOM changed');
+      // console.debug('HidePodcasts: DOM changed');
       if (!mainElem) return; // ts protection
 
       // Get the relevant selector to verify the current page has loaded
@@ -210,7 +210,7 @@ async function main() {
       const app = mainElem.querySelector(appLoadedSelector);
 
       if (app) {
-        console.log(pathname, app);
+        console.debug(pathname, app);
         apply();
         if (!aggressiveMode) observer.disconnect();
       }
