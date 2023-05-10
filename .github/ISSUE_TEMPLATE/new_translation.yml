@@ -15,6 +15,7 @@ body:
     id: menu-title
     attributes:
       label: Menu title
+      description: Profile menu flyout title
       placeholder: e.g. "Hide podcasts"
     validations:
       required: true
@@ -36,10 +37,17 @@ body:
       required: true
 
   - type: input
-    id: search-page-shelf-label
+    id: hide-audiobooks
     attributes:
-      label: Search page shelf label
-      description: The search page shelf label is the title of the genre browser on the search page. It is used to detect when that page has loaded.
-      placeholder: e.g. "Browse all"
+      label: Hide audiobooks
+      placeholder: e.g. "Hide audiobooks"
+    validations:
+      required: true
+
+  - type: input
+    id: audiobook-card-title
+    attributes:
+      label: Search page audiobook card title
+      placeholder: e.g. "Audiobooks"
     validations:
       required: true
