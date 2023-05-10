@@ -1,8 +1,11 @@
 {
   "translation": {
-    "menuTitle": "Nascondi podcast",
-    "enabled": "Attivato",
-    "aggressiveMode": "Modalità aggressiva",
-    "searchPageShelfAriaLabel": "Sfoglia tutto"
+    "menu": {
+      "title": "Nascondi podcast",
+      "enabled": "Attivato",
+      "aggressiveMode": "Modalità aggressiva"
+    },
+    "search": {
+    }
   }
 }

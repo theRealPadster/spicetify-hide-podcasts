@@ -1,8 +1,11 @@
 {
   "translation": {
-    "menuTitle": "Amagar podcasts",
-    "enabled": "Activat",
-    "aggressiveMode": "Mode agressiu",
-    "searchPageShelfAriaLabel": "Mostra-ho tot"
+    "menu": {
+      "title": "Amagar podcasts",
+      "enabled": "Activat",
+      "aggressiveMode": "Mode agressiu"
+    },
+    "search": {
+    }
   }
 }

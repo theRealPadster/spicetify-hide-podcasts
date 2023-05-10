@@ -1,8 +1,11 @@
 {
   "translation": {
-    "menuTitle": "Скрытие подкастов",
-    "enabled": "Включено",
-    "aggressiveMode": "Агрессивный режим",
-    "searchPageShelfAriaLabel": "Все остальное"
+    "menu": {
+      "title": "Скрытие подкастов",
+      "enabled": "Включено",
+      "aggressiveMode": "Агрессивный режим"
+    },
+    "search": {
+    }
   }
 }
