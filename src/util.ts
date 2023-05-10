@@ -30,7 +30,7 @@ export const getLocalStorageDataFromKey = (key: string, fallback?: unknown) => {
 export const getPageLoadedSelector = (t: TFunction, pathname: string) => {
   switch (pathname) {
   case '/search':
-    return `#searchPage .main-shelf-shelf[aria-label="${t('search.browseAllShelfAriaLabel')}"]`;
+    return '#searchPage .search-searchBrowse-browseAllWrapper';
   case '/':
     return '.main-shelf-shelf';
   default:
