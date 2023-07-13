@@ -1,0 +1,13 @@
+{
+  "translation": {
+    "menu": {
+      "title": "Gem podcasts",
+      "enabled": "Aktiveret",
+      "aggressiveMode": "Aggressiv indstilling",
+      "hideAudiobooks": "Gem lydbøger"
+    },
+    "search": {
+      "audiobooksCardTitle": "Lydbøger"
+    }
+  }
+}
