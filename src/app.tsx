@@ -7,6 +7,7 @@
 
 import i18n from 'i18next';
 import caLocale from './locales/ca.json';
+import daLocale from './locales/da.json'
 import enLocale from './locales/en.json';
 import frLocale from './locales/fr.json';
 import deLocale from './locales/de.json';
@@ -28,6 +29,7 @@ i18n
     // the translations
     resources: {
       ca: caLocale,
+      da: daLocale,
       en: enLocale,
       fr: frLocale,
       de: deLocale,
