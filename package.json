@@ -33,7 +33,7 @@
     "husky": "^8.0.3",
     "i18next": "^23.4.1",
     "i18next-browser-languagedetector": "^7.1.0",
-    "react-i18next": "^12.3.1",
+    "react-i18next": "^13.0.3",
     "spicetify-creator": "^1.0.13",
     "typescript": "^5.1.3"
   }
