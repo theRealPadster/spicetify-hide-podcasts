@@ -1933,10 +1933,10 @@ queue-microtask@^1.2.2:
   resolved "https://registry.yarnpkg.com/queue-microtask/-/queue-microtask-1.2.3.tgz#4929228bbc724dfac43e0efb058caf7b6cfb6243"
   integrity sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==
 
-react-i18next@^13.0.3:
-  version "13.0.3"
-  resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-13.0.3.tgz#8eedc5c2ab57f4641540778cc7373c8ed891523c"
-  integrity sha512-/t4kt4Y2o+21hbvx+o9zpVnmoiud7KLDncyZFGN0U6TGAWYaXdTsp/ytAHFcKKSAODg4noIMaOO3X7bMgCqLHw==
+react-i18next@^13.2.1:
+  version "13.2.1"
+  resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-13.2.1.tgz#57cf7c07778281bdb1e0a1fd60ca5fcc35c0a786"
+  integrity sha512-XhMsnGgJnytWfi2Q70HMYfm+zysPUu1Pz+It6I87WwaeclGY+W8W1c11uENEMNg+Xb+mNrGuo8GEDuQDOgO+oQ==
   dependencies:
     "@babel/runtime" "^7.22.5"
     html-parse-stringify "^3.0.1"
