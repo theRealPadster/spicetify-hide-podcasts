@@ -30,7 +30,7 @@
     "@types/react-dom": "^18.0.10",
     "@typescript-eslint/eslint-plugin": "^6.7.0",
     "@typescript-eslint/parser": "^6.7.0",
-    "eslint": "^8.49.0",
+    "eslint": "^8.50.0",
     "eslint-plugin-react": "^7.33.2",
     "husky": "^8.0.3",
     "i18next": "^23.5.1",
