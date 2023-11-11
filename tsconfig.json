@@ -1,14 +1,20 @@
 {
   "compilerOptions": {
-    "target": "ES2017",
+    "target": "ES2022",
     "jsx": "react",
-    "module": "commonjs",
-    "resolveJsonModule": true,
+    "module": "ES2022",
+    "moduleResolution": "bundler",
     "outDir": ".",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "skipLibCheck": true
+    "strictPropertyInitialization": false,
+    "skipLibCheck": true,
+    "noImplicitAny": false,
+    "lib": [
+      "ES2022",
+      "DOM"
+    ]
   },
   "include": [
     "src/app.tsx"

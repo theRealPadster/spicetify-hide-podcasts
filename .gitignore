@@ -148,5 +148,9 @@ out
 # build folder
 dist/
 
+# package managers
+package-lock.json
+yarn.lock
+
 # vectornator files for snippet previews
 *.vectornator

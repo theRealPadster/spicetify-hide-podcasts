@@ -1,6 +1,6 @@
 {
   "name": "spicetify-hide-podcasts",
-  "version": "2.7.1",
+  "version": "2.7.2",
   "description": "Spicetify extension to hide podcasts.",
   "main": "hidePodcasts.js",
   "homepage": "https://github.com/theRealPadster/spicetify-hide-podcasts",
@@ -12,6 +12,8 @@
     "url": "https://github.com/theRealPadster/spicetify-hide-podcasts/issues"
   },
   "author": "theRealPadster",
+  "license": "GPL-3.0",
+  "packageManager": "pnpm@8.10.2",
   "scripts": {
     "build": "spicetify-creator",
     "build:local": "spicetify-creator --out=. --minify",
@@ -20,14 +22,17 @@
     "lint:ci": "eslint src",
     "type-check": "tsc --noEmit",
     "prepare": "husky install",
-    "upgrade-deps": "yarn upgrade-interactive --latest",
-    "sync-yarn-lock": "npx syncyarnlock -s -k"
+    "update-types": "curl -s -o src/types/spicetify.d.ts https://raw.githubusercontent.com/spicetify/spicetify-cli/master/globals.d.ts"
   },
-  "license": "GPL-3.0",
-  "private": true,
+  "engines": {
+    "yarn": "please-use-pnpm",
+    "npm": "please-use-pnpm",
+    "pnpm": ">=8",
+    "node": ">=20"
+  },
   "devDependencies": {
-    "@types/react": "^18.0.27",
-    "@types/react-dom": "^18.0.10",
+    "@types/react": "^17.0.2",
+    "@types/react-dom": "^17.0.2",
     "@typescript-eslint/eslint-plugin": "^6.9.1",
     "@typescript-eslint/parser": "^6.9.1",
     "eslint": "^8.53.0",
@@ -38,5 +43,6 @@
     "react-i18next": "^13.3.1",
     "spicetify-creator": "^1.0.16",
     "typescript": "^5.2.2"
-  }
+  },
+  "private": true
 }
