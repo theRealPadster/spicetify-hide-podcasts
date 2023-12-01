@@ -32,7 +32,7 @@
   },
   "devDependencies": {
     "@types/react": "^17.0.2",
-    "@types/react-dom": "^17.0.2",
+    "@types/react-dom": "^18.0.11",
     "@typescript-eslint/eslint-plugin": "^6.13.1",
     "@typescript-eslint/parser": "^6.13.1",
     "eslint": "^8.55.0",
