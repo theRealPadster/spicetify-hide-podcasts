@@ -1,0 +1,16 @@
+// TODO: Need to add the queue-tabBar bit to block the Podcasts tab on the Your Library page
+// Because it resets itself when the window resizes and it go in/out of the overflow menu
+// Technically I should block the li.queue-tabBar-headerItem above it, but can't do that with just CSS
+
+// General rules
+.hide-podcasts-enabled .podcast-item {
+  display: none !important;
+}
+.hide-audiobooks-enabled .audiobook-item {
+  display: none !important;
+}
+
+// Podcasts tab in Your Library page
+.hide-podcasts-enabled .queue-tabBar-header a[href="/collection/podcasts"] {
+  display: none !important;
+};
