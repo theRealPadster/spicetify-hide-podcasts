@@ -58,31 +58,57 @@ const AUDIOBOOKS_KEY = 'HidePodcastsHideAudioBooks';
 /** Add our class to any podcast elements */
 const tagPodcasts = () => {
   const yourEpisodesInSidebar = document.querySelector('a[href="/collection/episodes"]')?.parentElement;
-  if (yourEpisodesInSidebar) yourEpisodesInSidebar.classList.add('podcast-item');
+  if (yourEpisodesInSidebar) {
+    console.debug('Tagging yourEpisodesInSidebar:', yourEpisodesInSidebar);
+    yourEpisodesInSidebar.classList.add('podcast-item');
+  }
 
   // Remove podcast carousels
   const shelves = document.querySelectorAll('.main-shelf-shelf');
   // console.debug({ shelves });
-  shelves.forEach(shelf => {
-    // Podcast links in carousels
-    const podcastCardLinks = [
-      ...shelf.querySelectorAll('.main-cardHeader-link[href^="/episode"]'),
-      ...shelf.querySelectorAll('.main-cardHeader-link[href^="/show"]'),
-    ];
+  shelves.forEach((shelf) => {
+    const title = shelf.getAttribute('aria-label');
 
-    // console.debug({ podcastCardLinks });
+    const observer = new MutationObserver(function(mutationsList, observer) {
+      // Look through all mutations that just occured
+      for (const mutation of mutationsList) {
+        // If the addedNodes property has one or more nodes
+        if (mutation.addedNodes.length) {
+          const addedNode = mutation.addedNodes[0];
+          const cardLink = addedNode.querySelector('.main-cardHeader-link');
+          if (cardLink) {
+            // .main-cardHeader-link element has been added
+            // console.debug(`New card added to '${title}' shelf:`, cardLink);
 
-    if (podcastCardLinks.length > 0) {
-      const title = shelf.getAttribute('aria-label');
-      console.debug(`Tagging carousel: ${title}`);
-      shelf.classList.add('podcast-item');
-    }
+            const href = cardLink.getAttribute('href');
+            const isPodcastCard = /^\/(episode|show)/.test(href);
+
+            if (isPodcastCard) {
+              console.debug(`Tagging carousel: ${title}`);
+              shelf.classList.add('podcast-item');
+            }
+
+            // Reset the disconnect timer whenever a new card is added
+            clearTimeout(disconnectTimer);
+            disconnectTimer = setTimeout(() => {
+              console.debug(`Disconnecting '${title}' shelf observer. No cards added in 5 seconds.`);
+              observer.disconnect();
+            }, 5000); // disconnect after 5 seconds of no new cards
+          }
+        }
+      }
+    });
+
+    let disconnectTimer;
+
+    // Start observing the target node for configured mutations
+    observer.observe(shelf, { attributes: false, childList: true, subtree: true });
   });
 
   // Remove podcast card from search/browse page
   const browsePodcastsCard = document.querySelector('.x-categoryCard-CategoryCard[href="/genre/podcasts-web"]');
   if (browsePodcastsCard) {
-    console.debug(`Tagging browsePodcastsCard: ${browsePodcastsCard}`);
+    console.debug('Tagging browsePodcastsCard:', browsePodcastsCard);
     browsePodcastsCard.classList.add('podcast-item');
   }
 };
