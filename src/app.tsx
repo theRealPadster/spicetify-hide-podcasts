@@ -24,24 +24,26 @@ import { getLocalStorageDataFromKey, getPageLoadedSelector } from './util';
 
 import './css/app.scss';
 
+// the translations
+const locales = {
+  ca: caLocale,
+  da: daLocale,
+  en: enLocale,
+  fr: frLocale,
+  de: deLocale,
+  it: itLocale,
+  'pt-BR': ptBrLocale,
+  'pl-PL': plPlLocale,
+  ru: ruLocale,
+  tr: trLocale,
+  'zh-CN': zhCNLocale,
+};
+
 i18n
   .use(initReactI18next) // passes i18n down to react-i18next
   .use(LanguageDetector)
   .init({
-    // the translations
-    resources: {
-      ca: caLocale,
-      da: daLocale,
-      en: enLocale,
-      fr: frLocale,
-      de: deLocale,
-      it: itLocale,
-      'pt-BR': ptBrLocale,
-      'pl-PL': plPlLocale,
-      ru: ruLocale,
-      tr: trLocale,
-      'zh-CN': zhCNLocale,
-    },
+    resources: locales,
     detection: {
       order: [ 'navigator', 'htmlTag' ],
     },
@@ -57,6 +59,8 @@ const AUDIOBOOKS_KEY = 'HidePodcastsHideAudioBooks';
 
 /** Add our class to any podcast elements */
 const tagPodcasts = () => {
+  console.debug('=== Tagging podcasts ===');
+
   const yourEpisodesInSidebar = document.querySelector('a[href="/collection/episodes"]')?.parentElement;
   if (yourEpisodesInSidebar) {
     console.debug('Tagging yourEpisodesInSidebar:', yourEpisodesInSidebar);
@@ -117,9 +121,12 @@ const tagPodcasts = () => {
 const tagAudioBooks = () => {
   const { t } = i18n;
 
+  console.debug('=== Tagging audiobooks ===');
+
   // Remove audiobooks card from search/browse page
   // The audiobooks card doesn't have an attribute I can use to select it, so I have to use the title
   const browseCardTitles = document.querySelectorAll('.x-categoryCard-CategoryCard .x-categoryCard-title');
+  console.debug({ browseCardTitles });
   browseCardTitles.forEach(card => {
     if (card.textContent === t('search.audiobooksCardTitle')) {
       console.debug(`Tagging audiobooks card: ${card}`);
@@ -144,19 +151,31 @@ const setState = ({ podcasts, audiobooks }: { podcasts: boolean, audiobooks: boo
 async function main() {
   const { t } = i18n;
 
-  let { Player, Menu, Platform } = Spicetify;
+  let { Player, Menu, Platform, Locale } = Spicetify;
   let mainElem = document.querySelector('.main-view-container__scroll-node-child');
 
-  while (!Player || !Menu || !Platform || !mainElem) {
+  while (!Player || !Menu || !Platform || !Locale || !mainElem) {
     // Wait for Spicetify to load
     await new Promise(resolve => setTimeout(resolve, 100));
     Player = Spicetify.Player;
     Menu = Spicetify.Menu;
     Platform = Spicetify.Platform;
+    Locale = Spicetify.Locale;
     mainElem = document.querySelector('.main-view-container__scroll-node-child');
   }
 
   console.debug('HidePodcasts: Loaded');
+
+  // Add translations for the "Podcasts" and "Audiobooks" genre card titles (for current language)
+  const podcastsTitle = Spicetify.Locale.get('search.title.shows');
+  const audiobooksTitle = Spicetify.Locale.get('search.title.audiobooks');
+  const lang = Spicetify.Locale.getLocale();
+  console.debug(`HidePodcasts: Adding translations for ${lang}:`, podcastsTitle, audiobooksTitle);
+  i18n.addResourceBundle(lang, 'translation',
+    {
+      'search.podcastsCardTitle': podcastsTitle,
+      'search.audiobooksCardTitle': audiobooksTitle,
+    }, true, true);
 
   let isEnabled = getLocalStorageDataFromKey(SETTINGS_KEY, true);
   let aggressiveMode = getLocalStorageDataFromKey(AGGRESSIVE_MODE_KEY, false);

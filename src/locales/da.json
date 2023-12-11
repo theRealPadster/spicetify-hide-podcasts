@@ -6,8 +6,6 @@
       "aggressiveMode": "Aggressiv indstilling",
       "hideAudiobooks": "Gem lydbøger"
     },
-    "search": {
-      "audiobooksCardTitle": "Lydbøger"
-    }
+    "search": {}
   }
 }

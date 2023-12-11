@@ -6,8 +6,6 @@
       "aggressiveMode": "Aggressive mode",
       "hideAudiobooks": "Hide audiobooks"
     },
-    "search": {
-      "audiobooksCardTitle": "Audiobooks"
-    }
+    "search": {}
   }
 }
