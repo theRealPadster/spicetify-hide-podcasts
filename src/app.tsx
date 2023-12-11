@@ -20,7 +20,10 @@ import zhCNLocale from './locales/zh-CN.json';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
-import { getLocalStorageDataFromKey, getPageLoadedSelector } from './util';
+import {
+  getLocalStorageDataFromKey, getPageLoadedSelector,
+  tagPodcasts, tagAudioBooks,
+} from './util';
 
 import './css/app.scss';
 
@@ -56,84 +59,6 @@ i18n
 const SETTINGS_KEY = 'HidePodcastsEnabled';
 const AGGRESSIVE_MODE_KEY = 'HidePodcastsAggressiveMode';
 const AUDIOBOOKS_KEY = 'HidePodcastsHideAudioBooks';
-
-/** Add our class to any podcast elements */
-const tagPodcasts = () => {
-  console.debug('=== Tagging podcasts ===');
-
-  const yourEpisodesInSidebar = document.querySelector('a[href="/collection/episodes"]')?.parentElement;
-  if (yourEpisodesInSidebar) {
-    console.debug('Tagging yourEpisodesInSidebar:', yourEpisodesInSidebar);
-    yourEpisodesInSidebar.classList.add('podcast-item');
-  }
-
-  // Remove podcast carousels
-  const shelves = document.querySelectorAll('.main-shelf-shelf');
-  // console.debug({ shelves });
-  shelves.forEach((shelf) => {
-    const title = shelf.getAttribute('aria-label');
-
-    const observer = new MutationObserver(function(mutationsList, observer) {
-      // Look through all mutations that just occured
-      for (const mutation of mutationsList) {
-        // If the addedNodes property has one or more nodes
-        if (mutation.addedNodes.length) {
-          const addedNode = mutation.addedNodes[0];
-          const cardLink = (addedNode as Element).querySelector('.main-cardHeader-link');
-          if (cardLink) {
-            // .main-cardHeader-link element has been added
-            // console.debug(`New card added to '${title}' shelf:`, cardLink);
-
-            const href = cardLink.getAttribute('href') as string;
-            const isPodcastCard = /^\/(episode|show)/.test(href);
-
-            if (isPodcastCard) {
-              console.debug(`Tagging carousel: ${title}`);
-              shelf.classList.add('podcast-item');
-            }
-
-            // Reset the disconnect timer whenever a new card is added
-            clearTimeout(disconnectTimer);
-            disconnectTimer = setTimeout(() => {
-              console.debug(`Disconnecting '${title}' shelf observer. No cards added in 5 seconds.`);
-              observer.disconnect();
-            }, 5000); // disconnect after 5 seconds of no new cards
-          }
-        }
-      }
-    });
-
-    let disconnectTimer;
-
-    // Start observing the target node for configured mutations
-    observer.observe(shelf, { attributes: false, childList: true, subtree: true });
-  });
-
-  // Remove podcast card from search/browse page
-  const browsePodcastsCard = document.querySelector('.x-categoryCard-CategoryCard[href="/genre/podcasts-web"]');
-  if (browsePodcastsCard) {
-    console.debug('Tagging browsePodcastsCard:', browsePodcastsCard);
-    browsePodcastsCard.classList.add('podcast-item');
-  }
-};
-
-/** Add our class to any audiobook elements */
-const tagAudioBooks = () => {
-  const { t } = i18n;
-
-  console.debug('=== Tagging audiobooks ===');
-
-  // Remove audiobooks card from search/browse page
-  // The audiobooks card doesn't have an attribute I can use to select it, so I have to use the title
-  const browseCardTitles = document.querySelectorAll('.x-categoryCard-CategoryCard .x-categoryCard-title');
-  console.debug({ browseCardTitles });
-  browseCardTitles.forEach(card => {
-    if (card.textContent === t('search.audiobooksCardTitle')) {
-      console.debug(`Tagging audiobooks card: ${card}`);
-      card.closest('.x-categoryCard-CategoryCard')?.classList.add('audiobook-item');
-    }
-  });
-};
 
 /**
  * Add/remove the body classes that hide items
@@ -214,8 +139,8 @@ async function main() {
   // Run the app logic
   function apply() {
     setState({ podcasts: isEnabled, audiobooks: hideAudioBooks });
-    tagPodcasts();
-    tagAudioBooks();
+    tagPodcasts(t);
+    tagAudioBooks(t);
   }
 
   // Listen to page navigation and re-apply when DOM is ready
