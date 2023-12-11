@@ -79,12 +79,12 @@ const tagPodcasts = () => {
         // If the addedNodes property has one or more nodes
         if (mutation.addedNodes.length) {
           const addedNode = mutation.addedNodes[0];
-          const cardLink = addedNode.querySelector('.main-cardHeader-link');
+          const cardLink = (addedNode as Element).querySelector('.main-cardHeader-link');
           if (cardLink) {
             // .main-cardHeader-link element has been added
             // console.debug(`New card added to '${title}' shelf:`, cardLink);
 
-            const href = cardLink.getAttribute('href');
+            const href = cardLink.getAttribute('href') as string;
             const isPodcastCard = /^\/(episode|show)/.test(href);
 
             if (isPodcastCard) {
