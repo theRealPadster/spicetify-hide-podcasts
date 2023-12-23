@@ -168,6 +168,7 @@ async function main() {
 
   // Listen for page navigation events
   Platform.History.listen(({ pathname }: { pathname: string }) => {
+    console.debug('HidePodcasts: Page changed', pathname);
     listenThenApply(pathname);
   });
 }
