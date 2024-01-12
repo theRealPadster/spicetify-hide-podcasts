@@ -42,9 +42,11 @@ export const getPageLoadedSelector = (t: TFunction, pathname: string) => {
 export const tagPodcasts = (t: TFunction) => {
   console.debug('=== Tagging podcasts ===');
 
-  t('search.podcastsCardTitle');
-
-  const yourEpisodesInSidebar = document.querySelector('a[href="/collection/episodes"]')?.parentElement;
+  const yourEpisodesInSidebar =
+    // Old style?
+    document.querySelector('a[href="/collection/episodes"]')?.parentElement ||
+    // New style?
+    document.querySelector('#listrow-title-spotify:collection:your-episodes')?.closest('li');
   if (yourEpisodesInSidebar) {
     console.debug('Tagging yourEpisodesInSidebar:', yourEpisodesInSidebar);
     yourEpisodesInSidebar.classList.add('podcast-item');
