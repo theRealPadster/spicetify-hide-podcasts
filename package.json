@@ -1,6 +1,6 @@
 {
   "name": "spicetify-hide-podcasts",
-  "version": "2.8.0",
+  "version": "3.0.0",
   "description": "Spicetify extension to hide podcasts.",
   "main": "hidePodcasts.js",
   "homepage": "https://github.com/theRealPadster/spicetify-hide-podcasts",
