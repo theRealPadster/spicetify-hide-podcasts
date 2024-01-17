@@ -98,7 +98,6 @@ async function main() {
   console.debug(`HidePodcasts: Adding translations for ${lang}:`, podcastsTitle, audiobooksTitle);
   i18n.addResourceBundle(lang, 'translation',
     {
-      'search.podcastsCardTitle': podcastsTitle,
       'search.audiobooksCardTitle': audiobooksTitle,
     }, true, true);
 
@@ -139,7 +138,7 @@ async function main() {
   // Run the app logic
   function apply() {
     setState({ podcasts: isEnabled, audiobooks: hideAudioBooks });
-    tagPodcasts(t);
+    tagPodcasts();
     tagAudioBooks(t);
   }
 
