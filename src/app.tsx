@@ -139,7 +139,7 @@ async function main() {
       if (!mainElem) return; // ts protection
 
       // Get the relevant selector to verify the current page has loaded
-      const appLoadedSelector = getPageLoadedSelector(t, pathname);
+      const appLoadedSelector = getPageLoadedSelector(pathname);
       const app = mainElem.querySelector(appLoadedSelector);
 
       if (app) {

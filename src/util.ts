@@ -1,5 +1,3 @@
-import { TFunction } from 'i18next';
-
 /**
  * Get localStorage data (or fallback value), given a key
  * @param key The localStorage key
@@ -27,7 +25,7 @@ export const getLocalStorageDataFromKey = (key: string, fallback?: unknown) => {
  * @param t The string translation function
  * @param pathname Spotify pathname
  */
-export const getPageLoadedSelector = (t: TFunction, pathname: string) => {
+export const getPageLoadedSelector = (pathname: string) => {
   switch (pathname) {
   case '/search':
     return '#searchPage .search-searchBrowse-browseAllWrapper';
