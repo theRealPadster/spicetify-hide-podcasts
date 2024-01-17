@@ -91,16 +91,6 @@ async function main() {
 
   console.debug('HidePodcasts: Loaded');
 
-  // Add translations for the "Podcasts" and "Audiobooks" genre card titles (for current language)
-  const podcastsTitle = Spicetify.Locale.get('search.title.shows');
-  const audiobooksTitle = Spicetify.Locale.get('search.title.audiobooks');
-  const lang = Spicetify.Locale.getLocale();
-  console.debug(`HidePodcasts: Adding translations for ${lang}:`, podcastsTitle, audiobooksTitle);
-  i18n.addResourceBundle(lang, 'translation',
-    {
-      'search.audiobooksCardTitle': audiobooksTitle,
-    }, true, true);
-
   let isEnabled = getLocalStorageDataFromKey(SETTINGS_KEY, true);
   let aggressiveMode = getLocalStorageDataFromKey(AGGRESSIVE_MODE_KEY, false);
   let hideAudioBooks = getLocalStorageDataFromKey(AUDIOBOOKS_KEY, false);
@@ -139,7 +129,7 @@ async function main() {
   function apply() {
     setState({ podcasts: isEnabled, audiobooks: hideAudioBooks });
     tagPodcasts();
-    tagAudioBooks(t);
+    tagAudioBooks();
   }
 
   // Listen to page navigation and re-apply when DOM is ready

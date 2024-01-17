@@ -38,33 +38,22 @@ export const getPageLoadedSelector = (t: TFunction, pathname: string) => {
   }
 };
 
-/** Add our class to any podcast elements */
+/**
+ * Add our class to any podcast elements.
+ * This is currently done with CSS,
+ * but we may need to add more functionality here in the future.
+ */
 export const tagPodcasts = () => {
   console.debug('=== Tagging podcasts ===');
-
-  const yourEpisodesInSidebar =
-    // Old style?
-    document.querySelector('a[href="/collection/episodes"]')?.parentElement ||
-    // New style?
-    document.querySelector('#listrow-title-spotify:collection:your-episodes')?.closest('li');
-  if (yourEpisodesInSidebar) {
-    console.debug('Tagging yourEpisodesInSidebar:', yourEpisodesInSidebar);
-    yourEpisodesInSidebar.classList.add('podcast-item');
-  }
+  console.debug('=== (All done via CSS) ===');
 };
 
-/** Add our class to any audiobook elements */
-export const tagAudioBooks = (t: TFunction) => {
+/**
+ * Add our class to any audiobook elements.
+ * This is currently done with CSS,
+ * but we may need to add more functionality here in the future.
+ */
+export const tagAudioBooks = () => {
   console.debug('=== Tagging audiobooks ===');
-
-  // Remove audiobooks card from search/browse page
-  // The audiobooks card doesn't have an attribute I can use to select it, so I have to use the title
-  const browseCardTitles = document.querySelectorAll('.x-categoryCard-CategoryCard .x-categoryCard-title');
-  console.debug({ browseCardTitles });
-  browseCardTitles.forEach(card => {
-    if (card.textContent === t('search.audiobooksCardTitle')) {
-      console.debug(`Tagging audiobooks card: ${card}`);
-      card.closest('.x-categoryCard-CategoryCard')?.classList.add('audiobook-item');
-    }
-  });
+  console.debug('=== (All done via CSS) ===');
 };
