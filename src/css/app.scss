@@ -29,11 +29,20 @@
     @include hide-visibility();
   }
 
-  // Podcasts category on search page
+  // Podcasts categories on search page
   // Old style
   .x-categoryCard-CategoryCard[href="/genre/podcasts-web"],
-  // As of Spotify 1.2.26.1187.g36b715a1
-  .x-categoryCard-CategoryCard[href="/genre/0JQ5DArNBzkmxXHCqFLx2J"] {
+  // == (Spotify 1.2.26.1187.g36b715a1) ==
+  // "Podcasts"
+  .x-categoryCard-CategoryCard[href="/genre/0JQ5DArNBzkmxXHCqFLx2J"],
+  // "Podcast Charts"
+  .x-categoryCard-CategoryCard[href="/genre/0JQ5DAB3zgCauRwnvdEQjJ"],
+  // "Educational"
+  .x-categoryCard-CategoryCard[href="/genre/0JQ5IMCbQBLl5gxKLgufp8"],
+  // "Documentary"
+  .x-categoryCard-CategoryCard[href="/genre/0JQ5IMCbQBLjfX9OdDrA5X"],
+  // "Comedy"
+  .x-categoryCard-CategoryCard[href="/genre/0JQ5IMCbQBLyUJhSxhaPc6"] {
     @include hide-display();
   }
 
