@@ -1,16 +1,66 @@
-// TODO: Need to add the queue-tabBar bit to block the Podcasts tab on the Your Library page
-// Because it resets itself when the window resizes and it go in/out of the overflow menu
-// Technically I should block the li.queue-tabBar-headerItem above it, but can't do that with just CSS
+// TODO: Make a debug switch that just outlines everything it would block in red.
 
-// General rules
-.hide-podcasts-enabled .podcast-item {
-  display: none !important;
-}
-.hide-audiobooks-enabled .audiobook-item {
-  display: none !important;
+// The nearby shelves seem to freak out and constantly recalculate their positions if I use display: none
+@mixin hide-visibility {
+  visibility: hidden;
+  height: 0;
+  min-height: unset;
+  margin: 0;
 }
 
-// Podcasts tab in Your Library page
-.hide-podcasts-enabled .queue-tabBar-header a[href="/collection/podcasts"] {
+@mixin hide-display {
   display: none !important;
-};
+}
+
+.hide-podcasts-enabled {
+  // Items I've tagged via JS
+  .podcast-item {
+    @include hide-display();
+  }
+
+  // Podcasts tab in Your Library page
+  .queue-tabBar-header a[href="/collection/podcasts"] {
+    @include hide-display();
+  };
+
+  // Shelves that have podcasts in them
+  .main-shelf-shelf:has(a[href^="/episode/"]),
+  .main-shelf-shelf:has(a[href^="/show/"]) {
+    @include hide-visibility();
+  }
+
+  // Podcasts categories on search page
+  // Old style
+  .x-categoryCard-CategoryCard[href="/genre/podcasts-web"],
+  // == (Spotify 1.2.26.1187.g36b715a1) ==
+  // "Podcasts"
+  .x-categoryCard-CategoryCard[href="/genre/0JQ5DArNBzkmxXHCqFLx2J"],
+  // "Podcast Charts"
+  .x-categoryCard-CategoryCard[href="/genre/0JQ5DAB3zgCauRwnvdEQjJ"],
+  // "Educational"
+  .x-categoryCard-CategoryCard[href="/genre/0JQ5IMCbQBLl5gxKLgufp8"],
+  // "Documentary"
+  .x-categoryCard-CategoryCard[href="/genre/0JQ5IMCbQBLjfX9OdDrA5X"],
+  // "Comedy"
+  .x-categoryCard-CategoryCard[href="/genre/0JQ5IMCbQBLyUJhSxhaPc6"] {
+    @include hide-display();
+  }
+
+  // "Your Episodes" in sidebar
+  .main-yourLibraryX-listItem:has(#listrow-title-spotify\:collection\:your-episodes) {
+    @include hide-display();
+  }
+}
+
+.hide-audiobooks-enabled {
+  // Items I've tagged via JS
+  .audiobook-item {
+    @include hide-display();
+  }
+
+  // Audiobooks category on search page
+  // As of Spotify 1.2.26.1187.g36b715a1
+  .x-categoryCard-CategoryCard[href="/genre/0JQ5DAqbMKFETqK4t8f1n3"] {
+    @include hide-display();
+  }
+}
