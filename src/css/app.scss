@@ -34,7 +34,9 @@
   }
 
   // Podcasts category on search page
-  // Audiobooks genre ID (as of Spotify 1.2.26.1187.g36b715a1)
+  // Old style
+  .x-categoryCard-CategoryCard[href="/genre/podcasts-web"],
+  // As of Spotify 1.2.26.1187.g36b715a1
   .x-categoryCard-CategoryCard[href="/genre/0JQ5DArNBzkmxXHCqFLx2J"] {
     @include hide-display();
   }
@@ -47,7 +49,7 @@
   }
 
   // Audiobooks category on search page
-  // Audiobooks genre ID (as of Spotify 1.2.26.1187.g36b715a1)
+  // As of Spotify 1.2.26.1187.g36b715a1
   .x-categoryCard-CategoryCard[href="/genre/0JQ5DAqbMKFETqK4t8f1n3"] {
     @include hide-display();
   }
