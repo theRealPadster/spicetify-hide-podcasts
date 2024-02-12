@@ -65,7 +65,7 @@ const AUDIOBOOKS_KEY = 'HidePodcastsHideAudioBooks';
  * @param podcasts If we should hide podcasts
  * @param audiobooks If we should hide audiobooks
  */
-const setState = ({ podcasts, audiobooks }: { podcasts: boolean, audiobooks: boolean }) => {
+const setExtensionState = ({ podcasts, audiobooks }: { podcasts: boolean, audiobooks: boolean }) => {
   document.body.classList.toggle('hide-podcasts-enabled', podcasts);
   document.body.classList.toggle('hide-audiobooks-enabled', audiobooks);
 };
@@ -87,6 +87,15 @@ async function main() {
     Platform = Spicetify.Platform;
     Locale = Spicetify.Locale;
     mainElem = document.querySelector('.main-view-container__scroll-node-child');
+
+    // Add setState back to Menu class
+    if (!Menu?.Item?.prototype?.setState) {
+      Menu.Item.prototype.setState = function(state) {
+        this.isEnabled = state;
+        // @ts-expect-error: They removed this setState function for some reason and broke it ugh.
+        this.trailingIcon = this.isEnabled ? 'check' : '';
+      };
+    }
   }
 
   console.debug('HidePodcasts: Loaded');
@@ -98,7 +107,6 @@ async function main() {
   const hideAudiobooksMenuItem = new Menu.Item(t('menu.hideAudiobooks'), hideAudioBooks, (self) => {
     hideAudioBooks = !hideAudioBooks;
     localStorage.setItem(AUDIOBOOKS_KEY, hideAudioBooks);
-    // self.setState(isEnabled && hideAudioBooks);
     self.setState(hideAudioBooks);
     apply();
   });
@@ -108,7 +116,6 @@ async function main() {
     isEnabled = !isEnabled;
     localStorage.setItem(SETTINGS_KEY, isEnabled);
     self.setState(isEnabled);
-    // hideAudiobooksMenuItem.setState(isEnabled && hideAudioBooks);
     apply();
   });
 
@@ -127,7 +134,10 @@ async function main() {
 
   // Run the app logic
   function apply() {
-    setState({ podcasts: isEnabled, audiobooks: hideAudioBooks });
+    setExtensionState({
+      podcasts: isEnabled,
+      audiobooks: hideAudioBooks,
+    });
     tagPodcasts();
     tagAudioBooks();
   }
