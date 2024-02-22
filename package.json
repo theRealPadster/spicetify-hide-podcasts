@@ -37,7 +37,7 @@
     "@typescript-eslint/parser": "^6.20.0",
     "eslint": "^8.56.0",
     "eslint-plugin-react": "^7.33.2",
-    "husky": "^8.0.3",
+    "husky": "^9.0.10",
     "i18next": "^23.8.2",
     "i18next-browser-languagedetector": "^7.1.0",
     "react-i18next": "^14.0.0",
