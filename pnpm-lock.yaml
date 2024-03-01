@@ -27,14 +27,14 @@ devDependencies:
     specifier: ^9.0.10
     version: 9.0.10
   i18next:
-    specifier: ^23.8.2
-    version: 23.8.2
+    specifier: ^23.10.0
+    version: 23.10.0
   i18next-browser-languagedetector:
     specifier: ^7.1.0
     version: 7.2.0
   react-i18next:
     specifier: ^14.0.0
-    version: 14.0.0(i18next@23.8.2)(react@18.2.0)
+    version: 14.0.0(i18next@23.10.0)(react@18.2.0)
   spicetify-creator:
     specifier: ^1.0.17
     version: 1.0.17(less@4.2.0)(postcss@8.4.31)(sass@1.69.5)(stylus@0.61.0)
@@ -1454,8 +1454,8 @@ packages:
       '@babel/runtime': 7.23.2
     dev: true
 
-  /i18next@23.8.2:
-    resolution: {integrity: sha512-Z84zyEangrlERm0ZugVy4bIt485e/H8VecGUZkZWrH7BDePG6jT73QdL9EA1tRTTVVMpry/MgWIP1FjEn0DRXA==}
+  /i18next@23.10.0:
+    resolution: {integrity: sha512-/TgHOqsa7/9abUKJjdPeydoyDc0oTi/7u9F8lMSj6ufg4cbC1Oj3f/Jja7zj7WRIhEQKB7Q4eN6y68I9RDxxGQ==}
     dependencies:
       '@babel/runtime': 7.23.2
     dev: true
@@ -2210,7 +2210,7 @@ packages:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
     dev: true
 
-  /react-i18next@14.0.0(i18next@23.8.2)(react@18.2.0):
+  /react-i18next@14.0.0(i18next@23.10.0)(react@18.2.0):
     resolution: {integrity: sha512-OCrS8rHNAmnr8ggGRDxjakzihrMW7HCbsplduTm3EuuQ6fyvWGT41ksZpqbduYoqJurBmEsEVZ1pILSUWkHZng==}
     peerDependencies:
       i18next: '>= 23.2.3'
@@ -2225,7 +2225,7 @@ packages:
     dependencies:
       '@babel/runtime': 7.23.2
       html-parse-stringify: 3.0.1
-      i18next: 23.8.2
+      i18next: 23.10.0
       react: 18.2.0
     dev: true
 
