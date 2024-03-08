@@ -36,13 +36,13 @@
     "@typescript-eslint/eslint-plugin": "^7.0.0",
     "@typescript-eslint/parser": "^6.21.0",
     "eslint": "^8.57.0",
-    "eslint-plugin-react": "^7.33.2",
-    "husky": "^9.0.10",
+    "eslint-plugin-react": "^7.34.0",
+    "husky": "^9.0.11",
     "i18next": "^23.10.0",
     "i18next-browser-languagedetector": "^7.1.0",
-    "react-i18next": "^14.0.0",
+    "react-i18next": "^14.1.0",
     "spicetify-creator": "^1.0.17",
-    "typescript": "^5.3.3"
+    "typescript": "^5.4.2"
   },
   "private": true
 }
