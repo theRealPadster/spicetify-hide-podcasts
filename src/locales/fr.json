@@ -1,9 +1,10 @@
 {
   "translation": {
     "menu": {
-      "title": "Masquer les balados",
+      "title": "Masquer les podcasts",
       "enabled": "Activé",
-      "aggressiveMode": "Mode agressif"
+      "aggressiveMode": "Mode agressif",
+      "hideAudiobooks": "Masquer les livres audio"
     },
     "search": {}
   }
