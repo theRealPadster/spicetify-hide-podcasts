@@ -1,6 +1,22 @@
 // TODO: Make a debug switch that just outlines everything it would block in red.
 
-// The nearby shelves seem to freak out and constantly recalculate their positions if I use display: none
+// IDs for audiobooks (href="/section/ID")
+$audiobooksForYou: '0JQ5DAnM3wGh0gz1MXnue2';
+// IDs for podcasts
+$spotifyOriginalPodcasts: '0JQ5DAnM3wGh0gz1MXnu4i';
+$episodesForYou: '0JQ5DAnM3wGh0gz1MXnu9e';
+$geopoliticalAnalysisEpisodesForYou: '0JQ5DAnM3wGh0gz1MXnuk0';
+$mediaScrutinyEpisodesForYou: '0JQ5DAnM3wGh0gz1MXnuk1';
+$UKPoliticsEpisodesForYou: '0JQ5DAnM3wGh0gz1MXnuk2';
+$familyDramaEpisodesForYou: '0JQ5DAnM3wGh0gz1MXnujZ';
+$currentEventsEpisodesForYou: '0JQ5DAnM3wGh0gz1MXnuk3';
+$showsToTry: '0JQ5DAnM3wGh0gz1MXnu3L';
+
+// The nearby shelves seem to freak out and constantly show/hide if I use display:none, since
+// React culls the elements and the :has selector no longer applies,
+// causing the shelves to be visible again. Then it culls them again, and so on.
+// If I use visiblity instead, it does hide them, but since the element is still technically there,
+// it leaves behind the `gap` in the grid.
 @mixin hide-visibility {
   visibility: hidden;
   height: 0;
@@ -23,10 +39,24 @@
     @include hide-display();
   };
 
-  // Shelves that have podcasts in them
+  // Fallback for shelves that have podcasts in them
+  // (These leave behind a gap)
   .main-shelf-shelf:has(a[href^="/episode/"]),
   .main-shelf-shelf:has(a[href^="/show/"]) {
     @include hide-visibility();
+  }
+
+  // Specific shelves that have podcasts in them
+  // (These don't leave a gap)
+  .main-shelf-shelf:has(a[href*="#{$spotifyOriginalPodcasts}"]),
+  .main-shelf-shelf:has(a[href*="#{$episodesForYou}"]),
+  .main-shelf-shelf:has(a[href*="#{$geopoliticalAnalysisEpisodesForYou}"]),
+  .main-shelf-shelf:has(a[href*="#{$mediaScrutinyEpisodesForYou}"]),
+  .main-shelf-shelf:has(a[href*="#{$UKPoliticsEpisodesForYou}"]),
+  .main-shelf-shelf:has(a[href*="#{$familyDramaEpisodesForYou}"]),
+  .main-shelf-shelf:has(a[href*="#{$currentEventsEpisodesForYou}"]),
+  .main-shelf-shelf:has(a[href*="#{$showsToTry}"]) {
+    @include hide-display();
   }
 
   // Podcasts categories on search page
@@ -55,6 +85,12 @@
 .hide-audiobooks-enabled {
   // Items I've tagged via JS
   .audiobook-item {
+    @include hide-display();
+  }
+
+  // Specific shelves that have audiobooks in them
+  // (These don't leave a gap)
+  .main-shelf-shelf:has(a[href*="#{$audiobooksForYou}"]) {
     @include hide-display();
   }
 

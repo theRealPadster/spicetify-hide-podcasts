@@ -95,20 +95,11 @@ async function main() {
   let aggressiveMode = getLocalStorageDataFromKey(AGGRESSIVE_MODE_KEY, false);
   let hideAudioBooks = getLocalStorageDataFromKey(AUDIOBOOKS_KEY, false);
 
-  const hideAudiobooksMenuItem = new Menu.Item(t('menu.hideAudiobooks'), hideAudioBooks, (self) => {
-    hideAudioBooks = !hideAudioBooks;
-    localStorage.setItem(AUDIOBOOKS_KEY, hideAudioBooks);
-    // self.setState(isEnabled && hideAudioBooks);
-    self.setState(hideAudioBooks);
-    apply();
-  });
-
   // Add menu item and menu click handler
   const enabledMenuItem = new Menu.Item(t('menu.enabled'), isEnabled, (self) => {
     isEnabled = !isEnabled;
     localStorage.setItem(SETTINGS_KEY, isEnabled);
     self.setState(isEnabled);
-    // hideAudiobooksMenuItem.setState(isEnabled && hideAudioBooks);
     apply();
   });
 
@@ -119,11 +110,18 @@ async function main() {
     location.reload();
   });
 
-  new Menu.SubMenu(t('menu.title'), Object.values([
+  const hideAudiobooksMenuItem = new Menu.Item(t('menu.hideAudiobooks'), hideAudioBooks, (self) => {
+    hideAudioBooks = !hideAudioBooks;
+    localStorage.setItem(AUDIOBOOKS_KEY, hideAudioBooks);
+    self.setState(hideAudioBooks);
+    apply();
+  });
+
+  new Menu.SubMenu(t('menu.title'), [
     enabledMenuItem,
     aggressiveModeMenuItem,
     hideAudiobooksMenuItem,
-  ])).register();
+  ]).register();
 
   // Run the app logic
   function apply() {
