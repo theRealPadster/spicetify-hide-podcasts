@@ -12,7 +12,11 @@ $familyDramaEpisodesForYou: '0JQ5DAnM3wGh0gz1MXnujZ';
 $currentEventsEpisodesForYou: '0JQ5DAnM3wGh0gz1MXnuk3';
 $showsToTry: '0JQ5DAnM3wGh0gz1MXnu3L';
 
-// The nearby shelves seem to freak out and constantly recalculate their positions if I use display: none
+// The nearby shelves seem to freak out and constantly show/hide if I use display:none, since
+// React culls the elements and the :has selector no longer applies,
+// causing the shelves to be visible again. Then it culls them again, and so on.
+// If I use visiblity instead, it does hide them, but since the element is still technically there,
+// it leaves behind the `gap` in the grid.
 @mixin hide-visibility {
   visibility: hidden;
   height: 0;
@@ -36,15 +40,14 @@ $showsToTry: '0JQ5DAnM3wGh0gz1MXnu3L';
   };
 
   // Fallback for shelves that have podcasts in them
-  // NOTE: These leave behind the `gap` from the grid, since the element is still there
-  // If I use display:none, react removes the elements these apply to, so these :has rules no longer apply, and it flashes visible/hidden
+  // (These leave behind a gap)
   .main-shelf-shelf:has(a[href^="/episode/"]),
   .main-shelf-shelf:has(a[href^="/show/"]) {
     @include hide-visibility();
   }
 
   // Specific shelves that have podcasts in them
-  // These do work, since the link element doesn't get removed when display:none;
+  // (These don't leave a gap)
   .main-shelf-shelf:has(a[href*="#{$spotifyOriginalPodcasts}"]),
   .main-shelf-shelf:has(a[href*="#{$episodesForYou}"]),
   .main-shelf-shelf:has(a[href*="#{$geopoliticalAnalysisEpisodesForYou}"]),
@@ -86,7 +89,7 @@ $showsToTry: '0JQ5DAnM3wGh0gz1MXnu3L';
   }
 
   // Specific shelves that have audiobooks in them
-  // These do work, since the link element doesn't get removed when display:none;
+  // (These don't leave a gap)
   .main-shelf-shelf:has(a[href*="#{$audiobooksForYou}"]) {
     @include hide-display();
   }
