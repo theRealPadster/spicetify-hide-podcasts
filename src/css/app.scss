@@ -13,7 +13,14 @@ $podcastShelfIds:
 '0JQ5DAnM3wGh0gz1MXnuk2', // UK Politics Episodes For You
 '0JQ5DAnM3wGh0gz1MXnujZ', // Family Drama Episodes For You
 '0JQ5DAnM3wGh0gz1MXnuk3', // Current Events Episodes For You
-'0JQ5DAnM3wGh0gz1MXnu3L'; // Shows To Try
+'0JQ5DAnM3wGh0gz1MXnu3L', // Shows To Try
+// https://github.com/theRealPadster/spicetify-hide-podcasts/issues/135
+'0JQ5DAnM3wGh0gz1MXnu3N',
+'0JQ5DAnM3wGh0gz1MXnu4z',
+'0JQ5DAnM3wGh0gz1MXnu4B',
+'0JQ5DAnM3wGh0gz1MXnu4x',
+'0JQ5DAnM3wGh0gz1MXnu4y',
+'0JQ5DAnM3wGh0gz1MXnu3P';
 
 // The nearby shelves seem to freak out and constantly show/hide if I use display:none, since
 // React culls the elements and the :has selector no longer applies,
