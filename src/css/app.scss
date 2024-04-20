@@ -1,16 +1,19 @@
 // TODO: Make a debug switch that just outlines everything it would block in red.
 
 // IDs for audiobooks (href="/section/ID")
-$audiobooksForYou: '0JQ5DAnM3wGh0gz1MXnue2';
-// IDs for podcasts
-$spotifyOriginalPodcasts: '0JQ5DAnM3wGh0gz1MXnu4i';
-$episodesForYou: '0JQ5DAnM3wGh0gz1MXnu9e';
-$geopoliticalAnalysisEpisodesForYou: '0JQ5DAnM3wGh0gz1MXnuk0';
-$mediaScrutinyEpisodesForYou: '0JQ5DAnM3wGh0gz1MXnuk1';
-$UKPoliticsEpisodesForYou: '0JQ5DAnM3wGh0gz1MXnuk2';
-$familyDramaEpisodesForYou: '0JQ5DAnM3wGh0gz1MXnujZ';
-$currentEventsEpisodesForYou: '0JQ5DAnM3wGh0gz1MXnuk3';
-$showsToTry: '0JQ5DAnM3wGh0gz1MXnu3L';
+$audiobookShelfIds:
+'0JQ5DAnM3wGh0gz1MXnue2'; // Audiobooks For You
+
+// IDs for podcasts (href="/section/ID")
+$podcastShelfIds:
+'0JQ5DAnM3wGh0gz1MXnu4i', // Spotify Original Podcasts
+'0JQ5DAnM3wGh0gz1MXnu9e', // Episodes For You
+'0JQ5DAnM3wGh0gz1MXnuk0', // Geopolitical Analysis Episodes For You
+'0JQ5DAnM3wGh0gz1MXnuk1', // Media Scrutiny Episodes For You
+'0JQ5DAnM3wGh0gz1MXnuk2', // UK Politics Episodes For You
+'0JQ5DAnM3wGh0gz1MXnujZ', // Family Drama Episodes For You
+'0JQ5DAnM3wGh0gz1MXnuk3', // Current Events Episodes For You
+'0JQ5DAnM3wGh0gz1MXnu3L'; // Shows To Try
 
 // The nearby shelves seem to freak out and constantly show/hide if I use display:none, since
 // React culls the elements and the :has selector no longer applies,
@@ -48,15 +51,10 @@ $showsToTry: '0JQ5DAnM3wGh0gz1MXnu3L';
 
   // Specific shelves that have podcasts in them
   // (These don't leave a gap)
-  .main-shelf-shelf:has(a[href*="#{$spotifyOriginalPodcasts}"]),
-  .main-shelf-shelf:has(a[href*="#{$episodesForYou}"]),
-  .main-shelf-shelf:has(a[href*="#{$geopoliticalAnalysisEpisodesForYou}"]),
-  .main-shelf-shelf:has(a[href*="#{$mediaScrutinyEpisodesForYou}"]),
-  .main-shelf-shelf:has(a[href*="#{$UKPoliticsEpisodesForYou}"]),
-  .main-shelf-shelf:has(a[href*="#{$familyDramaEpisodesForYou}"]),
-  .main-shelf-shelf:has(a[href*="#{$currentEventsEpisodesForYou}"]),
-  .main-shelf-shelf:has(a[href*="#{$showsToTry}"]) {
-    @include hide-display();
+  @each $shelfId in $podcastShelfIds {
+    .main-shelf-shelf:has(a[href*="#{$shelfId}"]) {
+      @include hide-display();
+    }
   }
 
   // Podcasts categories on search page
@@ -90,8 +88,10 @@ $showsToTry: '0JQ5DAnM3wGh0gz1MXnu3L';
 
   // Specific shelves that have audiobooks in them
   // (These don't leave a gap)
-  .main-shelf-shelf:has(a[href*="#{$audiobooksForYou}"]) {
-    @include hide-display();
+  @each $shelfId in $audiobookShelfIds {
+    .main-shelf-shelf:has(a[href*="#{$shelfId}"]) {
+      @include hide-display();
+    }
   }
 
   // Audiobooks category on search page
