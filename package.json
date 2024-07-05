@@ -42,7 +42,7 @@
     "i18next-browser-languagedetector": "^8.0.0",
     "react-i18next": "^14.1.0",
     "spicetify-creator": "^1.0.17",
-    "typescript": "^5.4.2"
+    "typescript": "^5.5.3"
   },
   "private": true
 }
