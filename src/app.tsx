@@ -126,8 +126,8 @@ async function main() {
   // Run the app logic
   function apply() {
     setState({ podcasts: isEnabled, audiobooks: hideAudioBooks });
-    tagPodcasts();
-    tagAudioBooks();
+    tagPodcasts(Locale);
+    tagAudioBooks(Locale);
   }
 
   // Listen to page navigation and re-apply when DOM is ready
