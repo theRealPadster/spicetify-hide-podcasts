@@ -85,16 +85,6 @@ $podcastShelfIds:
   .main-yourLibraryX-listItem:has(#listrow-title-spotify\:collection\:your-episodes) {
     @include hide-display();
   }
-
-  // Podcast Category on Home Page
-  .search-searchCategory-catergoryGrid button[aria-label="Podcasts"] {
-    @include hide-display();
-  }
-
-  // Podcast Category on Search Page
-  .search-searchCategory-categoryGridItem[href*="/podcast"] {
-    @include hide-display();
-  }
 }
 
 .hide-audiobooks-enabled {
@@ -114,16 +104,6 @@ $podcastShelfIds:
   // Audiobooks category on search page
   // As of Spotify 1.2.26.1187.g36b715a1
   .x-categoryCard-CategoryCard[href="/genre/0JQ5DAqbMKFETqK4t8f1n3"] {
-    @include hide-display();
-  }
-
-  // Audiobooks Category on Home Page
-  .search-searchCategory-catergoryGrid button[aria-label="Audiobooks"] {
-    @include hide-display();
-  }
-
-  // Audiobooks Category on Search Page
-  .search-searchCategory-categoryGridItem[href*="/audiobooks"] {
     @include hide-display();
   }
 }
