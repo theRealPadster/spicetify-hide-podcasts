@@ -40,22 +40,35 @@ export const getPageLoadedSelector = (pathname: string) => {
 };
 
 /**
- * Get a filter chip given its label
- * @param label The label of the chip to get
+ * Get all chips matching a given label
+ * @param label The label of the chips to get
  */
-const getFilterChip = (label: string) => {
-  const filterDiv = document.querySelector('.main-yourLibraryX-filters');
-  if (!filterDiv) {
-    return null;
-  }
+const getChipsByLabel = (label: string) => {
+  let chips: HTMLElement[] = [];
 
-  const chip = Array.from(filterDiv.querySelectorAll('button'))
-    .find((btn) => {
-      console.debug('=== btn ===', btn);
-      const currLabel = btn.querySelector('span')?.innerText;
-      return currLabel === label;
-    });
-  return chip;
+  const filters = [
+    '.main-yourLibraryX-filters',
+    '.main-home-filterChipsContainer .search-searchCategory-catergoryGrid',
+    '.search-searchCategory-SearchCategory .search-searchCategory-catergoryGrid',
+  ];
+
+  filters.forEach((filter) => {
+    const filterDiv = document.querySelector(filter);
+    if (!filterDiv) {
+      return;
+    }
+
+    const matchingChips = Array.from(filterDiv.querySelectorAll('button'))
+      .filter((btn) => {
+        console.log('=== btn ===', btn);
+        const currLabel = btn.querySelector('span')?.innerText;
+        return currLabel?.includes(label);
+      });
+
+    chips = chips.concat(matchingChips);
+  });
+
+  return chips;
 };
 
 /**
@@ -69,11 +82,13 @@ export const tagPodcasts = (Locale: typeof Spicetify.Locale) => {
   console.debug('=== (Most of this is done via CSS) ===');
 
   const PODCASTS_STRING = Locale.get('search.title.shows') as string || 'Podcasts';
-  const podcastsFilterChip = getFilterChip(PODCASTS_STRING);
-  console.debug('=== podcastsFilterChip ===', podcastsFilterChip);
-  if (podcastsFilterChip) {
-    podcastsFilterChip.classList.add('podcast-item');
-  }
+  const podcastChips = getChipsByLabel(PODCASTS_STRING);
+
+  console.debug('=== podcastChips ===', podcastChips);
+
+  podcastChips.forEach((chip) => {
+    chip.classList.add('podcast-item');
+  });
 };
 
 /**
@@ -87,8 +102,11 @@ export const tagAudioBooks = (Locale: typeof Spicetify.Locale) => {
   console.debug('=== (Most of this is done via CSS) ===');
 
   const AUDIOBOOKS_STRING = Locale.get('shared.library.filter.book') as string || 'Audiobooks';
-  const audiobooksFilterChip = getFilterChip(AUDIOBOOKS_STRING);
-  if (audiobooksFilterChip) {
-    audiobooksFilterChip.classList.add('audiobook-item');
-  }
+  const audiobookChips = getChipsByLabel(AUDIOBOOKS_STRING);
+
+  console.debug('=== audiobookChips ===', audiobookChips);
+
+  audiobookChips.forEach((chip) => {
+    chip.classList.add('audiobook-item');
+  });
 };
