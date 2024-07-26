@@ -40,10 +40,10 @@ export const getPageLoadedSelector = (pathname: string) => {
 };
 
 /**
- * Get all the chips given its label
- * @param label The label of the chip to get
+ * Get all chips matching a given label
+ * @param label The label of the chips to get
  */
-const getAllChips = (label: string) => {
+const getChipsByLabel = (label: string) => {
   let chips: HTMLElement[] = [];
 
   const filters = [
@@ -82,7 +82,7 @@ export const tagPodcasts = (Locale: typeof Spicetify.Locale) => {
   console.debug('=== (Most of this is done via CSS) ===');
 
   const PODCASTS_STRING = Locale.get('search.title.shows') as string || 'Podcasts';
-  const podcastChips = getAllChips(PODCASTS_STRING);
+  const podcastChips = getChipsByLabel(PODCASTS_STRING);
 
   console.debug('=== podcastChips ===', podcastChips);
 
@@ -102,7 +102,7 @@ export const tagAudioBooks = (Locale: typeof Spicetify.Locale) => {
   console.debug('=== (Most of this is done via CSS) ===');
 
   const AUDIOBOOKS_STRING = Locale.get('shared.library.filter.book') as string || 'Audiobooks';
-  const audiobookChips = getAllChips(AUDIOBOOKS_STRING);
+  const audiobookChips = getChipsByLabel(AUDIOBOOKS_STRING);
 
   console.debug('=== audiobookChips ===', audiobookChips);
 
