@@ -36,8 +36,8 @@ importers:
         specifier: ^8.0.0
         version: 8.0.0
       react-i18next:
-        specifier: ^14.1.2
-        version: 14.1.2(i18next@23.12.2)(react@18.2.0)
+        specifier: ^15.0.0
+        version: 15.0.0(i18next@23.12.2)(react@18.2.0)
       spicetify-creator:
         specifier: ^1.0.17
         version: 1.0.17(less@4.2.0)(postcss@8.4.31)(sass@1.69.5)(stylus@0.61.0)
@@ -56,6 +56,10 @@ packages:
 
   '@babel/runtime@7.24.0':
     resolution: {integrity: sha512-Chk32uHMg6TnQdvw2e9IlqPpFX/6NLuK0Ys2PqLb7/gL5uFn9mXvK715FGLlOLQrcO4qIkNHkvPGktzzXexsFw==}
+    engines: {node: '>=6.9.0'}
+
+  '@babel/runtime@7.25.0':
+    resolution: {integrity: sha512-7dRy4DwXwtzBrPbZflqxnvfxLF8kdZXPkhymtDeFoFqE6ldzjQFgYTtYIFARcLEYDrqfBfYcZt1WqFxRoyC9Rw==}
     engines: {node: '>=6.9.0'}
 
   '@esbuild/linux-loong64@0.14.54':
@@ -1246,8 +1250,8 @@ packages:
   queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
 
-  react-i18next@14.1.2:
-    resolution: {integrity: sha512-FSIcJy6oauJbGEXfhUgVeLzvWBhIBIS+/9c6Lj4niwKZyGaGb4V4vUbATXSlsHJDXXB+ociNxqFNiFuV1gmoqg==}
+  react-i18next@15.0.0:
+    resolution: {integrity: sha512-2O3IgF4zivg57Q6p6i+ChDgJ371IDcEWbuWC6gvoh5NbkDMs0Q+O7RPr4v61+Se32E0V+LmtwePAeqWZW0bi6g==}
     peerDependencies:
       i18next: '>= 23.2.3'
       react: '>= 16.8.0'
@@ -1548,6 +1552,10 @@ snapshots:
   '@adobe/css-tools@4.3.1': {}
 
   '@babel/runtime@7.24.0':
+    dependencies:
+      regenerator-runtime: 0.14.0
+
+  '@babel/runtime@7.25.0':
     dependencies:
       regenerator-runtime: 0.14.0
 
@@ -2880,9 +2888,9 @@ snapshots:
 
   queue-microtask@1.2.3: {}
 
-  react-i18next@14.1.2(i18next@23.12.2)(react@18.2.0):
+  react-i18next@15.0.0(i18next@23.12.2)(react@18.2.0):
     dependencies:
-      '@babel/runtime': 7.24.0
+      '@babel/runtime': 7.25.0
       html-parse-stringify: 3.0.1
       i18next: 23.12.2
       react: 18.2.0
