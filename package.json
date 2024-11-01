@@ -40,7 +40,7 @@
     "husky": "^9.1.4",
     "i18next": "^23.16.4",
     "i18next-browser-languagedetector": "^8.0.0",
-    "react-i18next": "^15.0.0",
+    "react-i18next": "^15.1.0",
     "spicetify-creator": "^1.0.17",
     "typescript": "^5.6.2"
   },
