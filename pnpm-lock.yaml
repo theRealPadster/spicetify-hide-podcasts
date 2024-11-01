@@ -30,14 +30,14 @@ importers:
         specifier: ^9.1.4
         version: 9.1.4
       i18next:
-        specifier: ^23.15.1
-        version: 23.15.1
+        specifier: ^23.16.4
+        version: 23.16.4
       i18next-browser-languagedetector:
         specifier: ^8.0.0
         version: 8.0.0
       react-i18next:
         specifier: ^15.0.0
-        version: 15.0.0(i18next@23.15.1)(react@18.2.0)
+        version: 15.0.0(i18next@23.16.4)(react@18.2.0)
       spicetify-creator:
         specifier: ^1.0.17
         version: 1.0.17(less@4.2.0)(postcss@8.4.31)(sass@1.69.5)(stylus@0.61.0)
@@ -587,6 +587,7 @@ packages:
   eslint@8.57.0:
     resolution: {integrity: sha512-dZ6+mexnaTIbSBZWgou51U6OmzIhYM2VcNdtiTtI7qPNZm35Akpr0f6vtw3w1Kmn5PYo+tZVfh13WrhpS6oLqQ==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+    deprecated: This version is no longer supported. Please see https://eslint.org/version-support for other options.
     hasBin: true
 
   espree@9.6.1:
@@ -789,8 +790,8 @@ packages:
   i18next-browser-languagedetector@8.0.0:
     resolution: {integrity: sha512-zhXdJXTTCoG39QsrOCiOabnWj2jecouOqbchu3EfhtSHxIB5Uugnm9JaizenOy39h7ne3+fLikIjeW88+rgszw==}
 
-  i18next@23.15.1:
-    resolution: {integrity: sha512-wB4abZ3uK7EWodYisHl/asf8UYEhrI/vj/8aoSsrj/ZDxj4/UXPOa1KvFt1Fq5hkUHquNqwFlDprmjZ8iySgYA==}
+  i18next@23.16.4:
+    resolution: {integrity: sha512-9NIYBVy9cs4wIqzurf7nLXPyf3R78xYbxExVqHLK9od3038rjpyOEzW+XB130kZ1N4PZ9inTtJ471CRJ4Ituyg==}
 
   iconv-lite@0.6.3:
     resolution: {integrity: sha512-4fCk79wshMdzMp2rH06qWrJE4iolqLhCUH+OiuIgU++RB0+94NlDL81atO7GX55uUKueo0txHNtvEyI6D7WdMw==}
@@ -2415,7 +2416,7 @@ snapshots:
     dependencies:
       '@babel/runtime': 7.24.0
 
-  i18next@23.15.1:
+  i18next@23.16.4:
     dependencies:
       '@babel/runtime': 7.25.0
 
@@ -2840,11 +2841,11 @@ snapshots:
 
   queue-microtask@1.2.3: {}
 
-  react-i18next@15.0.0(i18next@23.15.1)(react@18.2.0):
+  react-i18next@15.0.0(i18next@23.16.4)(react@18.2.0):
     dependencies:
       '@babel/runtime': 7.25.0
       html-parse-stringify: 3.0.1
-      i18next: 23.15.1
+      i18next: 23.16.4
       react: 18.2.0
 
   react-is@16.13.1: {}
