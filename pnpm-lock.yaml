@@ -36,8 +36,8 @@ importers:
         specifier: ^8.0.0
         version: 8.0.0
       react-i18next:
-        specifier: ^15.1.0
-        version: 15.1.0(i18next@24.2.0(typescript@5.7.2))(react@18.2.0)
+        specifier: ^15.4.0
+        version: 15.4.0(i18next@24.2.0(typescript@5.7.2))(react@18.2.0)
       spicetify-creator:
         specifier: ^1.0.17
         version: 1.0.17(less@4.2.0)(postcss@8.4.31)(sass@1.69.5)(stylus@0.61.0)
@@ -1235,8 +1235,8 @@ packages:
   queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
 
-  react-i18next@15.1.0:
-    resolution: {integrity: sha512-zj3nJynMnZsy2gPZiOTC7XctCY5eQGqT3tcKMmfJWC9FMvgd+960w/adq61j8iPzpwmsXejqID9qC3Mqu1Xu2Q==}
+  react-i18next@15.4.0:
+    resolution: {integrity: sha512-Py6UkX3zV08RTvL6ZANRoBh9sL/ne6rQq79XlkHEdd82cZr2H9usbWpUNVadJntIZP2pu3M2rL1CN+5rQYfYFw==}
     peerDependencies:
       i18next: '>= 23.2.3'
       react: '>= 16.8.0'
@@ -2848,7 +2848,7 @@ snapshots:
 
   queue-microtask@1.2.3: {}
 
-  react-i18next@15.1.0(i18next@24.2.0(typescript@5.7.2))(react@18.2.0):
+  react-i18next@15.4.0(i18next@24.2.0(typescript@5.7.2))(react@18.2.0):
     dependencies:
       '@babel/runtime': 7.25.0
       html-parse-stringify: 3.0.1
