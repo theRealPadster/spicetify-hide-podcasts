@@ -33,8 +33,8 @@ importers:
         specifier: ^25.0.2
         version: 25.0.2(typescript@5.8.2)
       i18next-browser-languagedetector:
-        specifier: ^8.0.0
-        version: 8.0.0
+        specifier: ^8.1.0
+        version: 8.1.0
       react-i18next:
         specifier: ^15.5.1
         version: 15.5.1(i18next@25.0.2(typescript@5.8.2))(react@18.2.0)(typescript@5.8.2)
@@ -53,10 +53,6 @@ packages:
 
   '@adobe/css-tools@4.3.3':
     resolution: {integrity: sha512-rE0Pygv0sEZ4vBWHlAgJLGDU7Pm8xoO6p3wsEceb7GYAjScrOHpEo8KK/eVkAcnSM+slAEtXjA2JpdjLp4fJQQ==}
-
-  '@babel/runtime@7.24.0':
-    resolution: {integrity: sha512-Chk32uHMg6TnQdvw2e9IlqPpFX/6NLuK0Ys2PqLb7/gL5uFn9mXvK715FGLlOLQrcO4qIkNHkvPGktzzXexsFw==}
-    engines: {node: '>=6.9.0'}
 
   '@babel/runtime@7.27.1':
     resolution: {integrity: sha512-1x3D2xEk2fRo3PAhwQwu5UubzgiVWSXTBfWpVd2Mx2AzRqJuDJCsgaDVZ7HB5iGzDW1Hl1sWN2mFyKjmR9uAog==}
@@ -796,8 +792,8 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
-  i18next-browser-languagedetector@8.0.0:
-    resolution: {integrity: sha512-zhXdJXTTCoG39QsrOCiOabnWj2jecouOqbchu3EfhtSHxIB5Uugnm9JaizenOy39h7ne3+fLikIjeW88+rgszw==}
+  i18next-browser-languagedetector@8.1.0:
+    resolution: {integrity: sha512-mHZxNx1Lq09xt5kCauZ/4bsXOEA2pfpwSoU11/QTJB+pD94iONFwp+ohqi///PwiFvjFOxe1akYCdHyFo1ng5Q==}
 
   i18next@25.0.2:
     resolution: {integrity: sha512-xWxgK8GAaPYkV9ia2tdgbtdM+qiC+ysVTBPvXhpCORU/+QkeQe3BSI7Crr+c4ZXULN1PfnXG/HY2n7HGx4KKBg==}
@@ -1278,9 +1274,6 @@ packages:
     resolution: {integrity: sha512-ECkTw8TmJwW60lOTR+ZkODISW6RQ8+2CL3COqtiJKLd6MmB45hN51HprHFziKLGkAuTGQhBb91V8cy+KHlaCjw==}
     engines: {node: '>= 0.4'}
 
-  regenerator-runtime@0.14.0:
-    resolution: {integrity: sha512-srw17NI0TUWHuGa5CFGGmhfNIeja30WMBfbslPNhf6JrqQlLN5gcrvig1oqPxiVaXb0oW0XRKtH6Nngs5lKCIA==}
-
   regexp.prototype.flags@1.5.2:
     resolution: {integrity: sha512-NcDiDkTLuPR+++OCKB0nWafEmhg/Da8aUPLPMQbK+bxKKCm1/S5he+AqYa4PlMCVBalb4/yxIRub6qkEx5yJbw==}
     engines: {node: '>= 0.4'}
@@ -1553,10 +1546,6 @@ snapshots:
   '@aashutoshrathi/word-wrap@1.2.6': {}
 
   '@adobe/css-tools@4.3.3': {}
-
-  '@babel/runtime@7.24.0':
-    dependencies:
-      regenerator-runtime: 0.14.0
 
   '@babel/runtime@7.27.1': {}
 
@@ -2440,9 +2429,9 @@ snapshots:
 
   husky@9.1.4: {}
 
-  i18next-browser-languagedetector@8.0.0:
+  i18next-browser-languagedetector@8.1.0:
     dependencies:
-      '@babel/runtime': 7.24.0
+      '@babel/runtime': 7.27.1
 
   i18next@25.0.2(typescript@5.8.2):
     dependencies:
@@ -2894,8 +2883,6 @@ snapshots:
       get-intrinsic: 1.2.4
       globalthis: 1.0.3
       which-builtin-type: 1.1.3
-
-  regenerator-runtime@0.14.0: {}
 
   regexp.prototype.flags@1.5.2:
     dependencies:
