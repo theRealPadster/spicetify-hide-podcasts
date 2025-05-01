@@ -36,8 +36,8 @@ importers:
         specifier: ^8.0.0
         version: 8.0.0
       react-i18next:
-        specifier: ^15.4.0
-        version: 15.4.0(i18next@25.0.2(typescript@5.8.2))(react@18.2.0)
+        specifier: ^15.5.1
+        version: 15.5.1(i18next@25.0.2(typescript@5.8.2))(react@18.2.0)(typescript@5.8.2)
       spicetify-creator:
         specifier: ^1.0.17
         version: 1.0.17(less@4.2.0)(postcss@8.4.31)(sass@1.69.5)(stylus@0.61.0)
@@ -56,10 +56,6 @@ packages:
 
   '@babel/runtime@7.24.0':
     resolution: {integrity: sha512-Chk32uHMg6TnQdvw2e9IlqPpFX/6NLuK0Ys2PqLb7/gL5uFn9mXvK715FGLlOLQrcO4qIkNHkvPGktzzXexsFw==}
-    engines: {node: '>=6.9.0'}
-
-  '@babel/runtime@7.25.0':
-    resolution: {integrity: sha512-7dRy4DwXwtzBrPbZflqxnvfxLF8kdZXPkhymtDeFoFqE6ldzjQFgYTtYIFARcLEYDrqfBfYcZt1WqFxRoyC9Rw==}
     engines: {node: '>=6.9.0'}
 
   '@babel/runtime@7.27.1':
@@ -1251,17 +1247,20 @@ packages:
   queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
 
-  react-i18next@15.4.0:
-    resolution: {integrity: sha512-Py6UkX3zV08RTvL6ZANRoBh9sL/ne6rQq79XlkHEdd82cZr2H9usbWpUNVadJntIZP2pu3M2rL1CN+5rQYfYFw==}
+  react-i18next@15.5.1:
+    resolution: {integrity: sha512-C8RZ7N7H0L+flitiX6ASjq9p5puVJU1Z8VyL3OgM/QOMRf40BMZX+5TkpxzZVcTmOLPX5zlti4InEX5pFyiVeA==}
     peerDependencies:
       i18next: '>= 23.2.3'
       react: '>= 16.8.0'
       react-dom: '*'
       react-native: '*'
+      typescript: ^5
     peerDependenciesMeta:
       react-dom:
         optional: true
       react-native:
+        optional: true
+      typescript:
         optional: true
 
   react-is@16.13.1:
@@ -1556,10 +1555,6 @@ snapshots:
   '@adobe/css-tools@4.3.3': {}
 
   '@babel/runtime@7.24.0':
-    dependencies:
-      regenerator-runtime: 0.14.0
-
-  '@babel/runtime@7.25.0':
     dependencies:
       regenerator-runtime: 0.14.0
 
@@ -2872,12 +2867,14 @@ snapshots:
 
   queue-microtask@1.2.3: {}
 
-  react-i18next@15.4.0(i18next@25.0.2(typescript@5.8.2))(react@18.2.0):
+  react-i18next@15.5.1(i18next@25.0.2(typescript@5.8.2))(react@18.2.0)(typescript@5.8.2):
     dependencies:
-      '@babel/runtime': 7.25.0
+      '@babel/runtime': 7.27.1
       html-parse-stringify: 3.0.1
       i18next: 25.0.2(typescript@5.8.2)
       react: 18.2.0
+    optionalDependencies:
+      typescript: 5.8.2
 
   react-is@16.13.1: {}
 
