@@ -1,0 +1,11 @@
+{
+  "translation": {
+    "menu": {
+      "title": "Gøym podkastar",
+      "enabled": "Aktivert",
+      "aggressiveMode": "Aggressiv modus",
+      "hideAudiobooks": "Gøym lydbøker"
+    },
+    "search": {}
+  }
+}
