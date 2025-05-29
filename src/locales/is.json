@@ -1,0 +1,11 @@
+{
+  "translation": {
+    "menu": {
+      "title": "Fela hlaðvarp",
+      "enabled": "Virkt",
+      "aggressiveMode": "Ágengur hamur",
+      "hideAudiobooks": "Fela hljóðbækur"
+    },
+    "search": {}
+  }
+}
