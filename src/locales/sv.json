@@ -1,0 +1,11 @@
+{
+  "translation": {
+    "menu": {
+      "title": "Dölj poddar",
+      "enabled": "Aktiverad",
+      "aggressiveMode": "Aggressivt läge",
+      "hideAudiobooks": "Dölj ljudböcker"
+    },
+    "search": {}
+  }
+}
