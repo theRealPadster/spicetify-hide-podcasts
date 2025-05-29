@@ -1,0 +1,11 @@
+{
+  "translation": {
+    "menu": {
+      "title": "Piilota podcastit",
+      "enabled": "Käytössä",
+      "aggressiveMode": "Aggressiivinen tila",
+      "hideAudiobooks": "Piilota äänikirjat"
+    },
+    "search": {}
+  }
+}
