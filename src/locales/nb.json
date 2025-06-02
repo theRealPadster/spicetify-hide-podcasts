@@ -1,0 +1,11 @@
+{
+  "translation": {
+    "menu": {
+      "title": "Skjul podkaster",
+      "enabled": "Aktivert",
+      "aggressiveMode": "Aggressiv modus",
+      "hideAudiobooks": "Skjul lydbøker"
+    },
+    "search": {}
+  }
+}
