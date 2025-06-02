@@ -9,12 +9,16 @@ import i18n from 'i18next';
 import caLocale from './locales/ca.json';
 import daLocale from './locales/da.json';
 import enLocale from './locales/en.json';
+import fiLocale from './locales/fi.json';
 import frLocale from './locales/fr.json';
 import deLocale from './locales/de.json';
+import isLocale from './locales/is.json';
 import itLocale from './locales/it.json';
+import nbLocale from './locales/nb.json';
 import ptBrLocale from './locales/pt-BR.json';
 import plPlLocale from './locales/pl-PL.json';
 import ruLocale from './locales/ru.json';
+import svLocale from './locales/sv.json';
 import trLocale from './locales/tr.json';
 import zhCNLocale from './locales/zh-CN.json';
 import { initReactI18next } from 'react-i18next';
@@ -32,12 +36,16 @@ const locales = {
   ca: caLocale,
   da: daLocale,
   en: enLocale,
+  fi: fiLocale,
   fr: frLocale,
   de: deLocale,
+  is: isLocale,
   it: itLocale,
+  nb: nbLocale,
   'pt-BR': ptBrLocale,
   'pl-PL': plPlLocale,
   ru: ruLocale,
+  sv: svLocale,
   tr: trLocale,
   'zh-CN': zhCNLocale,
 };
