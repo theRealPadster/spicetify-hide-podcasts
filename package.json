@@ -38,7 +38,7 @@
     "eslint": "^8.57.0",
     "eslint-plugin-react": "^7.37.1",
     "husky": "^9.1.4",
-    "i18next": "^25.5.3",
+    "i18next": "^25.6.0",
     "i18next-browser-languagedetector": "^8.2.0",
     "react-i18next": "^15.6.1",
     "spicetify-creator": "^1.0.17",
