@@ -49,8 +49,6 @@ const getChipsByLabel = (label: string) => {
   const filters = [
     '.main-yourLibraryX-filters',
     '.main-yourLibraryX-filterArea',
-    '.main-home-filterChipsContainer .search-searchCategory-catergoryGrid',
-    '.search-searchCategory-SearchCategory .search-searchCategory-catergoryGrid',
     '.search-searchCategory-categoryGrid',
   ];
 
