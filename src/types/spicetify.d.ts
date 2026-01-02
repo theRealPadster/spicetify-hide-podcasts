@@ -540,6 +540,7 @@ declare namespace Spicetify {
 	 * @param uri Any type of URI that has artwork (playlist, track, album, artist, show, ...)
 	 */
 	function colorExtractor(uri: string): Promise<{
+		DARK_VIBRANT: string;
 		DESATURATED: string;
 		LIGHT_VIBRANT: string;
 		PROMINENT: string;
@@ -1418,7 +1419,7 @@ declare namespace Spicetify {
 			/**
 			 * Label to display in the tooltip
 			 */
-			label: string;
+			label: string | React.ReactNode;
 			/**
 			 * The child element that the tooltip will be attached to
 			 * and will display when hovered over
@@ -1813,11 +1814,12 @@ declare namespace Spicetify {
 	 */
 	namespace Topbar {
 		class Button {
-			constructor(label: string, icon: Icon | string, onClick: (self: Button) => void, disabled?: boolean);
+			constructor(label: string, icon: Icon | string, onClick: (self: Button) => void, disabled?: boolean, isRight?: boolean);
 			label: string;
 			icon: string;
 			onClick: (self: Button) => void;
 			disabled: boolean;
+			isRight: boolean;
 			element: HTMLButtonElement;
 			tippy: any;
 		}
@@ -1878,13 +1880,6 @@ declare namespace Spicetify {
 	 * SVG icons
 	 */
 	const SVGIcons: Record<Icon, string>;
-
-	/**
-	 * Return font styling used by Spotify.
-	 * @param font Name of the font.
-	 * Can match any of the fonts listed in `Spicetify._fontStyle` or returns a generic style otherwise.
-	 */
-	function getFontStyle(font: Variant): string;
 
 	/**
 	 * A filtered copy of user's `config-xpui` file.
