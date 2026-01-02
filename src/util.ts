@@ -60,14 +60,14 @@ const getChipsByLabel = (label: string) => {
 
     const buttonChips = Array.from(filterDiv.querySelectorAll('button'))
       .filter((btn) => {
-        console.log('=== btn ===', btn);
+        console.debug('=== btn ===', btn);
         const currLabel = btn.querySelector('span')?.innerText;
         return currLabel?.includes(label);
       });
 
     const divChips = Array.from(filterDiv.querySelectorAll('div[class*="ChipComponent"]'))
       .filter((div) => {
-        console.log('=== div ===', div);
+        console.debug('=== div ===', div);
         const spanText = div.querySelector('span')?.innerText;
         const ariaLabel = div.getAttribute('aria-label');
         return spanText?.includes(label) || ariaLabel?.includes(label);
