@@ -48,8 +48,10 @@ const getChipsByLabel = (label: string) => {
 
   const filters = [
     '.main-yourLibraryX-filters',
+    '.main-yourLibraryX-filterArea',
     '.main-home-filterChipsContainer .search-searchCategory-catergoryGrid',
     '.search-searchCategory-SearchCategory .search-searchCategory-catergoryGrid',
+    '.search-searchCategory-categoryGrid',
   ];
 
   filters.forEach((filter) => {
@@ -58,14 +60,26 @@ const getChipsByLabel = (label: string) => {
       return;
     }
 
-    const matchingChips = Array.from(filterDiv.querySelectorAll('button'))
+    const buttonChips = Array.from(filterDiv.querySelectorAll('button'))
       .filter((btn) => {
         console.log('=== btn ===', btn);
         const currLabel = btn.querySelector('span')?.innerText;
         return currLabel?.includes(label);
       });
 
-    chips = chips.concat(matchingChips);
+    const divChips = Array.from(filterDiv.querySelectorAll('div[class*="ChipComponent"]'))
+      .filter((div) => {
+        console.log('=== div ===', div);
+        const spanText = div.querySelector('span')?.innerText;
+        const ariaLabel = div.getAttribute('aria-label');
+        return spanText?.includes(label) || ariaLabel?.includes(label);
+      })
+      .map((div) => {
+        const parentOption = div.closest('div[role="option"]');
+        return (parentOption as HTMLElement) || div;
+      });
+
+    chips = chips.concat(buttonChips, divChips);
   });
 
   return chips;

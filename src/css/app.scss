@@ -85,6 +85,19 @@ $podcastShelfIds:
   .main-yourLibraryX-listItem:has(#listrow-title-spotify\:collection\:your-episodes) {
     @include hide-display();
   }
+
+  // Search suggestions containing podcast shows or episodes
+  #search-dropdown [role="row"]:has(a[href^="/show/"]),
+  #search-dropdown [role="row"]:has(a[href^="/episode/"]) {
+    @include hide-display();
+  }
+
+  // "Podcasts & Shows" filter chip on search results page
+  a[href*="/podcastAndEpisodes"],
+  // Podcast filter link on search results page
+  a[href*="/search"][href*="/podcasts"] {
+    @include hide-display();
+  }
 }
 
 .hide-audiobooks-enabled {
@@ -104,6 +117,11 @@ $podcastShelfIds:
   // Audiobooks category on search page
   // As of Spotify 1.2.26.1187.g36b715a1
   .x-categoryCard-CategoryCard[href="/genre/0JQ5DAqbMKFETqK4t8f1n3"] {
+    @include hide-display();
+  }
+
+  // "Audiobooks" filter chip on search results page
+  a[href*="/audiobooks"] {
     @include hide-display();
   }
 }
