@@ -8,6 +8,7 @@ $audiobookShelfIds:
 $podcastShelfIds:
 '0JQ5DAnM3wGh0gz1MXnu4i', // Spotify Original Podcasts
 '0JQ5DAnM3wGh0gz1MXnu9e', // Episodes For You
+'0JQ5DAnM3wGh0gz1MXnuhz', // Episodes you might like
 '0JQ5DAnM3wGh0gz1MXnuk0', // Geopolitical Analysis Episodes For You
 '0JQ5DAnM3wGh0gz1MXnuk1', // Media Scrutiny Episodes For You
 '0JQ5DAnM3wGh0gz1MXnuk2', // UK Politics Episodes For You
@@ -62,6 +63,9 @@ $podcastShelfIds:
     .main-shelf-shelf:has(a[href*="#{$shelfId}"]) {
       @include hide-display();
     }
+    [data-encore-id="listRow"]:has(a[href*="#{$shelfId}"]) {
+      @include hide-display();
+    }
   }
 
   // Podcasts categories on search page
@@ -86,6 +90,12 @@ $podcastShelfIds:
     @include hide-display();
   }
 
+  // Podcasts in sidebar recently played
+  .main-yourLibraryX-listItem:has(a[href^="/show/"]),
+  .main-yourLibraryX-listItem:has([id^="listrow-title-spotify:show:"]) {
+    @include hide-display();
+  }
+
   // Search suggestions containing podcast shows or episodes
   #search-dropdown [role="row"]:has(a[href^="/show/"]),
   #search-dropdown [role="row"]:has(a[href^="/episode/"]) {
@@ -96,6 +106,13 @@ $podcastShelfIds:
   a[href*="/podcastAndEpisodes"],
   // Podcast filter link on search results page
   a[href*="/search"][href*="/podcasts"] {
+    @include hide-display();
+  }
+
+  // Podcast cards (e.g. in recently played section on homepage)
+  // Hide the carousel grid item parent to avoid leaving gaps
+  [data-carousel-gridlist-item="true"]:has(.main-card-cardContainer a[href^="/show/"]),
+  [data-carousel-gridlist-item="true"]:has([data-encore-id="card"][aria-labelledby*="spotify:show:"]) {
     @include hide-display();
   }
 }
