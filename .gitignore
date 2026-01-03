@@ -154,3 +154,6 @@ yarn.lock
 
 # vectornator files for snippet previews
 *.vectornator
+
+# For local inspection of Spotify's HTML I save it to HTML files and inspect it using scripts that parse the DOM
+*.html
