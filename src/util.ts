@@ -39,6 +39,12 @@ export const getPageLoadedSelector = (pathname: string) => {
   }
 };
 
+const CHIP_CONTAINERS = [
+  '.main-yourLibraryX-filters',
+  '.main-yourLibraryX-filterArea',
+  '.search-searchCategory-categoryGrid',
+];
+
 /**
  * Get all chips matching a given label
  * @param label The label of the chips to get
@@ -46,14 +52,8 @@ export const getPageLoadedSelector = (pathname: string) => {
 const getChipsByLabel = (label: string) => {
   let chips: HTMLElement[] = [];
 
-  const filters = [
-    '.main-yourLibraryX-filters',
-    '.main-yourLibraryX-filterArea',
-    '.search-searchCategory-categoryGrid',
-  ];
-
-  filters.forEach((filter) => {
-    const filterDivs = Array.from(document.querySelectorAll(filter));
+  CHIP_CONTAINERS.forEach((container) => {
+    const filterDivs = Array.from(document.querySelectorAll(container));
     if (!filterDivs) {
       return;
     }
@@ -70,8 +70,7 @@ const getChipsByLabel = (label: string) => {
         .filter((div) => {
           console.debug('=== div ===', div);
           const spanText = div.querySelector('span')?.innerText;
-          const ariaLabel = div.getAttribute('aria-label');
-          return spanText?.includes(label) || ariaLabel?.includes(label);
+          return spanText?.includes(label);
         })
         .map((div) => {
           const parentOption = div.closest('div[role="option"]');
@@ -83,6 +82,41 @@ const getChipsByLabel = (label: string) => {
   });
 
   return chips;
+};
+
+const PODCAST_CHIP_STYLE_ID = 'hide-podcasts-chip-styles';
+
+/**
+ * Inject CSS that targets aria-label attributes with localized strings
+ * @param labels The labels of the chips to inject styles for
+ */
+const injectPodcastChipStyles = (labels: string[]) => {
+  const existingStyle = document.getElementById(PODCAST_CHIP_STYLE_ID);
+  if (existingStyle) {
+    existingStyle.remove();
+  }
+
+  const cssRules: string[] = [];
+
+  for (const container of CHIP_CONTAINERS) {
+    for (const label of labels) {
+      const escapedLabel = CSS.escape(label);
+      cssRules.push(`
+        .hide-podcasts-enabled ${container} button[aria-label*="${escapedLabel}"],
+        .hide-podcasts-enabled ${container} div[class*="ChipComponent"][aria-label*="${escapedLabel}"],
+        .hide-podcasts-enabled ${container} div[role="option"]:has([aria-label*="${escapedLabel}"])
+      `);
+    }
+  }
+
+  const cssContent = `${cssRules.join(', ')} { display: none !important; }`;
+
+  const styleElement = document.createElement('style');
+  styleElement.id = PODCAST_CHIP_STYLE_ID;
+  styleElement.textContent = cssContent;
+  document.head.appendChild(styleElement);
+
+  console.debug('=== Injected podcast chip styles ===', cssContent);
 };
 
 /**
@@ -103,6 +137,8 @@ export const tagPodcasts = (Locale: typeof Spicetify.Locale) => {
 
   console.debug('=== podcastChips ===', podcastChips);
   console.debug('=== podcastAndShowsChips ===', podcastAndShowsChips);
+
+  injectPodcastChipStyles([PODCASTS_STRING, PODCAST_AND_SHOWS_STRING]);
 
   const addPodcastClass = (chip: HTMLElement) => {
     chip.classList.add('podcast-item');
