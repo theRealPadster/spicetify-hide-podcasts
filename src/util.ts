@@ -53,31 +53,33 @@ const getChipsByLabel = (label: string) => {
   ];
 
   filters.forEach((filter) => {
-    const filterDiv = document.querySelector(filter);
-    if (!filterDiv) {
+    const filterDivs = Array.from(document.querySelectorAll(filter));
+    if (!filterDivs) {
       return;
     }
 
-    const buttonChips = Array.from(filterDiv.querySelectorAll('button'))
-      .filter((btn) => {
-        console.debug('=== btn ===', btn);
-        const currLabel = btn.querySelector('span')?.innerText;
-        return currLabel?.includes(label);
-      });
+    for (const filterDiv of filterDivs) {
+      const buttonChips = Array.from(filterDiv.querySelectorAll('button'))
+        .filter((btn) => {
+          console.debug('=== btn ===', btn);
+          const currLabel = btn.querySelector('span')?.innerText;
+          return currLabel?.includes(label);
+        });
 
-    const divChips = Array.from(filterDiv.querySelectorAll('div[class*="ChipComponent"]'))
-      .filter((div) => {
-        console.debug('=== div ===', div);
-        const spanText = div.querySelector('span')?.innerText;
-        const ariaLabel = div.getAttribute('aria-label');
-        return spanText?.includes(label) || ariaLabel?.includes(label);
-      })
-      .map((div) => {
-        const parentOption = div.closest('div[role="option"]');
-        return (parentOption as HTMLElement) || div;
-      });
+      const divChips = Array.from(filterDiv.querySelectorAll('div[class*="ChipComponent"]'))
+        .filter((div) => {
+          console.debug('=== div ===', div);
+          const spanText = div.querySelector('span')?.innerText;
+          const ariaLabel = div.getAttribute('aria-label');
+          return spanText?.includes(label) || ariaLabel?.includes(label);
+        })
+        .map((div) => {
+          const parentOption = div.closest('div[role="option"]');
+          return (parentOption as HTMLElement) || div;
+        });
 
-    chips = chips.concat(buttonChips, divChips);
+      chips = chips.concat(buttonChips, divChips);
+    }
   });
 
   return chips;
@@ -96,11 +98,17 @@ export const tagPodcasts = (Locale: typeof Spicetify.Locale) => {
   const PODCASTS_STRING = Locale.get('search.title.shows') as string || 'Podcasts';
   const podcastChips = getChipsByLabel(PODCASTS_STRING);
 
-  console.debug('=== podcastChips ===', podcastChips);
+  const PODCAST_AND_SHOWS_STRING = Locale.get('web-player.whats-new-feed.filters.episodes') as string || 'Podcast & Shows';
+  const podcastAndShowsChips = getChipsByLabel(PODCAST_AND_SHOWS_STRING);
 
-  podcastChips.forEach((chip) => {
+  console.debug('=== podcastChips ===', podcastChips);
+  console.debug('=== podcastAndShowsChips ===', podcastAndShowsChips);
+
+  const addPodcastClass = (chip: HTMLElement) => {
     chip.classList.add('podcast-item');
-  });
+  };
+  podcastChips.forEach(addPodcastClass);
+  podcastAndShowsChips.forEach(addPodcastClass);
 };
 
 /**
