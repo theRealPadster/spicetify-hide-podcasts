@@ -3,7 +3,8 @@
     "menu": {
       "title": "Podcasts verstecken",
       "enabled": "Aktiviert",
-      "aggressiveMode": "Aggressiver Modus"
+      "aggressiveMode": "Aggressiver Modus",
+      "hideAudiobooks": "Hörbücher verstecken"
     },
     "search": {}
   }
