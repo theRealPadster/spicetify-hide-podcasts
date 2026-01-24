@@ -116,7 +116,7 @@ const injectHideChipStyles = (rootClass: string, styleId: string, labels: string
   styleElement.textContent = cssContent;
   document.head.appendChild(styleElement);
 
-  console.debug('=== Injected podcast chip styles ===', cssContent);
+  console.debug('=== Injected hide chip styles ===', { rootClass, styleId, cssContent });
 };
 
 /**
