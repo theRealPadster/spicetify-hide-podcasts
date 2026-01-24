@@ -53,14 +53,17 @@ $podcastShelfIds:
   // Fallback for shelves that have podcasts in them
   // (These leave behind a gap)
   .main-shelf-shelf:has(a[href^="/episode/"]),
-  .main-shelf-shelf:has(a[href^="/show/"]) {
+  .main-shelf-shelf:has(a[href^="/show/"]),
+  section[data-shelf="carousel"]:has(a[href^="/episode/"]),
+  section[data-shelf="carousel"]:has(a[href^="/show/"]) {
     @include hide-visibility();
   }
 
   // Specific shelves that have podcasts in them
   // (These don't leave a gap)
   @each $shelfId in $podcastShelfIds {
-    .main-shelf-shelf:has(a[href*="#{$shelfId}"]) {
+    .main-shelf-shelf:has(a[href*="#{$shelfId}"]),
+    section[data-shelf="carousel"]:has(a[href*="#{$shelfId}"]) {
       @include hide-display();
     }
     [data-encore-id="listRow"]:has(a[href*="#{$shelfId}"]) {
@@ -126,7 +129,8 @@ $podcastShelfIds:
   // Specific shelves that have audiobooks in them
   // (These don't leave a gap)
   @each $shelfId in $audiobookShelfIds {
-    .main-shelf-shelf:has(a[href*="#{$shelfId}"]) {
+    .main-shelf-shelf:has(a[href*="#{$shelfId}"]),
+    section[data-shelf="carousel"]:has(a[href*="#{$shelfId}"]) {
       @include hide-display();
     }
   }
