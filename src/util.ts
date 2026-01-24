@@ -84,14 +84,14 @@ const getChipsByLabel = (label: string) => {
   return chips;
 };
 
-const PODCAST_CHIP_STYLE_ID = 'hide-podcasts-chip-styles';
-
 /**
  * Inject CSS that targets aria-label attributes with localized strings
- * @param labels The labels of the chips to inject styles for
+ * @param rootClass The root class to inject styles for
+ * @param styleId The ID for the style element
+ * @param labels The labels of the chips to hide
  */
-const injectPodcastChipStyles = (labels: string[]) => {
-  const existingStyle = document.getElementById(PODCAST_CHIP_STYLE_ID);
+const injectHideChipStyles = (rootClass: string, styleId: string, labels: string[]) => {
+  const existingStyle = document.getElementById(styleId);
   if (existingStyle) {
     existingStyle.remove();
   }
@@ -102,9 +102,9 @@ const injectPodcastChipStyles = (labels: string[]) => {
     for (const label of labels) {
       const escapedLabel = CSS.escape(label);
       cssRules.push(`
-        .hide-podcasts-enabled ${container} button[aria-label*="${escapedLabel}"],
-        .hide-podcasts-enabled ${container} div[class*="ChipComponent"][aria-label*="${escapedLabel}"],
-        .hide-podcasts-enabled ${container} div[role="option"]:has([aria-label*="${escapedLabel}"])
+        .${rootClass} ${container} button[aria-label*="${escapedLabel}"],
+        .${rootClass} ${container} div[class*="ChipComponent"][aria-label*="${escapedLabel}"],
+        .${rootClass} ${container} div[role="option"]:has([aria-label*="${escapedLabel}"])
       `);
     }
   }
@@ -112,11 +112,11 @@ const injectPodcastChipStyles = (labels: string[]) => {
   const cssContent = `${cssRules.join(', ')} { display: none !important; }`;
 
   const styleElement = document.createElement('style');
-  styleElement.id = PODCAST_CHIP_STYLE_ID;
+  styleElement.id = styleId;
   styleElement.textContent = cssContent;
   document.head.appendChild(styleElement);
 
-  console.debug('=== Injected podcast chip styles ===', cssContent);
+  console.debug('=== Injected hide chip styles ===', { rootClass, styleId, cssContent });
 };
 
 /**
@@ -138,7 +138,10 @@ export const tagPodcasts = (Locale: typeof Spicetify.Locale) => {
   console.debug('=== podcastChips ===', podcastChips);
   console.debug('=== podcastAndShowsChips ===', podcastAndShowsChips);
 
-  injectPodcastChipStyles([PODCASTS_STRING, PODCAST_AND_SHOWS_STRING]);
+  injectHideChipStyles('hide-podcasts-enabled',
+    'hide-podcasts-chip-styles',
+    [PODCASTS_STRING, PODCAST_AND_SHOWS_STRING],
+  );
 
   const addPodcastClass = (chip: HTMLElement) => {
     chip.classList.add('podcast-item');
@@ -159,6 +162,11 @@ export const tagAudioBooks = (Locale: typeof Spicetify.Locale) => {
 
   const AUDIOBOOKS_STRING = Locale.get('shared.library.filter.book') as string || 'Audiobooks';
   const audiobookChips = getChipsByLabel(AUDIOBOOKS_STRING);
+
+  injectHideChipStyles('hide-audiobooks-enabled',
+    'hide-audiobooks-chip-styles',
+    [AUDIOBOOKS_STRING],
+  );
 
   console.debug('=== audiobookChips ===', audiobookChips);
 
