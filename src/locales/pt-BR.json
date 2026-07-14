@@ -3,7 +3,8 @@
     "menu": {
       "title": "Esconder podcasts",
       "enabled": "Habilitado",
-      "aggressiveMode": "Modo agressivo"
+      "aggressiveMode": "Modo agressivo",
+      "hideAudiobooks": "Esconder audiolivros"
     },
     "search": {}
   }
