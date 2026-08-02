@@ -13,7 +13,7 @@
   },
   "author": "theRealPadster",
   "license": "GPL-3.0",
-  "packageManager": "pnpm@9.0.4",
+  "packageManager": "pnpm@11.18.0",
   "scripts": {
     "build": "spicetify-creator",
     "build:local": "spicetify-creator --out=. --minify",
@@ -21,28 +21,27 @@
     "lint": "eslint --fix src",
     "lint:ci": "eslint src",
     "type-check": "tsc --noEmit",
-    "prepare": "husky install",
-    "update-types": "curl -s -o src/types/spicetify.d.ts https://raw.githubusercontent.com/spicetify/spicetify-cli/master/globals.d.ts"
+    "prepare": "husky",
+    "update-types": "curl -s -o src/types/spicetify.d.ts https://raw.githubusercontent.com/spicetify/cli/main/globals.d.ts"
   },
   "engines": {
     "yarn": "please-use-pnpm",
     "npm": "please-use-pnpm",
-    "pnpm": ">=8",
-    "node": ">=20"
+    "pnpm": ">=9",
+    "node": ">=24"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
-    "@typescript-eslint/eslint-plugin": "^7.18.0",
-    "@typescript-eslint/parser": "^7.18.0",
-    "eslint": "^8.57.1",
-    "eslint-plugin-react": "^7.37.5",
+    "eslint": "^10.8.0",
     "husky": "^9.1.7",
     "i18next": "^26.3.0",
     "i18next-browser-languagedetector": "^8.2.0",
     "react-i18next": "^17.0.6",
     "spicetify-creator": "^1.0.17",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.65.0"
   },
   "private": true
 }
