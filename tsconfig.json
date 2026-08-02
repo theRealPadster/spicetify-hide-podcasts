@@ -17,7 +17,7 @@
     ]
   },
   "include": [
-    "src/app.tsx"
+    "src"
   ],
   "exclude": [
     "**/*.js"

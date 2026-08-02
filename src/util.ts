@@ -14,7 +14,7 @@ export const getLocalStorageDataFromKey = (key: string, fallback?: unknown) => {
     try {
       // If it's json parse it
       return JSON.parse(data);
-    } catch (err) {
+    } catch {
       // If it's just a string or something
       return data;
     }
