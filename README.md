@@ -1,12 +1,14 @@
 # spicetify-hide-podcasts
-[Spicetify](https://github.com/spicetify/spicetify-cli) extension to hide podcasts, _and optionally audiobooks_. 
-* Hides podcast carousels on the homepage
-* Hides the podcasts tab on the Your Library page
-* Hides the "Your Episodes" sidebar section
-* Hides the podcasts genre card on the Search page
-* Can also hide the audiobooks genre card on the Search page
+[Spicetify](https://github.com/spicetify/cli) extension to hide podcasts, _and optionally audiobooks_.
+* Hides podcast carousels and shelves on the homepage
+* Hides podcasts and episodes in search results
+* Hides podcast shows and episodes in the search suggestions dropdown
+* Hides the podcast and audiobook category cards on the Search page
+* Hides the "Podcasts" filter chip wherever it appears
+* Hides the "Your Episodes" sidebar section, and podcasts in the sidebar
+* Can also hide audiobooks — their category cards, filter chip, and search results
 ## ⚙️ Install
-Copy `hidePodcasts.js` into your [Spicetify](https://github.com/spicetify/spicetify-cli) extensions directory:
+Copy `hidePodcasts.js` into your [Spicetify](https://github.com/spicetify/cli) extensions directory:
 | **Platform** | **Path**                                                                               |
 |------------|------------------------------------------------------------------------------------------|
 | **Linux**      | `~/.config/spicetify/Extensions` or `$XDG_CONFIG_HOME/.config/spicetify/Extensions/` |
@@ -39,6 +41,7 @@ spicetify apply
 - Toggle in the profile menu. 
 - Aggressive mode constantly watches the page for changes instead of stopping once initial load is complete. This should help if you face issues with podcast content loading in later on. 
 - Hiding audiobooks requires the extension to be enabled. 
+- Podcasts and audiobooks are toggled independently, even though Spotify serves both under the same `/show/` URLs.
 
 [![Screenshot](screenshot.png)](https://raw.githubusercontent.com/theRealPadster/spicetify-hide-podcasts/main/screenshot.png)
 
