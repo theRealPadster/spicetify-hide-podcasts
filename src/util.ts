@@ -73,6 +73,10 @@ const subtitleHasType = (text: string, label: string) => {
   return new RegExp(`${escapeRegExp(label)}\\s*[•·]`, 'i').test(text);
 };
 
+// Containers that hold filter chips. `.search-searchCategory-categoryGrid` is
+// reused well beyond the search page — it also wraps the home filter row, which
+// is where the Podcasts/Audiobooks chips actually live on 1.2.94.
+// `.main-yourLibraryX-filters` renders nowhere on 1.2.94; kept for older clients.
 const CHIP_CONTAINERS = [
   '.main-yourLibraryX-filters',
   '.main-yourLibraryX-filterArea',
@@ -84,36 +88,21 @@ const CHIP_CONTAINERS = [
  * @param label The label of the chips to get
  */
 const getChipsByLabel = (label: string) => {
-  let chips: HTMLElement[] = [];
+  const chips: HTMLElement[] = [];
 
-  CHIP_CONTAINERS.forEach((container) => {
-    const filterDivs = Array.from(document.querySelectorAll(container));
-    if (!filterDivs) {
-      return;
-    }
-
-    for (const filterDiv of filterDivs) {
-      const buttonChips = Array.from(filterDiv.querySelectorAll('button'))
+  for (const container of CHIP_CONTAINERS) {
+    for (const filterDiv of Array.from(document.querySelectorAll(container))) {
+      const matches = Array.from(filterDiv.querySelectorAll('button'))
         .filter((btn) => {
-          console.debug('=== btn ===', btn);
-          const currLabel = btn.querySelector('span')?.innerText;
-          return currLabel?.includes(label);
+          // Prefer aria-label. innerText is empty once a chip has been hidden,
+          // so text matching only ever worked on the very first pass.
+          const chipLabel = btn.getAttribute('aria-label') ?? btn.querySelector('span')?.innerText;
+          return chipLabel?.includes(label);
         });
 
-      const divChips = Array.from(filterDiv.querySelectorAll('div[class*="ChipComponent"]'))
-        .filter((div) => {
-          console.debug('=== div ===', div);
-          const spanText = div.querySelector('span')?.innerText;
-          return spanText?.includes(label);
-        })
-        .map((div) => {
-          const parentOption = div.closest('div[role="option"]');
-          return (parentOption as HTMLElement) || div;
-        });
-
-      chips = chips.concat(buttonChips, divChips);
+      chips.push(...matches);
     }
-  });
+  }
 
   return chips;
 };
@@ -130,9 +119,11 @@ const injectHideChipStyles = (rootClass: string, styleId: string, labels: string
   for (const container of CHIP_CONTAINERS) {
     for (const label of labels) {
       const escapedLabel = CSS.escape(label);
+      // `div[class*="ChipComponent"]` used to be listed here too, but Spotify
+      // no longer renders it anywhere. The `div[role="option"]` form is kept:
+      // it covers the React-Aria listbox layout used by the library filters.
       cssRules.push(`
         .${rootClass} ${container} button[aria-label*="${escapedLabel}"],
-        .${rootClass} ${container} div[class*="ChipComponent"][aria-label*="${escapedLabel}"],
         .${rootClass} ${container} div[role="option"]:has([aria-label*="${escapedLabel}"])
       `);
     }
