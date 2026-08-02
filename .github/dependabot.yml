@@ -4,6 +4,14 @@ updates:
     directory: "/"
     schedule:
       interval: "monthly"
+    # pnpm 11 enables `minimumReleaseAge` by default (1440 minutes / 1 day), and
+    # it is checked before every `pnpm install` — including the one CI runs with
+    # --frozen-lockfile. Without a cooldown, Dependabot can propose a version
+    # published minutes ago, and the resulting PR fails CI until that version
+    # ages past the cutoff. 7 days clears it with plenty of margin, and costs
+    # nothing given updates only run monthly.
+    cooldown:
+      default-days: 7
     ignore:
       # ignore all patch updates
       - dependency-name: "*"

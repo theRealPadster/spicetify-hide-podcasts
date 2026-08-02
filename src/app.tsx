@@ -11,6 +11,7 @@ import daLocale from './locales/da.json';
 import enLocale from './locales/en.json';
 import fiLocale from './locales/fi.json';
 import frLocale from './locales/fr.json';
+import frCaLocale from './locales/fr-CA.json';
 import deLocale from './locales/de.json';
 import isLocale from './locales/is.json';
 import itLocale from './locales/it.json';
@@ -38,6 +39,7 @@ const locales = {
   en: enLocale,
   fi: fiLocale,
   fr: frLocale,
+  'fr-CA': frCaLocale,
   de: deLocale,
   is: isLocale,
   it: itLocale,
@@ -58,7 +60,12 @@ i18n
     detection: {
       order: [ 'navigator', 'htmlTag' ],
     },
-    fallbackLng: 'en',
+    // fr-CA only overrides the Québécois term for podcasts ("balados"), so fall
+    // back through fr for the keys it doesn't define, rather than to English.
+    fallbackLng: {
+      'fr-CA': [ 'fr', 'en' ],
+      default: [ 'en' ],
+    },
     interpolation: {
       escapeValue: false, // react already safes from xss => https://www.i18next.com/translation-function/interpolation#unescape
     },
