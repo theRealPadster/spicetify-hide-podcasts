@@ -25,8 +25,8 @@ import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
 import {
-  getLocalStorageDataFromKey, getPageLoadedSelector,
-  tagPodcasts, tagAudioBooks,
+  getLocalStorageDataFromKey, getPageLoadedSelector, isSearchResultsPage,
+  tagPodcasts, tagAudioBooks, tagSearchResultRows,
 } from './util';
 
 import './css/app.scss';
@@ -136,10 +136,18 @@ async function main() {
     setState({ podcasts: isEnabled, audiobooks: hideAudioBooks });
     tagPodcasts(Locale);
     tagAudioBooks(Locale);
+    tagSearchResultRows(Locale);
   }
+
+  // The observer for the page we're currently on. Tracked so that navigating
+  // away always tears it down: observers that outlive their page would other-
+  // wise pile up, since search results and aggressive mode never self-disconnect.
+  let activeObserver: MutationObserver | null = null;
 
   // Listen to page navigation and re-apply when DOM is ready
   function listenThenApply(pathname: string) {
+    activeObserver?.disconnect();
+
     const observer = new MutationObserver(function appchange() {
       // console.debug('HidePodcasts: DOM changed');
       if (!mainElem) return; // ts protection
@@ -151,11 +159,18 @@ async function main() {
       if (app) {
         console.debug(pathname, app);
         apply();
-        if (!aggressiveMode) observer.disconnect();
+        // Search results stream in after the page first "loads", and rows can
+        // only be classified once their subtitle exists — so keep watching.
+        // Safe to leave connected: both tagging and style injection are
+        // idempotent, so a settled page stops generating mutations.
+        if (!aggressiveMode && !isSearchResultsPage(pathname)) {
+          observer.disconnect();
+        }
       }
     });
     // I need to include subtree because the Search page only has one child and the content is under there
     observer.observe(mainElem as Element, { childList: true, subtree: true });
+    activeObserver = observer;
   }
 
   // Initial scan on app load

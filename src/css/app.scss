@@ -4,6 +4,22 @@
 $audiobookShelfIds:
 '0JQ5DAnM3wGh0gz1MXnue2'; // Audiobooks For You
 
+// Genre/category card IDs on the search browse-all page (href="/genre/ID").
+// These are matched on href alone: Spotify dropped the old
+// `.x-categoryCard-CategoryCard` class in favour of a hashed one, which would
+// rot on every rebuild. The hrefs have stayed stable.
+$podcastGenreIds:
+'0JQ5DArNBzkmxXHCqFLx2J', // Podcasts
+'0JQ5DAB3zgCauRwnvdEQjJ', // Podcast Charts
+'0JQ5DAqbMKFSBXrcnydt4N', // Best podcasts of the year so far
+'0JQ5IMCbQBLl5gxKLgufp8', // Educational
+'0JQ5IMCbQBLjfX9OdDrA5X', // Documentary
+'0JQ5IMCbQBLyUJhSxhaPc6'; // Comedy
+
+$audiobookGenreIds:
+'0JQ5DAqbMKFETqK4t8f1n3', // Audiobooks
+'0JQ5DAqbMKFKtmR05mb70L'; // French Audiobooks
+
 // IDs for podcasts (href="/section/ID")
 $podcastShelfIds:
 '0JQ5DAnM3wGh0gz1MXnu4i', // Spotify Original Podcasts
@@ -71,21 +87,16 @@ $podcastShelfIds:
     }
   }
 
-  // Podcasts categories on search page
-  // Old style
-  .x-categoryCard-CategoryCard[href="/genre/podcasts-web"],
-  // == (Spotify 1.2.26.1187.g36b715a1) ==
-  // "Podcasts"
-  .x-categoryCard-CategoryCard[href="/genre/0JQ5DArNBzkmxXHCqFLx2J"],
-  // "Podcast Charts"
-  .x-categoryCard-CategoryCard[href="/genre/0JQ5DAB3zgCauRwnvdEQjJ"],
-  // "Educational"
-  .x-categoryCard-CategoryCard[href="/genre/0JQ5IMCbQBLl5gxKLgufp8"],
-  // "Documentary"
-  .x-categoryCard-CategoryCard[href="/genre/0JQ5IMCbQBLjfX9OdDrA5X"],
-  // "Comedy"
-  .x-categoryCard-CategoryCard[href="/genre/0JQ5IMCbQBLyUJhSxhaPc6"] {
+  // Podcast categories on the search browse-all page
+  // Legacy href, kept in case older clients still use it
+  a[href="/genre/podcasts-web"] {
     @include hide-display();
+  }
+
+  @each $genreId in $podcastGenreIds {
+    a[href="/genre/#{$genreId}"] {
+      @include hide-display();
+    }
   }
 
   // "Your Episodes" in sidebar
@@ -135,10 +146,11 @@ $podcastShelfIds:
     }
   }
 
-  // Audiobooks category on search page
-  // As of Spotify 1.2.26.1187.g36b715a1
-  .x-categoryCard-CategoryCard[href="/genre/0JQ5DAqbMKFETqK4t8f1n3"] {
-    @include hide-display();
+  // Audiobook categories on the search browse-all page
+  @each $genreId in $audiobookGenreIds {
+    a[href="/genre/#{$genreId}"] {
+      @include hide-display();
+    }
   }
 
   // "Audiobooks" filter chip on search results page

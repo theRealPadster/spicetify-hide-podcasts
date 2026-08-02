@@ -29,14 +29,48 @@ export const getLocalStorageDataFromKey = (key: string, fallback?: unknown) => {
  * @param pathname Spotify pathname
  */
 export const getPageLoadedSelector = (pathname: string) => {
+  // Search results (`/search/<query>`) render no <section> inside the main view,
+  // so the `default` case below never matched and apply() never ran here at all.
+  // The result rows are the payload, so wait for those instead.
+  if (isSearchResultsPage(pathname)) {
+    return '#searchPage [role="row"]';
+  }
+
   switch (pathname) {
   case '/search':
-    return '#searchPage .search-searchBrowse-browseAllWrapper';
+    // `.search-searchBrowse-browseAllWrapper` no longer exists, so this never
+    // matched and apply() never ran on the browse-all page. The genre cards are
+    // the page's actual payload, so use them as the "loaded" marker.
+    // NB: `.search-searchCategory-categoryGrid` looks like a candidate but is
+    // the left sidebar's library filter row, not part of #searchPage.
+    return '#searchPage a[href^="/genre/"]';
   case '/':
     return '.main-shelf-shelf';
   default:
     return 'section';
   }
+};
+
+/** Search *results* pages, e.g. `/search/joe%20rogan` (not the browse-all page) */
+export const isSearchResultsPage = (pathname: string) => /^\/search\/.+/.test(pathname);
+
+const escapeRegExp = (str: string) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+/**
+ * Whether a result row's subtitle describes the given entity type.
+ * Subtitles read `Podcast • Joe Rogan` / `Audiobook • Stephen King`, and may be
+ * preceded by an explicit-content badge, giving `EEpisode • ...` in textContent.
+ * We use textContent (not innerText) so already-hidden rows still report a type.
+ * @param text The subtitle's textContent
+ * @param label The localized type label to look for
+ */
+const subtitleHasType = (text: string, label: string) => {
+  if (!label) {
+    return false;
+  }
+  // The bullet separator is what distinguishes the type prefix from a creator
+  // name that merely contains the word (e.g. `Episode • Dwarkesh Podcast`).
+  return new RegExp(`${escapeRegExp(label)}\\s*[•·]`, 'i').test(text);
 };
 
 const CHIP_CONTAINERS = [
@@ -91,11 +125,6 @@ const getChipsByLabel = (label: string) => {
  * @param labels The labels of the chips to hide
  */
 const injectHideChipStyles = (rootClass: string, styleId: string, labels: string[]) => {
-  const existingStyle = document.getElementById(styleId);
-  if (existingStyle) {
-    existingStyle.remove();
-  }
-
   const cssRules: string[] = [];
 
   for (const container of CHIP_CONTAINERS) {
@@ -111,12 +140,63 @@ const injectHideChipStyles = (rootClass: string, styleId: string, labels: string
 
   const cssContent = `${cssRules.join(', ')} { display: none !important; }`;
 
+  // On search results pages apply() runs on every mutation, so avoid churning
+  // the <style> element when nothing has actually changed.
+  const existingStyle = document.getElementById(styleId);
+  if (existingStyle?.textContent === cssContent) {
+    return;
+  }
+  existingStyle?.remove();
+
   const styleElement = document.createElement('style');
   styleElement.id = styleId;
   styleElement.textContent = cssContent;
   document.head.appendChild(styleElement);
 
   console.debug('=== Injected hide chip styles ===', { rootClass, styleId, cssContent });
+};
+
+/**
+ * Tag podcast/audiobook rows on the search *results* page.
+ *
+ * This has to be done in JS rather than CSS: audiobooks and podcasts both use
+ * `/show/` hrefs and render with identical markup, so the only thing that
+ * distinguishes them is the localized type in the row's subtitle. Hiding
+ * `a[href^="/show/"]` in CSS would tie the two toggles together.
+ * @param Locale The Spicetify.Locale object, for getting strings
+ */
+export const tagSearchResultRows = (Locale: typeof Spicetify.Locale) => {
+  const PODCAST = Locale.get('card.tag.show') as string || 'Podcast';
+  const EPISODE = Locale.get('card.tag.episode') as string || 'Episode';
+  const AUDIOBOOK = Locale.get('card.tag.audiobook') as string || 'Audiobook';
+
+  const rows = Array.from(document.querySelectorAll('#searchPage [role="row"]'));
+  let podcasts = 0;
+  let audiobooks = 0;
+
+  for (const row of rows) {
+    // Idempotent: re-tagging on every mutation would keep the observer busy
+    if (row.classList.contains('podcast-item') || row.classList.contains('audiobook-item')) {
+      continue;
+    }
+
+    const subtitle = row.querySelector('p[id^="listrow-subtitle"]')?.textContent;
+    if (!subtitle) {
+      continue;
+    }
+
+    if (subtitleHasType(subtitle, AUDIOBOOK)) {
+      row.classList.add('audiobook-item');
+      audiobooks++;
+    } else if (subtitleHasType(subtitle, PODCAST) || subtitleHasType(subtitle, EPISODE)) {
+      row.classList.add('podcast-item');
+      podcasts++;
+    }
+  }
+
+  if (podcasts || audiobooks) {
+    console.debug('=== Tagged search result rows ===', { podcasts, audiobooks, of: rows.length });
+  }
 };
 
 /**
