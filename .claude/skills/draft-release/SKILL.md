@@ -177,7 +177,10 @@ The tag should point at something users can already install.
 ./.claude/skills/draft-release/verify-build.sh
 ```
 
-Exit 0 means the committed `hidePodcasts.js` matches a build of main's source.
+It ends in a single `PASS — safe to tag.` / `FAIL — do not tag…` verdict, matching
+its exit code. Read that line rather than the section above it: the content check can
+legitimately print "the committed bundle matches" while an *earlier* check has already
+failed, so a mid-script pass is not an all-clear.
 
 **Do not judge this by whether a "Built new version" commit followed the bump.**
 `push.yml` ends in `git-auto-commit-action`, which only commits when the built output

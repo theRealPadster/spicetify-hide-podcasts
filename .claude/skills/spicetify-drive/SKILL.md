@@ -90,7 +90,21 @@ user watches.
 not need one — `spicetify-creator` builds a custom app straight into its live folder,
 but `build:local` here targets the repo root, since the built bundle is a committed
 artifact. `refresh` copies from `~/.config/spicetify/Extensions/`, so without the
-`cp` it faithfully re-copies the *old* build and reports success.
+`cp` it faithfully re-copies the *old* build.
+
+**And it reports success while doing it.** Measured by building a uniquely-named
+throwaway rule and following it through every copy:
+
+| after | repo root | `Extensions/` | inside `Spotify.app` | live client |
+|---|---|---|---|---|
+| `pnpm build:local` | ✅ | ✗ | ✗ | ✗ |
+| `spicetify refresh -e` — *no cp* | ✅ | ✗ | ✗ | ✗ |
+| `cp` then `spicetify refresh -e` | ✅ | ✅ | ✅ | ✅ |
+
+The middle row printed `success  Refreshed extensions` and delivered nothing. The
+client in that state is fully healthy — `#hidePodcasts` present, body classes set,
+every other rule live — it is just running the previous build. Nothing distinguishes
+it from a change that did not work, which is what makes this worth a table.
 
 **`-e`, not `-a`.** Measured on this machine by appending a marker to the installed
 copy and grepping for it inside `Spotify.app`:
@@ -165,26 +179,51 @@ const reload = async (d, safeRoute = '/collection/tracks') => {
   // Park somewhere stock, so the reload does not restore a custom-app route.
   await d.eval(`Spicetify.Platform.History.push({ pathname: ${JSON.stringify(safeRoute)} })`)
     .catch(() => {});
-  await d.eval(`new Promise(r => setTimeout(r, 1500))`).catch(() => {});
+  await d.eval(`new Promise(r => setTimeout(r, 800))`).catch(() => {});
+
+  // 1. Stamp the CURRENT document, so we can tell it apart from the next one.
+  await d.eval(`window.__reloadStamp = 'old-doc'; 1`);
 
   await d.send('Page.enable', {}).catch(() => {});
   await d.send('Page.reload', { ignoreCache: true });
 
-  // Wait on the extension, NOT on Spicetify.Platform -- see below.
+  // 2. The stamp only disappears once the new document is live.
+  await d.waitFor(`window.__reloadStamp === undefined ? 1 : 0`, { timeout: 40000 });
+
+  // 3. NOW wait for the extension, which is the last thing to appear.
   await d.waitFor(`document.body.classList.contains('hide-podcasts-enabled') ? 1 : 0`,
     { timeout: 40000 });
 };
 ```
 
-**Do not gate on `window.Spicetify && Spicetify.Platform`.** It is already truthy on
-the *outgoing* page, so `waitFor` returns in the same second the reload is issued,
-before navigation has committed — and everything measured after it describes the old
-document. Measured here: `Platform back` at `20:57:02`, the extension's body class
-at `20:57:04`. Gate on something this extension owns, which by definition only exists
-once it has re-run: the `hide-podcasts-enabled` body class, or `#hidePodcasts`.
+**Every step above is load-bearing. Skipping the stamp is the trap.**
 
-If the toggle is off, gate on `#hidePodcasts` instead — the body class will never
-appear.
+`d.eval` and `d.waitFor` issued straight after `Page.reload` evaluate in the
+**outgoing** document, which is still alive and still fully populated. So the gate
+passes instantly against the old page and everything after it measures state that is
+about to be destroyed. This is not specific to one expression — `Spicetify.Platform`,
+the body class and `#hidePodcasts` are *all* truthy on the way out.
+
+The symptom is bizarre enough to waste an hour: a probe that polls seven different
+init signals returned **all zeros in 10ms**, then reported `NO STYLE ELEMENT` — the
+extension appearing to be simultaneously fully loaded and completely absent, because
+the reads straddled the document swap. Rule out this race before believing any
+post-reload measurement.
+
+With the stamp in place, the real init order is stable across runs:
+
+| signal | ms after the new document starts |
+|---|---|
+| `Spicetify`, `Spicetify.Platform` | 0–26 |
+| `Spicetify.Locale`, `.main-view-container__scroll-node-child` | 366–647 |
+| `#hidePodcasts` (the injected stylesheet) | 443–658 |
+| `hide-podcasts-enabled` body class, chip styles | **2078–3557** |
+
+So the body class is the correct final gate — it is the *last* thing to appear, a
+good two to three seconds after `Platform` — but only once the stamp proves you are
+looking at the new document. If the toggle is off the body class never appears; gate
+on `#hidePodcasts` instead, and note that it lands ~1.5s earlier, so give the
+extension a moment before measuring what it did.
 
 **Park on a stock route first.** Spotify restores the last route on startup, and
 restoring *any* Spicetify custom-app route can land on "Something went wrong" — a

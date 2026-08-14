@@ -53,8 +53,7 @@ git show origin/main:hidePodcasts.js > "$REF" 2>/dev/null || {
 # The build is byte-reproducible, so a match is exact.
 if diff -q "$OUT/hidePodcasts.js" "$REF" >/dev/null 2>&1; then
   echo "identical ($(wc -c < "$REF" | tr -d ' ') bytes)"
-  echo
-  echo "The committed bundle matches a build of main. Safe to tag."
+  echo "The committed bundle matches a build of main."
 else
   echo "!! the committed bundle does NOT match a local build of main"
   echo "   committed: $(wc -c < "$REF" | tr -d ' ') bytes"
@@ -70,6 +69,15 @@ if ! git diff --quiet HEAD -- src hidePodcasts.js; then
   echo "!! working tree has uncommitted changes under src/ or hidePodcasts.js —"
   echo "!! the rebuild above used those, not origin/main's source."
   STATUS=1
+fi
+
+# Single verdict at the end, so a passing content check cannot read as an
+# all-clear while an earlier check has already failed.
+echo
+if [ "$STATUS" -eq 0 ]; then
+  echo "PASS — safe to tag."
+else
+  echo "FAIL — do not tag until the '!!' lines above are resolved."
 fi
 
 exit $STATUS
