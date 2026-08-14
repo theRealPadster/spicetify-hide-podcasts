@@ -109,7 +109,6 @@ async function main() {
   // menu would otherwise be in a different language from the matching logic.
   await i18n.changeLanguage(Locale.getLocale());
   const { t } = i18n;
-  console.debug(`HidePodcasts: Locale spotify=${Locale.getLocale()} resolved=${i18n.resolvedLanguage}`);
 
   let isEnabled = getLocalStorageDataFromKey(SETTINGS_KEY, true);
   let aggressiveMode = getLocalStorageDataFromKey(AGGRESSIVE_MODE_KEY, false);
