@@ -78,9 +78,11 @@ A selector matching zero elements is **not** evidence that it is dead. Before re
 
 ## Adding locales
 
-Add `src/locales/<code>.json` (copy `en.json`'s shape), then import it **and register it in the `locales` map** in [src/app.tsx](../src/app.tsx) — i18next resolves the language from the browser/navigator. Adding the file without registering it is a silent no-op; `fr-CA` sat unused that way for a long time.
+Add `src/locales/<code>.json` (copy `en.json`'s shape), then import it **and register it in the `locales` map** in [src/app.tsx](../src/app.tsx) — the code must match what `Spicetify.Locale.getLocale()` returns. Adding the file without registering it is a silent no-op; `fr-CA` sat unused that way for a long time.
 
-`fallbackLng` is an object, not a plain string. Regional variants that only override a few keys should chain through their base language before English (`'fr-CA': ['fr', 'en']`), otherwise every key they don't define falls all the way back to English.
+`fallbackLng` is an object, not a plain string. Regional variants that only override a few keys should chain through their base language before English (`'fr-CA': ['fr', 'en']`), otherwise every key they don't define falls all the way back to English. Unlisted regional codes fall to their base language on their own (`de-DE` → `de`, `en-GB` → `en`), so only add a chain where the variant has its own file.
+
+**The language comes from Spotify, not the browser.** `i18n.init()` runs at module scope with `lng: 'en'`, and `main()` calls `i18n.changeLanguage(Locale.getLocale())` after its wait loop. Do not move that into `init()`: the embedded browser's locale can differ from the language selected in Spotify, and `util.ts` already matches Spotify's own localized strings — sourcing the two differently puts the menu in one language and the matching logic in another. Reading `Spicetify.Locale` at module scope is not safe either; it becomes available only ~30ms before this module is evaluated, and a lost race would throw at import and take the whole extension down. That is also why every `t()` call sits after the `changeLanguage`.
 
 ## Finding Spotify's localized strings
 
