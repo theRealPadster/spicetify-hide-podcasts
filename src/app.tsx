@@ -23,7 +23,6 @@ import svLocale from './locales/sv.json';
 import trLocale from './locales/tr.json';
 import zhCNLocale from './locales/zh-CN.json';
 import { initReactI18next } from 'react-i18next';
-import LanguageDetector from 'i18next-browser-languagedetector';
 
 import {
   getLocalStorageDataFromKey, getPageLoadedSelector, isSearchResultsPage,
@@ -54,12 +53,13 @@ const locales = {
 
 i18n
   .use(initReactI18next) // passes i18n down to react-i18next
-  .use(LanguageDetector)
   .init({
     resources: locales,
-    detection: {
-      order: [ 'navigator', 'htmlTag' ],
-    },
+    // The language is set in main() from Spicetify.Locale, once it exists. It is
+    // deliberately not set here: this module is evaluated ~30ms after
+    // Spicetify.Locale becomes available, and reading it at module scope would
+    // throw and take the whole extension down if it ever lost that race.
+    lng: 'en',
     // fr-CA only overrides the Québécois term for podcasts ("balados"), so fall
     // back through fr for the keys it doesn't define, rather than to English.
     fallbackLng: {
@@ -89,8 +89,6 @@ const setState = ({ podcasts, audiobooks }: { podcasts: boolean, audiobooks: boo
  * Main app
  ********************/
 async function main() {
-  const { t } = i18n;
-
   let { Player, Menu, Platform, Locale } = Spicetify;
   let mainElem = document.querySelector('.main-view-container__scroll-node-child');
 
@@ -105,6 +103,13 @@ async function main() {
   }
 
   console.debug('HidePodcasts: Loaded');
+
+  // Follow the language chosen in Spotify, not the embedded browser's — they can
+  // differ, and util.ts already matches Spotify's own localized strings, so the
+  // menu would otherwise be in a different language from the matching logic.
+  await i18n.changeLanguage(Locale.getLocale());
+  const { t } = i18n;
+  console.debug(`HidePodcasts: Locale spotify=${Locale.getLocale()} resolved=${i18n.resolvedLanguage}`);
 
   let isEnabled = getLocalStorageDataFromKey(SETTINGS_KEY, true);
   let aggressiveMode = getLocalStorageDataFromKey(AGGRESSIVE_MODE_KEY, false);
