@@ -17,7 +17,7 @@ import isLocale from './locales/is.json';
 import itLocale from './locales/it.json';
 import nbLocale from './locales/nb.json';
 import ptBrLocale from './locales/pt-BR.json';
-import plPlLocale from './locales/pl-PL.json';
+import plLocale from './locales/pl.json';
 import ruLocale from './locales/ru.json';
 import svLocale from './locales/sv.json';
 import trLocale from './locales/tr.json';
@@ -44,7 +44,7 @@ const locales = {
   it: itLocale,
   nb: nbLocale,
   'pt-BR': ptBrLocale,
-  'pl-PL': plPlLocale,
+  pl: plLocale,
   ru: ruLocale,
   sv: svLocale,
   tr: trLocale,
