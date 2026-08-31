@@ -3,7 +3,8 @@
     "menu": {
       "title": "Скрытие подкастов",
       "enabled": "Включено",
-      "aggressiveMode": "Агрессивный режим"
+      "aggressiveMode": "Агрессивный режим",
+      "hideAudiobooks": "Скрытие аудиокниг"
     },
     "search": {}
   }
