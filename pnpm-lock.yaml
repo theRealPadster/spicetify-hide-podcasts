@@ -24,11 +24,11 @@ importers:
         specifier: ^9.1.7
         version: 9.1.7
       i18next:
-        specifier: ^26.3.0
-        version: 26.3.6(typescript@6.0.3)
+        specifier: ^26.4.0
+        version: 26.4.0(typescript@6.0.3)
       react-i18next:
         specifier: ^17.0.6
-        version: 17.0.11(i18next@26.3.6(typescript@6.0.3))(react@19.2.8)(typescript@6.0.3)
+        version: 17.0.11(i18next@26.4.0(typescript@6.0.3))(react@19.2.8)(typescript@6.0.3)
       spicetify-creator:
         specifier: ^1.0.17
         version: 1.0.17(less@4.8.1(supports-color@7.2.0))(postcss@8.5.25)(sass@1.102.0)(stylus@0.64.0(supports-color@7.2.0))
@@ -750,8 +750,8 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
-  i18next@26.3.6:
-    resolution: {integrity: sha512-Bu5Z2nAXgfVyM8xvW3jk9EKRIuX37PudsrBViThNFx7CR7aaYTpP01cxNB/E4c4UUzTDiAZRstEhsRfPOL/8xA==}
+  i18next@26.4.0:
+    resolution: {integrity: sha512-rsmK5bFqsD1AetSFSIa43wtNR4WpvvH4p0tLEsTxkC7QTrfdFm06nbQ95bh8Og4wwaCnUEcm9DVYL2cgxitiQg==}
     peerDependencies:
       typescript: ^5 || ^6 || ^7
     peerDependenciesMeta:
@@ -1930,7 +1930,7 @@ snapshots:
 
   husky@9.1.7: {}
 
-  i18next@26.3.6(typescript@6.0.3):
+  i18next@26.4.0(typescript@6.0.3):
     optionalDependencies:
       typescript: 6.0.3
 
@@ -2211,11 +2211,11 @@ snapshots:
 
   punycode@2.3.1: {}
 
-  react-i18next@17.0.11(i18next@26.3.6(typescript@6.0.3))(react@19.2.8)(typescript@6.0.3):
+  react-i18next@17.0.11(i18next@26.4.0(typescript@6.0.3))(react@19.2.8)(typescript@6.0.3):
     dependencies:
       '@babel/runtime': 7.29.7
       html-parse-stringify: 4.0.1
-      i18next: 26.3.6(typescript@6.0.3)
+      i18next: 26.4.0(typescript@6.0.3)
       react: 19.2.8
       use-sync-external-store: 1.6.0(react@19.2.8)
     optionalDependencies:
