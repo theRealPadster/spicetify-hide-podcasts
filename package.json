@@ -40,7 +40,7 @@
     "react-i18next": "^17.0.6",
     "spicetify-creator": "^1.0.17",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.65.0"
+    "typescript-eslint": "^8.68.0"
   },
   "private": true
 }
