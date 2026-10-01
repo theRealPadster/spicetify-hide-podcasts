@@ -239,7 +239,11 @@ gh release create vX.Y.Z --draft --title "X.Y.Z" \
 `--generate-notes` appends GitHub's `## What's Changed`, `## New Contributors` and
 `**Full Changelog**` below your prose, which is how 3.2.0's body was built. Use
 `--notes`, not `--notes-file`: gh documents the prepending behaviour for `--notes`
-only.
+only. **Confirmed working** — this is exactly how v3.2.1 was cut, in one command.
+
+Pass `--title` even though it looks redundant: `gh` prints an `untagged-<hash>`
+URL when it creates a draft, because a draft's tag does not exist yet. That is
+normal and not a sign the tag was missed — `gh release view vX.Y.Z` resolves fine.
 
 **No release assets.** Unlike the sibling name-that-tune repo, no release here has
 ever carried a zip — 3.0.0 through 3.2.0 all have none. Users copy `hidePodcasts.js`
