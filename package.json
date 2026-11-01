@@ -37,7 +37,7 @@
     "eslint": "^10.11.0",
     "husky": "^9.1.7",
     "i18next": "^26.4.0",
-    "react-i18next": "^17.0.6",
+    "react-i18next": "^17.1.9",
     "spicetify-creator": "^1.0.17",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.70.1"
